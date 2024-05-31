@@ -28,18 +28,29 @@ export type RequestHeaders = [
   ["Content-Type", "application/json;charset=UTF-8"],
 ];
 
+type RestClientOptions = {
+  accessKey: string;
+  secretKey: string;
+  host?: string;
+};
+
 export class RestClient {
   #signatureBuilder: SignatureBuilder;
 
-  readonly restApiHost = "https://api-e.ecoflow.com";
+  restApiHost = "https://api-e.ecoflow.com";
   // Endpoint Urls.
   readonly deviceListUrl = `${this.restApiHost}/iot-open/sign/device/list`;
   readonly deviceQuotaUrl = `${this.restApiHost}/iot-open/sign/device/quota/all`;
   readonly setCmdUrl = `${this.restApiHost}/iot-open/sign/device/quota`;
   readonly certificationUrl = `${this.restApiHost}/iot-open/sign/certification`;
 
-  constructor(accessKey: string, secretKey: string) {
-    this.#signatureBuilder = new SignatureBuilder(accessKey, secretKey);
+  constructor(opts: RestClientOptions) {
+    this.#signatureBuilder = new SignatureBuilder(
+      opts.accessKey,
+      opts.secretKey,
+    );
+
+    this.restApiHost = opts.host || this.restApiHost;
   }
 
   /**
