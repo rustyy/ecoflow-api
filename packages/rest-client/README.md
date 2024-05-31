@@ -6,3 +6,7 @@ To use this client you need to setup an account https://developer.ecoflow.com an
 ## Installation
 
 Run `npm install @ecoflow-api/rest-client`
+
+## Docs
+
+See: https://rustyy.github.io/ecoflow-api
