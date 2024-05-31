@@ -1,0 +1,42 @@
+{
+  "name": "ecoflow-api",
+  "private": true,
+  "keywords": [
+    "ecoflow",
+    "api",
+    "rest",
+    "smart home",
+    "home automation",
+    "diy"
+  ],
+  "author": {
+    "email": "felix.hofmann@rustyy.de",
+    "name": "Felix Hofmann",
+    "url": "https://www.rustyy.de"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rustyy/ecoflow-api.git"
+  },
+  "scripts": {
+    "docs": "typedoc",
+    "build": "turbo build",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "publish-packages": "turbo run build && changeset version && changeset publish"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "turbo": "latest",
+    "typedoc": "^0.25.13"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.4.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "@changesets/cli": "^2.27.3"
+  }
+}

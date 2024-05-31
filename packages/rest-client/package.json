@@ -1,0 +1,48 @@
+{
+  "name": "@ecoflow-api/rest-client",
+  "version": "0.0.0",
+  "description": "A rest client for the Ecoflow API for NodeJS",
+  "keywords": [
+    "ecoflow",
+    "api",
+    "rest",
+    "smart home",
+    "home automation",
+    "diy"
+  ],
+  "author": {
+    "email": "felix.hofmann@rustyy.de",
+    "name": "Felix Hofmann",
+    "url": "https://www.rustyy.de"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rustyy/ecoflow-api.git",
+    "directory": "packages/rest-client"
+  },
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --minify",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@ecoflow-api/schemas": "*"
+  },
+  "devDependencies": {
+    "@ecoflow-api/typescript-config": "*",
+    "@jest/globals": "^29.7.0",
+    "@types/node": "^20.12.13",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.4",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.2",
+    "typedoc": "^0.25.13",
+    "typescript": "^5.4.5"
+  }
+}

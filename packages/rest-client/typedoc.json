@@ -1,0 +1,6 @@
+{
+  "entryPoints": [
+    "src/index.ts",
+    "src/lib/signatureBuilder/SignatureBuilder.ts"
+  ]
+}

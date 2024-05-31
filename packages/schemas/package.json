@@ -1,0 +1,40 @@
+{
+  "name": "@ecoflow-api/schemas",
+  "version": "0.0.0",
+  "keywords": [
+    "ecoflow",
+    "api",
+    "rest",
+    "smart home",
+    "home automation",
+    "diy"
+  ],
+  "author": {
+    "email": "felix.hofmann@rustyy.de",
+    "name": "Felix Hofmann",
+    "url": "https://www.rustyy.de"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rustyy/ecoflow-api.git",
+    "directory": "packages/schemas"
+  },
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --minify"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@ecoflow-api/typescript-config": "*",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  }
+}

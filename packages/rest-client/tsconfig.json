@@ -1,0 +1,7 @@
+{
+  "extends": "@ecoflow-api/typescript-config/base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  }
+}
