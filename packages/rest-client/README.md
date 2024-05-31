@@ -1,7 +1,7 @@
 # @ecoflow-api/rest-client
 
 This module provides a rest client to communicate with the official Ecoflow API via NodeJS.
-To use this client you need to setup an account https://developer.ecoflow.com and generate a key pair of access- and secret-key.
+To use this client you need to set up an account at https://developer.ecoflow.com and generate a key pair of access- and secret-key.
 
 ## Installation
 
