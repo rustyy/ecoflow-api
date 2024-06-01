@@ -28,22 +28,66 @@ export type RequestHeaders = [
   ["Content-Type", "application/json;charset=UTF-8"],
 ];
 
-type RestClientOptions = {
+export type RestClientOptions = {
   accessKey: string;
   secretKey: string;
   host?: string;
 };
 
+/**
+ * Represents a RestClient object.
+ * @class
+ * @param {RestClientOptions} opts - The options for the RestClient.
+ */
 export class RestClient {
+  /**
+   * signatureBuilder represents a utility class that is used to build a signature for a user.
+   */
   #signatureBuilder: SignatureBuilder;
 
+  /**
+   * The restApiHost variable contains the base URL of the REST API server.
+   *
+   * @type {string}
+   * @default "https://api-e.ecoflow.com"
+   */
   restApiHost = "https://api-e.ecoflow.com";
-  // Endpoint Urls.
+  /**
+   * The URL for fetching the list of devices.
+   *
+   * @type {String}
+   */
   readonly deviceListUrl = `${this.restApiHost}/iot-open/sign/device/list`;
+  /**
+   * The URL for querying device quota information.
+   *
+   * @type {string}
+   */
   readonly deviceQuotaUrl = `${this.restApiHost}/iot-open/sign/device/quota/all`;
+  /**
+   * Sets the command URL for the REST API host and device quota.
+   *
+   * @param {string} restApiHost - The base URL of the REST API host.
+   * @returns {void}
+   */
   readonly setCmdUrl = `${this.restApiHost}/iot-open/sign/device/quota`;
+  /**
+   * The URL for the certification endpoint.
+   * It is used for signing and acquiring certification for IoT devices.
+   * The URL is constructed by appending the '/iot-open/sign/certification' path to the restApiHost.
+   *
+   * @type {string}
+   * @readonly
+   */
   readonly certificationUrl = `${this.restApiHost}/iot-open/sign/certification`;
 
+  /**
+   * @classdesc Represents a RestClient object.
+   *
+   * @class
+   * @param {RestClientOptions} opts - The options for the RestClient.
+   * @constructor
+   */
   constructor(opts: RestClientOptions) {
     this.#signatureBuilder = new SignatureBuilder(
       opts.accessKey,
@@ -56,7 +100,12 @@ export class RestClient {
   /**
    * Create all request headers required for API calls.
    *
-   * @param params
+   * @param {Object} params - The parameters required for creating request headers.
+   * @param {string} params.accessKey - The access key used for authentication.
+   * @param {string} params.timestamp - The timestamp of the request.
+   * @param {string} params.nonce - The nonce value used for preventing replay attacks.
+   * @param {string} params.signature - The signature used for authentication.
+   * @returns {RequestHeaders} - The created request headers as an array of key-value pairs.
    * @private
    */
   #createRequestHeaders(params: {
@@ -77,9 +126,10 @@ export class RestClient {
   /**
    * Execute request with signature and required headers attached.
    *
-   * @param url
-   * @param method
-   * @param payload
+   * @param {string} url - The URL of the request.
+   * @param {string} method - The HTTP method of the request. Allowed values are "GET", "PUT", or "POST".
+   * @param {object} payload - The payload of the request. Optional.
+   * @returns {Promise<any>} - A promise that resolves with the response data.
    * @private
    */
   async #makeRequest(
@@ -99,7 +149,16 @@ export class RestClient {
   }
 
   /**
-   * Request credentials required to establish a mqtt-connection.
+   * Requests credentials required to establish an MQTT connection.
+   *
+   * @returns {Promise<Object>} An object containing the MQTT credentials.
+   *                           - certificateAccount: The certificate account.
+   *                           - certificatePassword: The certificate password.
+   *                           - url: The MQTT broker URL.
+   *                           - protocol: The MQTT protocol (e.g., MQTT or MQTT over WebSocket).
+   *                           - port: The MQTT broker port.
+   * @throws {Error} If there is an error retrieving the credentials or if the response
+   *                 contains an error message.
    */
   async getMqttCredentials() {
     const response = await this.#makeRequest(this.certificationUrl, "GET");
@@ -129,6 +188,8 @@ export class RestClient {
 
   /**
    * Receive list of all devices connected to the account.
+   *
+   * @returns {Promise<DeviceListResponse>} A promise that resolves to the device list response.
    */
   async getDevices(): Promise<DeviceListResponse> {
     const response = await this.#makeRequest(this.deviceListUrl, "GET");
@@ -136,7 +197,9 @@ export class RestClient {
   }
 
   /**
-   * Request all serial numbers bound to the connected account.
+   * Returns an array of all serial numbers bound to the connected account.
+   *
+   * @returns {Promise<string[]>} An array of serial numbers.
    */
   async getSerialNumbers(): Promise<string[]> {
     const devices = await this.getDevices();
@@ -164,7 +227,8 @@ export class RestClient {
   /**
    * Requests all device properties.
    *
-   * @param sn Device serial number
+   * @param {string} sn - Device serial number
+   * @return {Promise<any>} - Promise that resolves to the device properties response
    */
   async getDeviceProperties<
     T extends string,

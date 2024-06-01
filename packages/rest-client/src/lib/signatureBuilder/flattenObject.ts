@@ -1,3 +1,11 @@
+/**
+ * Flatten an array of objects into a single object.
+ *
+ * @param {Object} flattened - The object to store the flattened properties.
+ * @param {Array} collection - The array of objects to flatten.
+ * @param {string} propName - The property name of the array.
+ * @return {void}
+ */
 function handleArray(
   flattened: Record<string, any>,
   collection: any[],
@@ -18,8 +26,9 @@ function handleArray(
 /**
  * Flattens the given object.
  *
- * @param obj
- * @param parentKey
+ * @param {Record<string, any>} obj - The object to be flattened.
+ * @param {string} [parentKey=""] - The parent key to be used for nested objects.
+ * @returns {Record<string, unknown>} The flattened object.
  */
 export function flattenObject(
   obj: Record<string, any>,
