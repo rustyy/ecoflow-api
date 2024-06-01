@@ -28,10 +28,21 @@ export type RequestHeaders = [
   ["Content-Type", "application/json;charset=UTF-8"],
 ];
 
+/**
+ * Represents the options for the RestClient class.
+ *
+ * accessKey - the access key created via the developer portal
+ *
+ * secretKey - the secret key
+ *
+ * host - the api to use.
+ *        Use https://api-e.ecoflow.com for european accounts,
+ *        use https://api-a.ecoflow.com in the US.
+ */
 export type RestClientOptions = {
   accessKey: string;
   secretKey: string;
-  host?: string;
+  host: "https://api-e.ecoflow.com" | "https://api-a.ecoflow.com" | string;
 };
 
 /**
@@ -46,31 +57,34 @@ export class RestClient {
   #signatureBuilder: SignatureBuilder;
 
   /**
-   * The restApiHost variable contains the base URL of the REST API server.
+   * Represents the host URL of the REST API.
    *
    * @type {string}
-   * @default "https://api-e.ecoflow.com"
    */
-  restApiHost = "https://api-e.ecoflow.com";
+  restApiHost: string;
+
   /**
    * The URL for fetching the list of devices.
    *
    * @type {String}
    */
-  readonly deviceListUrl = `${this.restApiHost}/iot-open/sign/device/list`;
+  readonly deviceListUrl: string;
+
   /**
    * The URL for querying device quota information.
    *
    * @type {string}
    */
-  readonly deviceQuotaUrl = `${this.restApiHost}/iot-open/sign/device/quota/all`;
+  readonly deviceQuotaUrl: string;
+
   /**
    * Sets the command URL for the REST API host and device quota.
    *
    * @param {string} restApiHost - The base URL of the REST API host.
    * @returns {void}
    */
-  readonly setCmdUrl = `${this.restApiHost}/iot-open/sign/device/quota`;
+  readonly setCmdUrl: string;
+
   /**
    * The URL for the certification endpoint.
    * It is used for signing and acquiring certification for IoT devices.
@@ -79,7 +93,7 @@ export class RestClient {
    * @type {string}
    * @readonly
    */
-  readonly certificationUrl = `${this.restApiHost}/iot-open/sign/certification`;
+  readonly certificationUrl: string;
 
   /**
    * @classdesc Represents a RestClient object.
@@ -94,7 +108,11 @@ export class RestClient {
       opts.secretKey,
     );
 
-    this.restApiHost = opts.host || this.restApiHost;
+    this.restApiHost = opts.host;
+    this.deviceListUrl = `${this.restApiHost}/iot-open/sign/device/list`;
+    this.deviceQuotaUrl = `${this.restApiHost}/iot-open/sign/device/quota/all`;
+    this.setCmdUrl = `${this.restApiHost}/iot-open/sign/device/quota`;
+    this.certificationUrl = `${this.restApiHost}/iot-open/sign/certification`;
   }
 
   /**
