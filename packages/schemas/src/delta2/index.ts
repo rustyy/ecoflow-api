@@ -1,3 +1,3 @@
-export * from './serialNumber'
-export * from './getProperties'
-export * from './setCommand'
+export * from "./serialNumber";
+export * from "./getProperties";
+export * from "./setCommands";
