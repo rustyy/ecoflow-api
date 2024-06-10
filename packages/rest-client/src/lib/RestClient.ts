@@ -42,7 +42,7 @@ export type RequestHeaders = [
 export type RestClientOptions = {
   accessKey: string;
   secretKey: string;
-  host: "https://api-e.ecoflow.com" | "https://api-a.ecoflow.com" | string;
+  host: "https://api-e.ecoflow.com" | "https://api-a.ecoflow.com" | `${string}`;
 };
 
 /**
