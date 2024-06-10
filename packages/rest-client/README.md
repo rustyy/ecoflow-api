@@ -9,4 +9,4 @@ Run `npm install @ecoflow-api/rest-client`
 
 ## Docs
 
-See: https://rustyy.github.io/ecoflow-api
+See: https://rustyy.github.io/ecoflow-api/modules/_ecoflow_api_rest_client.html
