@@ -58,6 +58,7 @@ export class RestClient {
 
   /**
    * Represents the host URL of the REST API.
+   * Use https://api-e.ecoflow.com for european accounts or https://api-a.ecoflow.com in the US.
    *
    * @type {string}
    */
