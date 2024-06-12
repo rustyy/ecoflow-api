@@ -27,7 +27,7 @@
     "./dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --minify"
+    "build": "tsup src/index.ts --clean --format cjs,esm --dts --minify"
   },
   "dependencies": {
     "zod": "^3.23.8"
