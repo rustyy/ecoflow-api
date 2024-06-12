@@ -164,7 +164,7 @@ const carChargerDcSchema = mpptCommandSchema.extend({
 /**
  * Discriminated union for MPPT commands.
  */
-export const delta2MPPTSetCommandSchema = z.discriminatedUnion("moduleType", [
+export const delta2MPPTSetCommandSchema = z.discriminatedUnion("operateType", [
   buzzerSilentModeSchema,
   carChargerSwitchSchema,
   acDischargeSchema,
