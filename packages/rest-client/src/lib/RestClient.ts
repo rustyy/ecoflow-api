@@ -257,7 +257,10 @@ export class RestClient {
         ? PowerStreamQuotaAll
         : QuotaAllResponse["data"] | undefined,
   >(sn: T): Promise<R> {
-    const response = await this.#makeRequest(this.deviceQuotaUrl, "GET");
+    const response = await this.#makeRequest(
+      `${this.deviceQuotaUrl}?sn=${sn}`,
+      "GET",
+    );
     const { data } = quotaAllResponseSchema.parse(response);
 
     if (isSmartPlugSn(sn)) {
