@@ -1,5 +1,13 @@
 # @ecoflow-api/rest-client
 
+## 0.0.3
+
+### Patch Changes
+
+- Fix: getDeviceProperties missing serial-number parameter
+- Updated dependencies
+  - @ecoflow-api/schemas@0.0.3
+
 ## 0.0.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @ecoflow-api/typescript-config
 
+## 0.0.3
+
+### Patch Changes
+
+- Fix: getDeviceProperties missing serial-number parameter
+
 ## 0.0.2
 
 ### Patch Changes
