@@ -22,7 +22,8 @@
     "docs": "typedoc",
     "build": "turbo build",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
-    "publish-packages": "turbo run build && changeset version && changeset publish"
+    "publish-packages": "turbo run build && changeset version && changeset publish",
+    "clean": "npx rimraf -g **/node_modules **/dist **/.turbo"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
