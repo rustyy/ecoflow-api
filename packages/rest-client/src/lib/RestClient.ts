@@ -156,15 +156,33 @@ export class RestClient {
     method: "GET" | "PUT" | "POST",
     payload?: Record<string, any>,
   ): Promise<unknown> {
-    const response = await fetch(url, {
-      method,
-      headers: this.#createRequestHeaders(
-        this.#signatureBuilder.createSignature(payload),
-      ),
-      ...(method !== "GET" && { body: JSON.stringify(payload) }),
-    });
-
+    const options = this.#prepareOptions(method, payload);
+    const response = await fetch(url, options);
     return response.json();
+  }
+
+  /**
+   * Prepares the options for making a request.
+   *
+   * @param {string} method - The HTTP method for the request. Can be "GET", "PUT", or "POST".
+   * @param {Object} payload - The data payload to be included in the request body (optional).
+   * @private
+   * @returns {RequestInit} - The options object for making the request.
+   */
+  #prepareOptions(
+    method: "GET" | "PUT" | "POST",
+    payload?: Record<string, any>,
+  ): RequestInit {
+    const signature = this.#signatureBuilder.createSignature(payload);
+    const options: RequestInit = {
+      method,
+      headers: this.#createRequestHeaders(signature),
+    };
+
+    if (method !== "GET") {
+      options.body = JSON.stringify(payload);
+    }
+    return options;
   }
 
   /**
