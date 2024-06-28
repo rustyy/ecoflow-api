@@ -128,32 +128,6 @@ export class RestClient {
   }
 
   /**
-   * Create all request headers required for API calls.
-   *
-   * @param {Object} params - The parameters required for creating request headers.
-   * @param {string} params.accessKey - The access key used for authentication.
-   * @param {string} params.timestamp - The timestamp of the request.
-   * @param {string} params.nonce - The nonce value used for preventing replay attacks.
-   * @param {string} params.signature - The signature used for authentication.
-   * @returns {RequestHeaders} - The created request headers as an array of key-value pairs.
-   * @private
-   */
-  #createRequestHeaders(params: {
-    accessKey: string;
-    timestamp: string;
-    nonce: string;
-    signature: string;
-  }): RequestHeaders {
-    return [
-      ["accessKey", params.accessKey],
-      ["timestamp", params.timestamp],
-      ["nonce", params.nonce],
-      ["sign", params.signature],
-      ["Content-Type", "application/json;charset=UTF-8"],
-    ];
-  }
-
-  /**
    * Requests credentials required to establish an MQTT connection.
    *
    * @returns {Promise<Object>} An object containing the MQTT credentials.
