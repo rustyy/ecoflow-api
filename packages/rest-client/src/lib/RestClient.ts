@@ -114,16 +114,18 @@ export class RestClient {
    * @constructor
    */
   constructor(opts: RestClientOptions) {
+    const generateUrl = (path: string) => `${opts.host}${path}`;
+
     this.#signatureBuilder = new SignatureBuilder(
       opts.accessKey,
       opts.secretKey,
     );
 
     this.restApiHost = opts.host;
-    this.deviceListUrl = `${this.restApiHost}${endpoints.deviceList}`;
-    this.deviceQuotaUrl = `${this.restApiHost}${endpoints.deviceQuota}`;
-    this.setCmdUrl = `${this.restApiHost}${endpoints.setCmd}`;
-    this.certificationUrl = `${this.restApiHost}${endpoints.certification}`;
+    this.deviceListUrl = generateUrl(endpoints.deviceList);
+    this.deviceQuotaUrl = generateUrl(endpoints.deviceQuota);
+    this.setCmdUrl = generateUrl(endpoints.setCmd);
+    this.certificationUrl = generateUrl(endpoints.certification);
   }
 
   /**
