@@ -46,6 +46,16 @@ export type RestClientOptions = {
 };
 
 /**
+ * URL paths config
+ */
+const endpoints = {
+  deviceList: "/iot-open/sign/device/list",
+  deviceQuota: "/iot-open/sign/device/quota/all",
+  setCmd: "/iot-open/sign/device/quota",
+  certification: "/iot-open/sign/certification",
+};
+
+/**
  * Represents a RestClient object.
  * @class
  * @param {RestClientOptions} opts - The options for the RestClient.
@@ -110,10 +120,10 @@ export class RestClient {
     );
 
     this.restApiHost = opts.host;
-    this.deviceListUrl = `${this.restApiHost}/iot-open/sign/device/list`;
-    this.deviceQuotaUrl = `${this.restApiHost}/iot-open/sign/device/quota/all`;
-    this.setCmdUrl = `${this.restApiHost}/iot-open/sign/device/quota`;
-    this.certificationUrl = `${this.restApiHost}/iot-open/sign/certification`;
+    this.deviceListUrl = `${this.restApiHost}${endpoints.deviceList}`;
+    this.deviceQuotaUrl = `${this.restApiHost}${endpoints.deviceQuota}`;
+    this.setCmdUrl = `${this.restApiHost}${endpoints.setCmd}`;
+    this.certificationUrl = `${this.restApiHost}${endpoints.certification}`;
   }
 
   /**
