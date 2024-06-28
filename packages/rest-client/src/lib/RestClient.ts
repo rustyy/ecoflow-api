@@ -19,6 +19,7 @@ import {
   SmartPlugSetCommand,
   SmartPlugSn,
 } from "@ecoflow-api/schemas";
+import { RequestHandler } from "./RequestHandler";
 
 export type RequestHeaders = [
   ["accessKey", string],
@@ -62,9 +63,9 @@ const endpoints = {
  */
 export class RestClient {
   /**
-   * signatureBuilder represents a utility class that is used to build a signature for a user.
+   * Represents a utility class that is used to handle requests.
    */
-  #signatureBuilder: SignatureBuilder;
+  #requestHandler: RequestHandler;
 
   /**
    * Represents the host URL of the REST API.
@@ -116,11 +117,9 @@ export class RestClient {
   constructor(opts: RestClientOptions) {
     const generateUrl = (path: string) => `${opts.host}${path}`;
 
-    this.#signatureBuilder = new SignatureBuilder(
-      opts.accessKey,
-      opts.secretKey,
+    this.#requestHandler = new RequestHandler(
+      new SignatureBuilder(opts.accessKey, opts.secretKey),
     );
-
     this.restApiHost = opts.host;
     this.deviceListUrl = generateUrl(endpoints.deviceList);
     this.deviceQuotaUrl = generateUrl(endpoints.deviceQuota);
@@ -155,49 +154,6 @@ export class RestClient {
   }
 
   /**
-   * Execute request with signature and required headers attached.
-   *
-   * @param {string} url - The URL of the request.
-   * @param {string} method - The HTTP method of the request. Allowed values are "GET", "PUT", or "POST".
-   * @param {object} payload - The payload of the request. Optional.
-   * @returns {Promise<any>} - A promise that resolves with the response data.
-   * @private
-   */
-  async #makeRequest(
-    url: string,
-    method: "GET" | "PUT" | "POST",
-    payload?: Record<string, any>,
-  ): Promise<unknown> {
-    const options = this.#prepareOptions(method, payload);
-    const response = await fetch(url, options);
-    return response.json();
-  }
-
-  /**
-   * Prepares the options for making a request.
-   *
-   * @param {string} method - The HTTP method for the request. Can be "GET", "PUT", or "POST".
-   * @param {Object} payload - The data payload to be included in the request body (optional).
-   * @private
-   * @returns {RequestInit} - The options object for making the request.
-   */
-  #prepareOptions(
-    method: "GET" | "PUT" | "POST",
-    payload?: Record<string, any>,
-  ): RequestInit {
-    const signature = this.#signatureBuilder.createSignature(payload);
-    const options: RequestInit = {
-      method,
-      headers: this.#createRequestHeaders(signature),
-    };
-
-    if (method !== "GET") {
-      options.body = JSON.stringify(payload);
-    }
-    return options;
-  }
-
-  /**
    * Requests credentials required to establish an MQTT connection.
    *
    * @returns {Promise<Object>} An object containing the MQTT credentials.
@@ -210,7 +166,7 @@ export class RestClient {
    *                 contains an error message.
    */
   async getMqttCredentials() {
-    const response = await this.#makeRequest(this.certificationUrl, "GET");
+    const response = await this.#requestHandler.get(this.certificationUrl);
     const parsedError = certificationErrorResponseSchema.safeParse(response);
     const parsedResult = certificationResponseSchema.safeParse(response);
 
@@ -241,8 +197,9 @@ export class RestClient {
    * @returns {Promise<DeviceListResponse>} A promise that resolves to the device list response.
    */
   async getDevices(): Promise<DeviceListResponse> {
-    const response = await this.#makeRequest(this.deviceListUrl, "GET");
-    return deviceListResponseSchema.parse(response);
+    return deviceListResponseSchema.parse(
+      await this.#requestHandler.get(this.deviceListUrl),
+    );
   }
 
   /**
@@ -269,8 +226,9 @@ export class RestClient {
   async setCommand(
     payload: SmartPlugSetCommand | PowerStreamSetCommand | Record<string, any>,
   ): Promise<SetCommandResponse> {
-    const response = await this.#makeRequest(this.setCmdUrl, "PUT", payload);
-    return setCommandResponseSchema.parse(response);
+    return setCommandResponseSchema.parse(
+      await this.#requestHandler.put(this.setCmdUrl, payload),
+    );
   }
 
   /**
@@ -287,11 +245,9 @@ export class RestClient {
         ? PowerStreamQuotaAll
         : QuotaAllResponse["data"] | undefined,
   >(sn: T): Promise<R> {
-    const response = await this.#makeRequest(
-      `${this.deviceQuotaUrl}?sn=${sn}`,
-      "GET",
+    const { data } = quotaAllResponseSchema.parse(
+      await this.#requestHandler.get(`${this.deviceQuotaUrl}?sn=${sn}`),
     );
-    const { data } = quotaAllResponseSchema.parse(response);
 
     if (isSmartPlugSn(sn)) {
       return smartPlugQuotaAllSchema.parse(data) as R;
