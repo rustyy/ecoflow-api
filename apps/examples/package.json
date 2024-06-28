@@ -8,7 +8,8 @@
     "example:delta2:getProperties": "dotenvx run -- ts-node src/delta2/getProperties.ts",
     "example:delta2:enableUsbC": "dotenvx run -- ts-node src/delta2/enableUsbC.ts",
     "example:smartPlug:getProperties": "dotenvx run -- ts-node src/smartPlug/getProperties.ts",
-    "example:powerstream:getProperties": "dotenvx run -- ts-node src/powerstream/getProperties.ts"
+    "example:powerstream:getProperties": "dotenvx run -- ts-node src/powerstream/getProperties.ts",
+    "example:getMqttCredentials": "dotenvx run -- ts-node src/getMqttCredentials.ts"
   },
   "dependencies": {
     "@ecoflow-api/rest-client": "*",
