@@ -19,6 +19,7 @@
     "url": "https://github.com/rustyy/ecoflow-api.git"
   },
   "scripts": {
+    "bootstrap": "npm i",
     "docs": "typedoc",
     "build": "turbo build",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
@@ -35,7 +36,8 @@
   },
   "packageManager": "npm@10.4.0",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "dependencies": {
     "@changesets/cli": "^2.27.3"

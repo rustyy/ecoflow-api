@@ -1,0 +1,23 @@
+{
+  "name": "examples",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsup src/**/*.ts --clean --format cjs --dts --minify",
+    "example:devices": "dotenvx run -- ts-node src/getDevices.ts",
+    "example:delta2:getProperties": "dotenvx run -- ts-node src/delta2/getProperties.ts",
+    "example:delta2:enableUsbC": "dotenvx run -- ts-node src/delta2/enableUsbC.ts",
+    "example:smartPlug:getProperties": "dotenvx run -- ts-node src/smartPlug/getProperties.ts",
+    "example:powerstream:getProperties": "dotenvx run -- ts-node src/powerstream/getProperties.ts"
+  },
+  "dependencies": {
+    "@ecoflow-api/rest-client": "*",
+    "@ecoflow-api/schemas": "*"
+  },
+  "devDependencies": {
+    "@ecoflow-api/typescript-config": "*",
+    "@types/node": "^20.12.13",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
