@@ -10,7 +10,7 @@ import { smartPlugSerialNumberSchema } from "./serialNumber";
  * - removing a configured task
  *********************************************/
 
-export const smartPlugSetCommandSchema = z.union([
+export const smartPlugSetCommandSchema = z.discriminatedUnion("cmdCode", [
   z.object({
     sn: smartPlugSerialNumberSchema,
     cmdCode: z.literal("WN511_SOCKET_SET_PLUG_SWITCH_MESSAGE"),
