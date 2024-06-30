@@ -180,8 +180,9 @@ export class RestClient {
    * @returns {Promise<DeviceListResponse>} A promise that resolves to the device list response.
    */
   async getDevices(): Promise<DeviceListResponse> {
-    return deviceListResponseSchema.parse(
+    return this.parseResponse(
       await this.requestHandler.get(this.deviceListUrl),
+      deviceListResponseSchema,
     );
   }
 
@@ -209,8 +210,9 @@ export class RestClient {
   async setCommand(
     payload: SmartPlugSetCommand | PowerStreamSetCommand | Record<string, any>,
   ): Promise<SetCommandResponse> {
-    return setCommandResponseSchema.parse(
+    return this.parseResponse(
       await this.requestHandler.put(this.setCmdUrl, payload),
+      setCommandResponseSchema,
     );
   }
 
