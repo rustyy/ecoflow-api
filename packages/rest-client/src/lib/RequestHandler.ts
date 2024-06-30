@@ -33,7 +33,15 @@ export class RequestHandler {
     payload?: Record<string, any>,
   ) {
     const response = await fetch(url, this.#prepareOptions(method, payload));
-    return response.json();
+    const json = await response.json();
+
+    if (response.status !== 200) {
+      throw new Error(
+        `Request failed with status ${response.status}, ${JSON.stringify(json, null, 2)}`,
+      );
+    }
+
+    return json;
   }
 
   #prepareOptions(
