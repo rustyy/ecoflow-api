@@ -65,7 +65,7 @@ export class RestClient {
   /**
    * Represents a utility class that is used to handle requests.
    */
-  #requestHandler: RequestHandler;
+  requestHandler: RequestHandler;
 
   /**
    * Represents the host URL of the REST API.
@@ -117,7 +117,7 @@ export class RestClient {
   constructor(opts: RestClientOptions) {
     const generateUrl = (path: string) => `${opts.host}${path}`;
 
-    this.#requestHandler = new RequestHandler(
+    this.requestHandler = new RequestHandler(
       new SignatureBuilder(opts.accessKey, opts.secretKey),
     );
     this.restApiHost = opts.host;
@@ -140,7 +140,7 @@ export class RestClient {
    *                 contains an error message.
    */
   async getMqttCredentials() {
-    const response = await this.#requestHandler.get(this.certificationUrl);
+    const response = await this.requestHandler.get(this.certificationUrl);
     const parsedError = certificationErrorResponseSchema.safeParse(response);
     const parsedResult = certificationResponseSchema.safeParse(response);
 
@@ -172,7 +172,7 @@ export class RestClient {
    */
   async getDevices(): Promise<DeviceListResponse> {
     return deviceListResponseSchema.parse(
-      await this.#requestHandler.get(this.deviceListUrl),
+      await this.requestHandler.get(this.deviceListUrl),
     );
   }
 
@@ -201,7 +201,7 @@ export class RestClient {
     payload: SmartPlugSetCommand | PowerStreamSetCommand | Record<string, any>,
   ): Promise<SetCommandResponse> {
     return setCommandResponseSchema.parse(
-      await this.#requestHandler.put(this.setCmdUrl, payload),
+      await this.requestHandler.put(this.setCmdUrl, payload),
     );
   }
 
@@ -220,7 +220,7 @@ export class RestClient {
         : QuotaAllResponse["data"] | undefined,
   >(sn: T): Promise<R> {
     const { data } = quotaAllResponseSchema.parse(
-      await this.#requestHandler.get(`${this.deviceQuotaUrl}?sn=${sn}`),
+      await this.requestHandler.get(`${this.deviceQuotaUrl}?sn=${sn}`),
     );
 
     if (isSmartPlugSn(sn)) {
