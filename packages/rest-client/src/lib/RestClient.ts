@@ -1,9 +1,11 @@
 import { SignatureBuilder } from "./signatureBuilder/SignatureBuilder";
 import {
-  certificationErrorResponseSchema,
+  AnySchema,
   certificationResponseSchema,
   DeviceListResponse,
   deviceListResponseSchema,
+  errorResponseSchema,
+  inferSchema,
   isPowerStreamSerialNumber,
   isSmartPlugSn,
   PowerStreamQuotaAll,
@@ -128,6 +130,26 @@ export class RestClient {
   }
 
   /**
+   * Parses the given response data using the provided schema.
+   *
+   * @param {unknown} data - The response data to be parsed.
+   * @param {T} schema - The schema to be used for parsing.
+   * @returns {inferSchema<T>} - The parsed response data.
+   * @throws {Error} - If an error is detected in the response data.
+   */
+  parseResponse<T extends AnySchema>(data: unknown, schema: T): inferSchema<T> {
+    const parsedError = errorResponseSchema.safeParse(data);
+
+    if (parsedError.success) {
+      throw new Error(
+        `code: ${parsedError.data.code} | message: ${parsedError.data.message}`,
+      );
+    }
+
+    return schema.parse(data) as inferSchema<T>;
+  }
+
+  /**
    * Requests credentials required to establish an MQTT connection.
    *
    * @returns {Promise<Object>} An object containing the MQTT credentials.
@@ -140,29 +162,16 @@ export class RestClient {
    *                 contains an error message.
    */
   async getMqttCredentials() {
-    const response = await this.requestHandler.get(this.certificationUrl);
-    const parsedError = certificationErrorResponseSchema.safeParse(response);
-    const parsedResult = certificationResponseSchema.safeParse(response);
+    const parsedResult = this.parseResponse(
+      await this.requestHandler.get(this.certificationUrl),
+      certificationResponseSchema,
+    );
 
-    if (parsedError.success) {
-      throw new Error(
-        `code: ${parsedError.data.code} | message: ${parsedError.data.message}`,
-      );
-    }
-
-    if (parsedResult.success) {
-      const { certificateAccount, certificatePassword, url, protocol, port } =
-        parsedResult.data.data;
-      return {
-        certificateAccount,
-        certificatePassword,
-        url,
-        protocol,
-        port: parseInt(port),
-      };
-    }
-
-    throw new Error("Unknown error");
+    const { port } = parsedResult.data;
+    return {
+      ...parsedResult.data,
+      port: parseInt(port),
+    };
   }
 
   /**
