@@ -10,34 +10,52 @@ import { smartPlugSerialNumberSchema } from "./serialNumber";
  * - removing a configured task
  *********************************************/
 
+export const smartPlugTurnOnOffCommandSchema = z.object({
+  sn: smartPlugSerialNumberSchema,
+  cmdCode: z.literal("WN511_SOCKET_SET_PLUG_SWITCH_MESSAGE"),
+  params: z
+    .object({
+      plugSwitch: z.literal(0).or(z.literal(1)),
+    })
+    .strict(),
+});
+
+export type SmartPlugTurnOnOffCommand = z.infer<
+  typeof smartPlugTurnOnOffCommandSchema
+>;
+
+export const SmartPlugIndicatorBrightnessCommandSchema = z.object({
+  sn: smartPlugSerialNumberSchema,
+  cmdCode: z.literal("WN511_SOCKET_SET_BRIGHTNESS_PACK"),
+  params: z
+    .object({
+      brightness: z.number().int().min(0).max(1023),
+    })
+    .strict(),
+});
+
+export type SmartPlugIndicatorBrightnessCommand = z.infer<
+  typeof SmartPlugIndicatorBrightnessCommandSchema
+>;
+
+export const SmartPlugDeleteTimeTaskCommandSchema = z.object({
+  sn: smartPlugSerialNumberSchema,
+  cmdCode: z.literal("WN511_SOCKET_DELETE_TIME_TASK"),
+  params: z
+    .object({
+      taskIndex: z.number().int().min(0),
+    })
+    .strict(),
+});
+
+export type SmartPlugDeleteTimeTaskCommand = z.infer<
+  typeof SmartPlugDeleteTimeTaskCommandSchema
+>;
+
 export const smartPlugSetCommandSchema = z.discriminatedUnion("cmdCode", [
-  z.object({
-    sn: smartPlugSerialNumberSchema,
-    cmdCode: z.literal("WN511_SOCKET_SET_PLUG_SWITCH_MESSAGE"),
-    params: z
-      .object({
-        plugSwitch: z.literal(0).or(z.literal(1)),
-      })
-      .strict(),
-  }),
-  z.object({
-    sn: smartPlugSerialNumberSchema,
-    cmdCode: z.literal("WN511_SOCKET_SET_BRIGHTNESS_PACK"),
-    params: z
-      .object({
-        brightness: z.number().int().min(0).max(1023),
-      })
-      .strict(),
-  }),
-  z.object({
-    sn: smartPlugSerialNumberSchema,
-    cmdCode: z.literal("WN511_SOCKET_DELETE_TIME_TASK"),
-    params: z
-      .object({
-        taskIndex: z.number().int().min(0).max(9),
-      })
-      .strict(),
-  }),
+  smartPlugTurnOnOffCommandSchema,
+  SmartPlugIndicatorBrightnessCommandSchema,
+  SmartPlugDeleteTimeTaskCommandSchema,
 ]);
 
 export type SmartPlugSetCommand = z.infer<typeof smartPlugSetCommandSchema>;
