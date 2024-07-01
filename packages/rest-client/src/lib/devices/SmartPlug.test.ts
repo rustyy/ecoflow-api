@@ -1,0 +1,102 @@
+import { SmartPlug } from "./SmartPlug";
+import { beforeEach, describe, expect, it, jest } from "@jest/globals";
+import { RestClient, RestClientOptions } from "../RestClient";
+import { smartPlugProperties } from "../../__fixtures__/smartPlugProperties";
+
+describe("SmartPlug", () => {
+  let smartPlug: SmartPlug;
+  let restClient: RestClient;
+  const validSn = "HW5212345678";
+
+  beforeEach(() => {
+    const restClientOptions: RestClientOptions = {
+      host: "https://api-a.ecoflow.com",
+      accessKey: "fake_access",
+      secretKey: "fake_secret",
+    };
+
+    restClient = new RestClient(restClientOptions);
+    smartPlug = new SmartPlug(restClient, validSn);
+  });
+
+  it("Should be able to construct an instance of SmartPlug", () => {
+    expect(smartPlug).toBeTruthy();
+    expect(smartPlug).toBeInstanceOf(SmartPlug);
+  });
+
+  it("should throw an error if the serial number is invalid", () => {
+    expect(() => {
+      new SmartPlug(restClient, "invalid_sn" as any);
+    }).toThrowError("Invalid serial number for smart plug device.");
+  });
+
+  it("Should be able to turn the smart plug on", async () => {
+    expect.assertions(1);
+    // @ts-ignore
+    restClient.setCommand = jest.fn();
+
+    await smartPlug.turnOn();
+
+    expect(restClient.setCommand).toHaveBeenCalledWith({
+      cmdCode: "WN511_SOCKET_SET_PLUG_SWITCH_MESSAGE",
+      params: {
+        plugSwitch: 1,
+      },
+      sn: validSn,
+    });
+  });
+  //
+  it("Should be able to turn the smart plug off", async () => {
+    expect.assertions(1);
+    // @ts-ignore
+    restClient.setCommand = jest.fn();
+    await smartPlug.turnOff();
+
+    expect(restClient.setCommand).toHaveBeenCalledWith({
+      cmdCode: "WN511_SOCKET_SET_PLUG_SWITCH_MESSAGE",
+      params: {
+        plugSwitch: 0,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("Should be able to delete Task", async () => {
+    expect.assertions(1);
+    // @ts-ignore
+    restClient.setCommand = jest.fn();
+    await smartPlug.deleteTask(42);
+
+    expect(restClient.setCommand).toHaveBeenCalledWith({
+      cmdCode: "WN511_SOCKET_DELETE_TIME_TASK",
+      params: {
+        taskIndex: 42,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("Should throw an error for invalid data received from api", async () => {
+    const data = {
+      sn: "fake_smart_plug_sn",
+      success: true,
+      code: 0,
+      message: "Test message",
+      time: new Date().getTime(),
+    };
+
+    // @ts-ignore
+    restClient.getDeviceProperties = jest.fn().mockResolvedValue(data);
+    await expect(smartPlug.getProperties()).rejects.toThrowError();
+  });
+
+  it("Should return data if api response could be parsed", async () => {
+    // @ts-ignore
+    restClient.getDeviceProperties = jest
+      .fn()
+      // @ts-ignore
+      .mockResolvedValue(smartPlugProperties);
+
+    await expect(smartPlug.getProperties()).resolves.toBeDefined();
+  });
+});
