@@ -99,4 +99,28 @@ describe("SmartPlug", () => {
 
     await expect(smartPlug.getProperties()).resolves.toBeDefined();
   });
+
+  it("should set led brightness", async () => {
+    expect.assertions(1);
+    // @ts-ignore
+    restClient.setCommandPlain = jest.fn();
+    const brightness = 42;
+    await smartPlug.setLedBrightness(brightness);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      cmdCode: "WN511_SOCKET_SET_BRIGHTNESS_PACK",
+      params: {
+        brightness,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should throw for an invalid brightness value", async () => {
+    expect.assertions(2);
+    // @ts-ignore
+    restClient.setCommandPlain = jest.fn();
+    await expect(smartPlug.setLedBrightness(5000)).rejects.toThrowError();
+    await expect(smartPlug.setLedBrightness(-1)).rejects.toThrowError();
+  });
 });

@@ -2,6 +2,8 @@ import { Device } from "./Device";
 import {
   isSmartPlugSn,
   SmartPlugDeleteTimeTaskCommand,
+  SmartPlugIndicatorBrightnessCommand,
+  SmartPlugIndicatorBrightnessCommandSchema,
   SmartPlugQuotaAll,
   smartPlugQuotaAllSchema,
   SmartPlugSn,
@@ -36,6 +38,24 @@ export class SmartPlug extends Device<SmartPlugSn, SmartPlugQuotaAll> {
     };
 
     return this.sendCommand(payload);
+  }
+
+  /**
+   * Sets the brightness of the LED indicator on the smart plug.
+   * @param {number} brightness - The brightness value to set. Must be between 0 and 1023.
+   */
+  async setLedBrightness(brightness: number) {
+    const payload: SmartPlugIndicatorBrightnessCommand = {
+      sn: this.sn,
+      cmdCode: "WN511_SOCKET_SET_BRIGHTNESS_PACK",
+      params: {
+        brightness,
+      },
+    };
+
+    return this.sendCommand(
+      SmartPlugIndicatorBrightnessCommandSchema.parse(payload),
+    );
   }
 
   /**
