@@ -1,7 +1,7 @@
 import { SmartPlug } from "./SmartPlug";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { RestClient, RestClientOptions } from "../RestClient";
-import { smartPlugProperties } from "../../__fixtures__/smartPlugProperties";
+import { devicePropertiesResponse } from "../../__fixtures__/smartPlugProperties";
 
 describe("SmartPlug", () => {
   let smartPlug: SmartPlug;
@@ -33,11 +33,11 @@ describe("SmartPlug", () => {
   it("Should be able to turn the smart plug on", async () => {
     expect.assertions(1);
     // @ts-ignore
-    restClient.setCommand = jest.fn();
+    restClient.setCommandPlain = jest.fn();
 
-    await smartPlug.turnOn();
+    await smartPlug.switchOn();
 
-    expect(restClient.setCommand).toHaveBeenCalledWith({
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
       cmdCode: "WN511_SOCKET_SET_PLUG_SWITCH_MESSAGE",
       params: {
         plugSwitch: 1,
@@ -49,10 +49,10 @@ describe("SmartPlug", () => {
   it("Should be able to turn the smart plug off", async () => {
     expect.assertions(1);
     // @ts-ignore
-    restClient.setCommand = jest.fn();
-    await smartPlug.turnOff();
+    restClient.setCommandPlain = jest.fn();
+    await smartPlug.switchOff();
 
-    expect(restClient.setCommand).toHaveBeenCalledWith({
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
       cmdCode: "WN511_SOCKET_SET_PLUG_SWITCH_MESSAGE",
       params: {
         plugSwitch: 0,
@@ -64,10 +64,10 @@ describe("SmartPlug", () => {
   it("Should be able to delete Task", async () => {
     expect.assertions(1);
     // @ts-ignore
-    restClient.setCommand = jest.fn();
+    restClient.setCommandPlain = jest.fn();
     await smartPlug.deleteTask(42);
 
-    expect(restClient.setCommand).toHaveBeenCalledWith({
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
       cmdCode: "WN511_SOCKET_DELETE_TIME_TASK",
       params: {
         taskIndex: 42,
@@ -92,10 +92,10 @@ describe("SmartPlug", () => {
 
   it("Should return data if api response could be parsed", async () => {
     // @ts-ignore
-    restClient.getDeviceProperties = jest
+    restClient.getDevicePropertiesPlain = jest
       .fn()
       // @ts-ignore
-      .mockResolvedValue(smartPlugProperties);
+      .mockResolvedValue(devicePropertiesResponse);
 
     await expect(smartPlug.getProperties()).resolves.toBeDefined();
   });

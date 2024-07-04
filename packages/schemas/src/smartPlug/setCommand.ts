@@ -5,12 +5,12 @@ import { smartPlugSerialNumberSchema } from "./serialNumber";
  * Set commands
  *
  * At the moment there are 3 commands available for smart-plug
- * - turning sp on/off
+ * - switch sp on/off
  * - set led brightness
  * - removing a configured task
  *********************************************/
 
-export const smartPlugTurnOnOffCommandSchema = z.object({
+export const smartPlugSwitchOnOffCommandSchema = z.object({
   sn: smartPlugSerialNumberSchema,
   cmdCode: z.literal("WN511_SOCKET_SET_PLUG_SWITCH_MESSAGE"),
   params: z
@@ -20,8 +20,8 @@ export const smartPlugTurnOnOffCommandSchema = z.object({
     .strict(),
 });
 
-export type SmartPlugTurnOnOffCommand = z.infer<
-  typeof smartPlugTurnOnOffCommandSchema
+export type SmartPlugSwitchOnOffCommand = z.infer<
+  typeof smartPlugSwitchOnOffCommandSchema
 >;
 
 export const SmartPlugIndicatorBrightnessCommandSchema = z.object({
@@ -53,7 +53,7 @@ export type SmartPlugDeleteTimeTaskCommand = z.infer<
 >;
 
 export const smartPlugSetCommandSchema = z.discriminatedUnion("cmdCode", [
-  smartPlugTurnOnOffCommandSchema,
+  smartPlugSwitchOnOffCommandSchema,
   SmartPlugIndicatorBrightnessCommandSchema,
   SmartPlugDeleteTimeTaskCommandSchema,
 ]);

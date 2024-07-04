@@ -6,30 +6,13 @@ import {
   deviceListResponseSchema,
   errorResponseSchema,
   inferSchema,
-  isPowerStreamSerialNumber,
-  isSmartPlugSn,
-  PowerStreamQuotaAll,
-  powerStreamQuotaAllSchema,
-  PowerStreamSerialNumber,
-  PowerStreamSetCommand,
   QuotaAllResponse,
   quotaAllResponseSchema,
   SetCommandResponse,
   setCommandResponseSchema,
-  SmartPlugQuotaAll,
-  smartPlugQuotaAllSchema,
-  SmartPlugSetCommand,
-  SmartPlugSn,
 } from "@ecoflow-api/schemas";
 import { RequestHandler } from "./RequestHandler";
-
-export type RequestHeaders = [
-  ["accessKey", string],
-  ["timestamp", string],
-  ["nonce", string],
-  ["sign", string],
-  ["Content-Type", "application/json;charset=UTF-8"],
-];
+import { deviceFactory } from "./devices/DeviceFactory";
 
 /**
  * Represents the options for the RestClient class.
@@ -132,6 +115,7 @@ export class RestClient {
   /**
    * Parses the given response data using the provided schema.
    *
+   * @template T
    * @param {unknown} data - The response data to be parsed.
    * @param {T} schema - The schema to be used for parsing.
    * @returns {inferSchema<T>} - The parsed response data.
@@ -175,11 +159,11 @@ export class RestClient {
   }
 
   /**
-   * Receive list of all devices connected to the account.
+   * Receive a list of all devices connected to the account.
    *
    * @returns {Promise<DeviceListResponse>} A promise that resolves to the device list response.
    */
-  async getDevices(): Promise<DeviceListResponse> {
+  async getDevicesPlain(): Promise<DeviceListResponse> {
     return this.parseResponse(
       await this.requestHandler.get(this.deviceListUrl),
       deviceListResponseSchema,
@@ -192,23 +176,16 @@ export class RestClient {
    * @returns {Promise<string[]>} An array of serial numbers.
    */
   async getSerialNumbers(): Promise<string[]> {
-    const devices = await this.getDevices();
+    const devices = await this.getDevicesPlain();
     return devices.data.map(({ sn }) => sn);
   }
 
   /**
    * Update device settings. Depending on the device type different settings can be updated.
-   * Note: Use at your own risk.
-   * Note: that not all properties/settings can be updated.
-   * At the moment command types for the following devices are provided:
-   * - SmartPlug
-   * - PowerStream
-   * More devices to come, for all unsupported devices a payload object can be passed.
-   *
    * @param payload
    */
-  async setCommand(
-    payload: SmartPlugSetCommand | PowerStreamSetCommand | Record<string, any>,
+  async setCommandPlain(
+    payload: Record<string, any>,
   ): Promise<SetCommandResponse> {
     return this.parseResponse(
       await this.requestHandler.put(this.setCmdUrl, payload),
@@ -222,26 +199,39 @@ export class RestClient {
    * @param {string} sn - Device serial number
    * @return {Promise<any>} - Promise that resolves to the device properties response
    */
-  async getDeviceProperties<
-    T extends string,
-    R = T extends SmartPlugSn
-      ? SmartPlugQuotaAll
-      : T extends PowerStreamSerialNumber
-        ? PowerStreamQuotaAll
-        : QuotaAllResponse["data"] | undefined,
-  >(sn: T): Promise<R> {
-    const { data } = quotaAllResponseSchema.parse(
+  async getDevicePropertiesPlain(sn: string): Promise<QuotaAllResponse> {
+    return quotaAllResponseSchema.parse(
       await this.requestHandler.get(`${this.deviceQuotaUrl}?sn=${sn}`),
     );
+  }
 
-    if (isSmartPlugSn(sn)) {
-      return smartPlugQuotaAllSchema.parse(data) as R;
-    }
+  /**
+   * Retrieves a device class instance.
+   * @template T
+   * @param {T} sn
+   */
+  getDevice<T extends string>(sn: T) {
+    return deviceFactory(sn, this);
+  }
 
-    if (isPowerStreamSerialNumber(sn)) {
-      return powerStreamQuotaAllSchema.parse(data) as R;
-    }
-
-    return data as R;
+  /**
+   * Retrieves a list of device class instances.
+   * To narrow down a device-type you may use the instanceOf operator.
+   *
+   * ```typescript
+   * const devices = await restClient.getDevices();
+   *
+   * for (const device of devices) {
+   *   if (device instanceof SmartPlug) {
+   *     await device.switchOn();
+   *   }
+   * }
+   * ```
+   *
+   * @returns {Promise<UnknownDevice[]>} A promise that resolves to an array of devices.
+   */
+  async getDevices() {
+    const devices = await this.getDevicesPlain();
+    return devices.data.map(({ sn }) => this.getDevice(sn));
   }
 }

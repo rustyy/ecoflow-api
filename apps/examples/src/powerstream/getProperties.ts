@@ -10,7 +10,7 @@ async function main() {
     host: process.env.ECOFLOW_HOST!,
   });
 
-  const result = await client.getDeviceProperties(sn);
+  const result = await client.getDevicePropertiesPlain(sn);
   console.log(result);
 }
 

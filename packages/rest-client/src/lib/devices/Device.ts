@@ -22,14 +22,14 @@ export abstract class Device<SerialNumber extends string, ParsedProperties> {
    * Sends a command with the given payload.
    */
   protected async sendCommand(payload: any) {
-    return this.restClient.setCommand(payload);
+    return this.restClient.setCommandPlain(payload);
   }
 
   /**
    * Retrieves the properties of the device asynchronously.
    */
   async getProperties(): Promise<ParsedProperties> {
-    const data = await this.restClient.getDeviceProperties(this.sn);
-    return this.parseProperties(data);
+    const response = await this.restClient.getDevicePropertiesPlain(this.sn);
+    return this.parseProperties(response.data);
   }
 }

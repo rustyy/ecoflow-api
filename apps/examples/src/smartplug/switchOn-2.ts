@@ -9,8 +9,10 @@ async function main() {
     host: process.env.ECOFLOW_HOST!,
   });
 
-  const device = client.getDevice(sn);
-  const result = await device.getProperties();
+  // Request a smart plug device instance providing device specific methods
+  const smartPlug = client.getDevice(sn);
+  // Turn the smart plug on
+  const result = await smartPlug.switchOn();
   console.log(JSON.stringify(result, null, 2));
 }
 

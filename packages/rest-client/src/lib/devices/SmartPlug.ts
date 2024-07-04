@@ -5,7 +5,7 @@ import {
   SmartPlugQuotaAll,
   smartPlugQuotaAllSchema,
   SmartPlugSn,
-  SmartPlugTurnOnOffCommand,
+  SmartPlugSwitchOnOffCommand,
 } from "@ecoflow-api/schemas";
 import { RestClient } from "../RestClient";
 
@@ -41,14 +41,14 @@ export class SmartPlug extends Device<SmartPlugSn, SmartPlugQuotaAll> {
   /**
    * Turns the smart plug on.
    */
-  async turnOn() {
+  async switchOn() {
     return this.#toggle(1);
   }
 
   /**
    * Turns the smart plug off.
    */
-  async turnOff() {
+  async switchOff() {
     return this.#toggle(0);
   }
 
@@ -58,7 +58,7 @@ export class SmartPlug extends Device<SmartPlugSn, SmartPlugQuotaAll> {
    * @private
    */
   async #toggle(state: 0 | 1) {
-    const payload: SmartPlugTurnOnOffCommand = {
+    const payload: SmartPlugSwitchOnOffCommand = {
       sn: this.sn,
       cmdCode: "WN511_SOCKET_SET_PLUG_SWITCH_MESSAGE",
       params: {
