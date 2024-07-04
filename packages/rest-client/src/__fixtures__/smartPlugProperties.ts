@@ -339,3 +339,9 @@ export const smartPlugProperties = {
   "2_1.wifiErrTime": 1718773747,
   "2_2.updateTime": "2024-06-19 13:13:09",
 };
+
+export const devicePropertiesResponse = {
+  code: "0",
+  message: "success",
+  data: smartPlugProperties,
+};
