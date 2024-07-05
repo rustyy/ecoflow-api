@@ -1,5 +1,11 @@
 # @ecoflow-api/rest-client
 
+## 0.0.5
+
+### Patch Changes
+
+- update docs
+
 ## 0.0.4
 
 ### Patch Changes
