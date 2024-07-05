@@ -28,6 +28,23 @@ export class SmartPlug extends Device<SmartPlugSn, SmartPlugQuotaAll> {
     return smartPlugQuotaAllSchema.parse(data);
   }
 
+  /**
+   * Remove a task.
+   *
+   * @example
+   * ```typescript
+   *   const sn = "HW52xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const smartPlug = client.getDevice(sn);
+   *   await smartPlug.deleteTask(1);
+   * ```
+   * @param taskIndex
+   */
   async deleteTask(taskIndex: number) {
     const payload: SmartPlugDeleteTimeTaskCommand = {
       sn: this.sn,
@@ -42,6 +59,20 @@ export class SmartPlug extends Device<SmartPlugSn, SmartPlugQuotaAll> {
 
   /**
    * Sets the brightness of the LED indicator on the smart plug.
+   *
+   * @example
+   * ```typescript
+   *   const sn = "HW52xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const smartPlug = client.getDevice(sn);
+   *   await smartPlug.setLedBrightness(200);
+   * ```
+   *
    * @param {number} brightness - The brightness value to set. Must be between 0 and 1023.
    */
   async setLedBrightness(brightness: number) {
@@ -60,6 +91,19 @@ export class SmartPlug extends Device<SmartPlugSn, SmartPlugQuotaAll> {
 
   /**
    * Turns the smart plug on.
+   *
+   * @example
+   * ```typescript
+   *   const sn = "HW52xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const smartPlug = client.getDevice(sn);
+   *   await smartPlug.switchOn();
+   * ```
    */
   async switchOn() {
     return this.#toggle(1);
@@ -67,6 +111,19 @@ export class SmartPlug extends Device<SmartPlugSn, SmartPlugQuotaAll> {
 
   /**
    * Turns the smart plug off.
+   *
+   * @example
+   * ```typescript
+   *   const sn = "HW52xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const smartPlug = client.getDevice(sn);
+   *   await smartPlug.switchOff();
+   * ```
    */
   async switchOff() {
     return this.#toggle(0);

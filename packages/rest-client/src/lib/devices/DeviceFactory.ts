@@ -9,7 +9,7 @@ import { UnknownDevice } from "./UnknownDevice";
 import { RestClient } from "../RestClient";
 import { PowerStream } from "./PowerStream";
 
-type DeviceFactoryReturnType<T extends string> = T extends SmartPlugSn
+export type DeviceFactoryReturnType<T extends string> = T extends SmartPlugSn
   ? SmartPlug
   : T extends PowerStreamSerialNumber
     ? PowerStream

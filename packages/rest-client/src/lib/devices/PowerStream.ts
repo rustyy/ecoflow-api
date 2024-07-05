@@ -41,6 +41,23 @@ export class PowerStream extends Device<
 
   /**
    * Set the power supply priority either to power supply or battery/storage.
+   *
+   * @example
+   * ```typescript
+   *   const sn = "HW51xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const powerStream = client.getDevice(sn);
+   *
+   *   await powerStream.setPowerSupplyPriority("powerSupply");
+   *   // or
+   *   await powerStream.setPowerSupplyPriority("battery");
+   * ```
+   *
    * @param priority - The priority to set.
    */
   async setPowerSupplyPriority(priority: "powerSupply" | "battery") {
@@ -64,7 +81,21 @@ export class PowerStream extends Device<
 
   /**
    * Set the custom load power.
-   * @param {number} permanentWatts
+   *
+   * @example
+   * ```typescript
+   *   const sn = "HW51xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const powerStream = client.getDevice(sn);
+   *   await powerStream.setCustomLoadPower(80);
+   * ```
+   *
+   * @param {number} permanentWatts - The custom load power to set. Must be between 0 and 600.
    */
   async setCustomLoadPower(permanentWatts: number) {
     const payload: CustomLoadPowerSettings = {
@@ -82,7 +113,21 @@ export class PowerStream extends Device<
 
   /**
    * Set the lower charging level.
-   * @param {number} lowerLimit
+   *
+   *  @example
+   * ```typescript
+   *   const sn = "HW51xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const powerStream = client.getDevice(sn);
+   *   await powerStream.setLowerChargingLevel(20);
+   * ```
+   *
+   * @param {number} lowerLimit - The lower limit to set. Must be between 1 and 30.
    */
   async setLowerChargingLevel(lowerLimit: number) {
     const payload: LowerChargingLevel = {
@@ -100,7 +145,21 @@ export class PowerStream extends Device<
 
   /**
    * Set the upper charging level.
-   * @param {number} upperLimit
+   *
+   * @example
+   * ```typescript
+   *   const sn = "HW51xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const powerStream = client.getDevice(sn);
+   *   await powerStream.setUpperChargingLevel(80);
+   * ```
+   *
+   * @param {number} upperLimit - The upper limit to set. Must be between 70 and 100.
    */
   async setUpperChargingLevel(upperLimit: number) {
     const payload: UpperChargingLevel = {
@@ -118,6 +177,20 @@ export class PowerStream extends Device<
 
   /**
    * Set the brightness of the indicator light.
+   *
+   * @example
+   * ```typescript
+   *   const sn = "HW51xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const powerStream = client.getDevice(sn);
+   *   await powerStream.setLedBrightness(80);
+   * ```
+   *
    * @param {number} brightness - The brightness value to set. Must be between 0 and 1023.
    */
   async setLedBrightness(brightness: number) {
@@ -134,6 +207,20 @@ export class PowerStream extends Device<
 
   /**
    * Delete a task by its index.
+   *
+   * @example
+   * ```typescript
+   *   const sn = "HW51xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const powerStream = client.getDevice(sn);
+   *   await powerStream.deleteTask(2);
+   * ```
+   *
    * @param {number} taskIndex - The index of the task to delete.
    */
   async deleteTask(taskIndex: number) {

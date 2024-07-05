@@ -1,6 +1,9 @@
 {
   "entryPoints": [
     "src/index.ts",
-    "src/lib/signatureBuilder/SignatureBuilder.ts"
-  ]
+    "src/lib/signatureBuilder/SignatureBuilder.ts",
+    "src/lib/RequestHandler.ts",
+    "src/lib/devices/*.ts"
+  ],
+  "exclude": ["**/*.test.ts"]
 }
