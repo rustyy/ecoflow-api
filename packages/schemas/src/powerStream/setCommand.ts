@@ -48,7 +48,7 @@ export type PowerSupplyPriority = z.infer<typeof powerSupplyPrioritySchema>;
 export const customLoadPowerSettingsSchema = defaultSchema.extend({
   cmdCode: z.literal("WN511_SET_PERMANENT_WATTS_PACK"),
   params: z.object({
-    permanentWatts: z.number().int().min(0).max(600),
+    permanentWatts: z.number().min(0).max(600),
   }),
 });
 
@@ -86,7 +86,7 @@ export type LowerChargingLevel = z.infer<typeof lowerChargingLevelSchema>;
 export const upperChargingLevelSchema = defaultSchema.extend({
   cmdCode: z.literal("WN511_SET_BAT_UPPER_PACK"),
   params: z.object({
-    lowerLimit: z.number().int().min(70).max(100),
+    upperLimit: z.number().int().min(70).max(100),
   }),
 });
 
@@ -106,7 +106,7 @@ export type UpperChargingLevel = z.infer<typeof upperChargingLevelSchema>;
 export const indicatorLightBrightnessSchema = defaultSchema.extend({
   cmdCode: z.literal("WN511_SET_BRIGHTNESS_PACK"),
   params: z.object({
-    lowerLimit: z.number().int().min(0).max(1023),
+    brightness: z.number().int().min(0).max(1023),
   }),
 });
 
@@ -125,7 +125,7 @@ export type IndicatorLightBrightness = z.infer<
 export const powerStreamDeleteTaskSchema = defaultSchema.extend({
   cmdCode: z.literal("WN511_DELETE_TIME_TASK"),
   params: z.object({
-    taskIndex: z.number().int().min(0).max(9),
+    taskIndex: z.number().int().min(0),
   }),
 });
 
