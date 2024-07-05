@@ -17,6 +17,7 @@ const defaultSchema = z.object({
 });
 
 // Power supply.
+// 0: prioritize power supply; 1: prioritize power storage
 // Example:
 //
 // {
@@ -25,14 +26,17 @@ const defaultSchema = z.object({
 //   "params": {"supplyPriority": 0}
 // }
 
-const powerSupplyPrioritySchema = defaultSchema.extend({
+export const powerSupplyPrioritySchema = defaultSchema.extend({
   cmdCode: z.literal("WN511_SET_SUPPLY_PRIORITY_PACK"),
   params: z.object({
     supplyPriority: z.literal(0).or(z.literal(1)),
   }),
 });
 
+export type PowerSupplyPriority = z.infer<typeof powerSupplyPrioritySchema>;
+
 // Custom load power settings.
+// Range: 0 W–600 W; unit: 0.1 W
 // Example:
 //
 // {
@@ -41,14 +45,19 @@ const powerSupplyPrioritySchema = defaultSchema.extend({
 //   "params": {"permanentWatts": 20}
 // }
 
-const customLoadPowerSettingsSchema = defaultSchema.extend({
+export const customLoadPowerSettingsSchema = defaultSchema.extend({
   cmdCode: z.literal("WN511_SET_PERMANENT_WATTS_PACK"),
   params: z.object({
     permanentWatts: z.number().int().min(0).max(600),
   }),
 });
 
+export type CustomLoadPowerSettings = z.infer<
+  typeof customLoadPowerSettingsSchema
+>;
+
 // Lower batter charging level
+// lowerLimit: 1-30
 // Example:
 // {
 //   "sn": "HW5123456789",
@@ -56,14 +65,17 @@ const customLoadPowerSettingsSchema = defaultSchema.extend({
 //   "params": {"lowerLimit": 20}
 // }
 
-const lowerChargingLevelSchema = defaultSchema.extend({
+export const lowerChargingLevelSchema = defaultSchema.extend({
   cmdCode: z.literal("WN511_SET_BAT_LOWER_PACK"),
   params: z.object({
     lowerLimit: z.number().int().min(1).max(30),
   }),
 });
 
+export type LowerChargingLevel = z.infer<typeof lowerChargingLevelSchema>;
+
 // Upper batter charging level
+// upperLimit: 70-100
 // Example:
 // {
 //   "sn": "HW5123456789",
@@ -71,14 +83,19 @@ const lowerChargingLevelSchema = defaultSchema.extend({
 //   "params": {"upperLimit": 70}
 // }
 
-const upperChargingLevelSchema = defaultSchema.extend({
+export const upperChargingLevelSchema = defaultSchema.extend({
   cmdCode: z.literal("WN511_SET_BAT_UPPER_PACK"),
   params: z.object({
     lowerLimit: z.number().int().min(70).max(100),
   }),
 });
 
+export type UpperChargingLevel = z.infer<typeof upperChargingLevelSchema>;
+
 // Indicator light brightness
+// rgb brightness: 0-1023 (the larger the value, the higher the brightness)
+// default value: 1023
+//
 // Example:
 // {
 //   "sn": "HW5123456789",
@@ -86,12 +103,16 @@ const upperChargingLevelSchema = defaultSchema.extend({
 //   "params": {"brightness": 200}
 // }
 
-const indicatorLightBrightnessSchema = defaultSchema.extend({
+export const indicatorLightBrightnessSchema = defaultSchema.extend({
   cmdCode: z.literal("WN511_SET_BRIGHTNESS_PACK"),
   params: z.object({
     lowerLimit: z.number().int().min(0).max(1023),
   }),
 });
+
+export type IndicatorLightBrightness = z.infer<
+  typeof indicatorLightBrightnessSchema
+>;
 
 // Deleting task
 // Example:
@@ -107,6 +128,8 @@ export const powerStreamDeleteTaskSchema = defaultSchema.extend({
     taskIndex: z.number().int().min(0).max(9),
   }),
 });
+
+export type PowerStreamDeleteTask = z.infer<typeof powerStreamDeleteTaskSchema>;
 
 export const powerStreamSetCommandSchema = z.discriminatedUnion("cmdCode", [
   powerSupplyPrioritySchema,
