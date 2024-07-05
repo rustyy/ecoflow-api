@@ -3,6 +3,7 @@ import { deviceFactory } from "./DeviceFactory";
 import { SmartPlug } from "./SmartPlug";
 import { UnknownDevice } from "./UnknownDevice";
 import { RestClient } from "../RestClient";
+import { PowerStream } from "./PowerStream";
 
 describe("deviceFactory", () => {
   let restClient: RestClient;
@@ -25,5 +26,12 @@ describe("deviceFactory", () => {
     const device = deviceFactory("fake_sn", restClient);
     expect(device).toBeInstanceOf(UnknownDevice);
     expect(device.sn).toBe("fake_sn");
+  });
+
+  it("returns a PowerStream instance when the serial number is for a PowerStream", () => {
+    const sn = "HW51xxxx";
+    const device = deviceFactory(sn, restClient);
+    expect(device).toBeInstanceOf(PowerStream);
+    expect(device.sn).toBe(sn);
   });
 });
