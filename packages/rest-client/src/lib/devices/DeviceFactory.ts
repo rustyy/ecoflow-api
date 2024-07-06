@@ -1,4 +1,6 @@
 import {
+  Delta2SerialNumber,
+  isDelta2SerialNumber,
   isPowerStreamSerialNumber,
   isSmartPlugSn,
   PowerStreamSerialNumber,
@@ -8,12 +10,15 @@ import { SmartPlug } from "./SmartPlug";
 import { UnknownDevice } from "./UnknownDevice";
 import { RestClient } from "../RestClient";
 import { PowerStream } from "./PowerStream";
+import { Delta2 } from "./Delta2";
 
 export type DeviceFactoryReturnType<T extends string> = T extends SmartPlugSn
   ? SmartPlug
   : T extends PowerStreamSerialNumber
     ? PowerStream
-    : UnknownDevice;
+    : T extends Delta2SerialNumber
+      ? Delta2
+      : UnknownDevice;
 
 /**
  * Factory function to create a device based on the serial number.
@@ -30,6 +35,10 @@ export function deviceFactory<T extends string, R = DeviceFactoryReturnType<T>>(
 
   if (isPowerStreamSerialNumber(sn)) {
     return new PowerStream(restClient, sn) as R;
+  }
+
+  if (isDelta2SerialNumber(sn)) {
+    return new Delta2(restClient, sn) as R;
   }
 
   return new UnknownDevice(restClient, sn) as R;
