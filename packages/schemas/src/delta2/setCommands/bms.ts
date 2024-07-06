@@ -26,12 +26,14 @@ const bmsCommandSchema = defaultSchema.extend({
  * }
  * ```
  */
-const upsUpperLimitSchema = bmsCommandSchema.extend({
+export const upsUpperLimitSchema = bmsCommandSchema.extend({
   operateType: z.literal("upsConfig"),
   params: z.object({
     maxChgSoc: z.number().positive(),
   }),
 });
+
+export type UpsUpperLimit = z.infer<typeof upsUpperLimitSchema>;
 
 /**
  * State of charge (SOC) lower limit when discharging
@@ -46,12 +48,14 @@ const upsUpperLimitSchema = bmsCommandSchema.extend({
  * }
  * ```
  */
-const upsLowerLimitSchema = bmsCommandSchema.extend({
+export const upsLowerLimitSchema = bmsCommandSchema.extend({
   operateType: z.literal("dsgCfg"),
   params: z.object({
     minDsgSoc: z.number().positive(),
   }),
 });
+
+export type UpsLowerLimit = z.infer<typeof upsLowerLimitSchema>;
 
 /**
  * SoC that triggers EMS to turn on Smart Generator
@@ -67,12 +71,14 @@ const upsLowerLimitSchema = bmsCommandSchema.extend({
  * }
  * ```
  */
-const socTurnOnGeneratorSchema = bmsCommandSchema.extend({
+export const socTurnOnGeneratorSchema = bmsCommandSchema.extend({
   operateType: z.literal("openOilSoc"),
   params: z.object({
     openOilSoc: z.number().positive(),
   }),
 });
+
+export type SocTurnOnGenerator = z.infer<typeof socTurnOnGeneratorSchema>;
 
 /**
  * SOC that triggers EMS to turn off Smart Generator
@@ -88,12 +94,14 @@ const socTurnOnGeneratorSchema = bmsCommandSchema.extend({
  * }
  * ```
  */
-const socTurnOffGeneratorSchema = bmsCommandSchema.extend({
+export const socTurnOffGeneratorSchema = bmsCommandSchema.extend({
   operateType: z.literal("closeOilSoc"),
   params: z.object({
     closeOilSoc: z.number().positive(),
   }),
 });
+
+export type SocTurnOffGenerator = z.infer<typeof socTurnOffGeneratorSchema>;
 
 export const delta2BMSCommandSchema = z.discriminatedUnion("operateType", [
   upsUpperLimitSchema,

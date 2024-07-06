@@ -22,12 +22,14 @@ const pdCommandSchema = defaultSchema.extend({
  *      "params":{ "standbyMin":0 } }
  * ```
  */
-const pdStandByTime = pdCommandSchema.extend({
+export const pdStandByTime = pdCommandSchema.extend({
   operateType: z.literal("standbyTime"),
   params: z.object({
     standbyMin: z.number().int().positive(),
   }),
 });
+
+export type PdStandByTime = z.infer<typeof pdStandByTime>;
 
 /**
  * Set DC(USB) switch (0: off, 1: on)
@@ -42,12 +44,14 @@ const pdStandByTime = pdCommandSchema.extend({
  *      "params":{ "enabled": 0 } }
  * ```
  */
-const dcUsbSwitchSchema = pdCommandSchema.extend({
+export const dcUsbSwitchSchema = pdCommandSchema.extend({
   operateType: z.literal("dcOutCfg"),
   params: z.object({
     enabled: z.literal(0).or(z.literal(1)),
   }),
 });
+
+export type DcUsbSwitch = z.infer<typeof dcUsbSwitchSchema>;
 
 /**
  * LCD screen
@@ -66,13 +70,15 @@ const dcUsbSwitchSchema = pdCommandSchema.extend({
  * }
  * ```
  */
-const lcdConfigSchema = pdCommandSchema.extend({
+export const lcdConfigSchema = pdCommandSchema.extend({
   operateType: z.literal("lcdCfg"),
   params: z.object({
     delayOff: z.number().int().positive(),
     brightLevel: z.literal(3),
   }),
 });
+
+export type LcdConfig = z.infer<typeof lcdConfigSchema>;
 
 /**
  * Prioritize solar charging
@@ -87,12 +93,14 @@ const lcdConfigSchema = pdCommandSchema.extend({
  * }
  * ```
  */
-const pvPrioritySchema = pdCommandSchema.extend({
+export const pvPrioritySchema = pdCommandSchema.extend({
   operateType: z.literal("pvChangePrio"),
   params: z.object({
     pvChangeSet: z.literal(0).or(z.literal(1)),
   }),
 });
+
+export type PvPriority = z.infer<typeof pvPrioritySchema>;
 
 /**
  * Set energy management
@@ -120,7 +128,7 @@ const pvPrioritySchema = pdCommandSchema.extend({
  * }
  * ```
  */
-const energyManagementSchema = pdCommandSchema.extend({
+export const energyManagementSchema = pdCommandSchema.extend({
   operateType: z.literal("watthConfig"),
   params: z.object({
     isConfig: z.literal(0).or(z.literal(1)),
@@ -130,6 +138,8 @@ const energyManagementSchema = pdCommandSchema.extend({
     minChgSoc: z.number().int(),
   }),
 });
+
+export type EnergyManagement = z.infer<typeof energyManagementSchema>;
 
 /**
  * Set AC always on
@@ -149,13 +159,15 @@ const energyManagementSchema = pdCommandSchema.extend({
  * }
  * ```
  */
-const acAlwaysOnSchema = pdCommandSchema.extend({
+export const acAlwaysOnSchema = pdCommandSchema.extend({
   operateType: z.literal("acAutoOutConfig"),
   params: z.object({
     acAutoOutConfig: z.literal(0).or(z.literal(1)),
     minAcOutSoc: z.number().int().positive(),
   }),
 });
+
+export type AcAlwaysOn = z.infer<typeof acAlwaysOnSchema>;
 
 export const delta2PDCommandSchema = z.discriminatedUnion("operateType", [
   pdStandByTime,

@@ -28,12 +28,14 @@ const mpptCommandSchema = defaultSchema.extend({
  *
  * @extends mpptCommandSchema
  */
-const buzzerSilentModeSchema = mpptCommandSchema.extend({
+export const buzzerSilentModeSchema = mpptCommandSchema.extend({
   operateType: z.literal("quietMode"),
   params: z.object({
     enabled: z.literal(0).or(z.literal(1)),
   }),
 });
+
+export type BuzzerSilentMode = z.infer<typeof buzzerSilentModeSchema>;
 
 /**
  * Set car charger switch (1: On; 0: Off)
@@ -51,12 +53,14 @@ const buzzerSilentModeSchema = mpptCommandSchema.extend({
  * }
  * ```
  */
-const carChargerSwitchSchema = mpptCommandSchema.extend({
+export const carChargerSwitchSchema = mpptCommandSchema.extend({
   operateType: z.literal("mpptCar"),
   params: z.object({
     enabled: z.literal(0).or(z.literal(1)),
   }),
 });
+
+export type CarChargerSwitch = z.infer<typeof carChargerSwitchSchema>;
 
 /**
  * A schema for the AC discharge command.
@@ -78,7 +82,7 @@ const carChargerSwitchSchema = mpptCommandSchema.extend({
  * }
  * ```
  */
-const acDischargeSchema = mpptCommandSchema.extend({
+export const acDischargeSchema = mpptCommandSchema.extend({
   operateType: z.literal("acOutCfg"),
   params: z.object({
     enabled: z.literal(0).or(z.literal(1)),
@@ -87,6 +91,8 @@ const acDischargeSchema = mpptCommandSchema.extend({
     out_freq: z.number().int(),
   }),
 });
+
+export type AcDischarge = z.infer<typeof acDischargeSchema>;
 
 /**
  * AC charging settings - chgPauseFlag: 0: AC charging in normal operation
@@ -105,13 +111,15 @@ const acDischargeSchema = mpptCommandSchema.extend({
  * }
  * ```
  */
-const acChargingSettingsSchema = mpptCommandSchema.extend({
+export const acChargingSettingsSchema = mpptCommandSchema.extend({
   operateType: z.literal("acChgCfg"),
   params: z.object({
     chgWatts: z.number().int(),
     chgPauseFlag: z.literal(0).or(z.literal(1)),
   }),
 });
+
+export type AcChargingSettings = z.infer<typeof acChargingSettingsSchema>;
 
 /**
  * AC standby time when there is no load
@@ -130,12 +138,14 @@ const acChargingSettingsSchema = mpptCommandSchema.extend({
  * }
  * ```
  */
-const acStandbyTimeSchema = mpptCommandSchema.extend({
+export const acStandbyTimeSchema = mpptCommandSchema.extend({
   operateType: z.literal("standbyTime"),
   params: z.object({
     standbyMins: z.number().int(),
   }),
 });
+
+export type AcStandbyTime = z.infer<typeof acStandbyTimeSchema>;
 
 /**
  * Set 12 V DC (car charger) charging current
@@ -154,12 +164,14 @@ const acStandbyTimeSchema = mpptCommandSchema.extend({
  * }
  * ```
  */
-const carChargerDcSchema = mpptCommandSchema.extend({
+export const carChargerDcSchema = mpptCommandSchema.extend({
   operateType: z.literal("dcChgCfg"),
   params: z.object({
     dcChgCfg: z.number().int().min(4000).max(10000),
   }),
 });
+
+export type CarChargerDc = z.infer<typeof carChargerDcSchema>;
 
 /**
  * Discriminated union for MPPT commands.
