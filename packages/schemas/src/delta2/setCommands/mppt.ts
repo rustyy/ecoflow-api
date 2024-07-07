@@ -141,7 +141,7 @@ export type AcChargingSettings = z.infer<typeof acChargingSettingsSchema>;
 export const acStandbyTimeSchema = mpptCommandSchema.extend({
   operateType: z.literal("standbyTime"),
   params: z.object({
-    standbyMins: z.number().int(),
+    standbyMins: z.number().int().min(0),
   }),
 });
 

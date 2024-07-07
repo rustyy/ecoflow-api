@@ -25,7 +25,7 @@ const pdCommandSchema = defaultSchema.extend({
 export const pdStandByTime = pdCommandSchema.extend({
   operateType: z.literal("standbyTime"),
   params: z.object({
-    standbyMin: z.number().int().positive(),
+    standbyMin: z.number().int().min(0),
   }),
 });
 
