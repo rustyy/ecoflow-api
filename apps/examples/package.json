@@ -10,7 +10,8 @@
     "example:smartPlug:switchOn2": "dotenvx run -- ts-node src/smartPlug/switchOn-2.ts",
     "example:powerstream:getProperties": "dotenvx run -- ts-node src/powerstream/getProperties.ts",
     "example:powerstream:setCustomLoadPower": "dotenvx run -- ts-node src/powerstream/setCustomLoadPower.ts",
-    "example:getMqttCredentials": "dotenvx run -- ts-node src/getMqttCredentials.ts"
+    "example:getMqttCredentials": "dotenvx run -- ts-node src/getMqttCredentials.ts",
+    "example:delta2:setSilentMode": "dotenvx run -- ts-node src/delta2/setSilentMode.ts"
   },
   "dependencies": {
     "@ecoflow-api/rest-client": "*",
