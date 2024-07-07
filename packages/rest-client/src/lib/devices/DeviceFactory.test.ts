@@ -4,6 +4,7 @@ import { SmartPlug } from "./SmartPlug";
 import { UnknownDevice } from "./UnknownDevice";
 import { RestClient } from "../RestClient";
 import { PowerStream } from "./PowerStream";
+import { Delta2 } from "./Delta2";
 
 describe("deviceFactory", () => {
   let restClient: RestClient;
@@ -32,6 +33,13 @@ describe("deviceFactory", () => {
     const sn = "HW51xxxx";
     const device = deviceFactory(sn, restClient);
     expect(device).toBeInstanceOf(PowerStream);
+    expect(device.sn).toBe(sn);
+  });
+
+  it("returns a Delta 2 instance when the serial number is for a Delta 2", () => {
+    const sn = "R331xxxx";
+    const device = deviceFactory(sn, restClient);
+    expect(device).toBeInstanceOf(Delta2);
     expect(device.sn).toBe(sn);
   });
 });
