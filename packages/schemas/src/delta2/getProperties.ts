@@ -62,7 +62,7 @@ export const delta2QuotaAllSchema = z.object({
   // Voltage (mV)
   "bms_bmsStatus.vol": integer,
   // BMS in-place signal (3 byte): BIT0: Hardware in-place signal; BIT1: Software in-place signal
-  "bms_emsStatus.bmsIsConnt": integer,
+  "bms_emsStatus.bmsIsConnt": integer.array().length(3),
   // BMS model [key indicator]
   "bms_emsStatus.bmsModel": integer,
   // BMS warning state: bit0: hi_temp; bit1: low_temp; bit2: overload; bit3: chg_flag
@@ -133,12 +133,7 @@ export const delta2QuotaAllSchema = z.object({
   // X-Boost switch: 0: off; 1: on
   "inv.cfgAcXboost": z.literal(0).or(z.literal(1)),
   // Charger type: 1: AC charging; 2: DC adapter charging; 3: solar charging; 4: CC; 5: BC
-  "inv.chargerType": z
-    .literal(1)
-    .or(z.literal(2))
-    .or(z.literal(3))
-    .or(z.literal(4))
-    .or(z.literal(5)),
+  "inv.chargerType": z.number().int().min(0).max(5),
   // PV charging pause flag bit: 1: charging stopped
   "inv.chgPauseFlag": integer,
   // DC input current (mA)
@@ -148,7 +143,7 @@ export const delta2QuotaAllSchema = z.object({
   // DC input voltage (mV)
   "inv.dcInVol": integer,
   // Discharging type: 1: AC discharging; 2: PR; 3: BC
-  "inv.dischargeType": z.literal(1).or(z.literal(2)).or(z.literal(3)),
+  "inv.dischargeType": z.number().int().min(0).max(3),
   // Global error code
   "inv.errCode": integer,
   // Fan status: 0: disabled; 1: Level 1; 2: Level 2; 3: Level 3
@@ -162,7 +157,8 @@ export const delta2QuotaAllSchema = z.object({
   // Inverter output current (mA)
   "inv.invOutAmp": integer,
   // Inverter output frequency (Hz): 50 or 60;
-  "inv.invOutFreq": z.literal(50).or(z.literal(60)),
+  // @todo: actual can be 0 , but docs are not mentioning it.
+  "inv.invOutFreq": z.literal(50).or(z.literal(60)).or(z.literal(0)),
   // Inverter actual output voltage (mV)
   "inv.invOutVol": integer,
   // PSDR model code (corresponds to dip Switch and high-low voltage switch)
@@ -172,7 +168,7 @@ export const delta2QuotaAllSchema = z.object({
   // Discharging power (W)
   "inv.outputWatts": integer,
   // Reserve 8 bytes
-  "inv.reserved": integer,
+  "inv.reserved": integer.array().length(8),
   // Auto shutdown when there is no load: 0: never shut down, default value: 12 x 60 mins, unit: minutes
   "inv.standbyMins": integer,
   // System version
@@ -235,7 +231,7 @@ export const delta2QuotaAllSchema = z.object({
   // DC 12 V 30 A output power (W)
   "mppt.dcdc12vWatts": integer,
   // Discharging type: 1: AC discharging; 2: PR; 3: BC
-  "mppt.dischargeType": z.literal(1).or(z.literal(2)).or(z.literal(3)),
+  "mppt.dischargeType": z.number().int().min(0).max(3),
   // Error code: byte0: mppt_fault; byte1: car_fault; byte2: dc24v_fault "swVer":"uint32", //mppt version number
   "mppt.faultCode": integer,
   // PV input current (mA)
@@ -255,7 +251,7 @@ export const delta2QuotaAllSchema = z.object({
   // Auto shutdown when there is no load: 0: Never shut down; default: 12*60mins; unit: min
   "mppt.powStandbyMin": integer,
   // Reserve 10 bytes
-  "mppt.res": integer,
+  "mppt.res": integer.array().length(5),
   // Auto shutdown when there is no load: 0: never shut down, default value: 12 x 60 mins, unit: minutes
   "mppt.scrStandbyMin": integer,
   // MPPT version number
@@ -308,7 +304,7 @@ export const delta2QuotaAllSchema = z.object({
   // RJ45 port: 0: NULL; 1: RC(BLE_CTL)
   "pd.extRj45Port": z.literal(0).or(z.literal(1)),
   // ICO flag bit: BYTE0-BYTE13
-  "pd.icoBytes": integer,
+  "pd.icoBytes": integer.array().length(14),
   // Inverter use time (s)
   "pd.invUsedTime": integer,
   // LCD screen timeout: 0: Always on [key indicator]
@@ -324,7 +320,7 @@ export const delta2QuotaAllSchema = z.object({
   // Available time (min): >0: Time remaining before full charging; <0: Time remaining before full discharge [key indicator]
   "pd.remainTime": integer,
   // Reserve 2 bytes
-  "pd.reserved": integer,
+  "pd.reserved": integer.array().length(2),
   // Display SOC [key indicator]
   "pd.soc": integer,
   // Standby auto shutdown time (min): 0: Never standby; maximum 5999 minutes (99 hours and 59 minutes) [key indicator]
