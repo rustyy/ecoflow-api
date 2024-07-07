@@ -64,4 +64,42 @@ describe("Delta2", () => {
       sn: validSn,
     });
   });
+
+  it("Should set AC standby time", async () => {
+    expect.assertions(1);
+    await delta2.setAcStandByTime(1);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 5,
+      operateType: "standbyTime",
+      params: {
+        standbyMins: 1,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("Should set car input", async () => {
+    expect.assertions(1);
+    await delta2.setCarInput(5000);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 5,
+      operateType: "dcChgCfg",
+      params: {
+        dcChgCfg: 5000,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("Should should throw for invalid car input values", async () => {
+    expect.assertions(2);
+    await expect(delta2.setCarInput(3999)).rejects.toThrowError();
+    await expect(delta2.setCarInput(10001)).rejects.toThrowError();
+  });
 });

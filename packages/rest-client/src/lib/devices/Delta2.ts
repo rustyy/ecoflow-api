@@ -1,6 +1,10 @@
 import {
+  AcStandbyTime,
+  acStandbyTimeSchema,
   BuzzerSilentMode,
   buzzerSilentModeSchema,
+  CarChargerDc,
+  carChargerDcSchema,
   CarChargerSwitch,
   carChargerSwitchSchema,
   Delta2QuotaAll,
@@ -24,6 +28,26 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
     return delta2QuotaAllSchema.parse(data);
   }
 
+  #payloadDefaults<T extends 1 | 2 | 3 | 4 | 5>(
+    moduleType: T,
+  ): {
+    moduleType: T;
+    id: number;
+    version: "1.0";
+    sn: `R331${string}`;
+  } {
+    return {
+      moduleType,
+      id: 123456789,
+      version: "1.0",
+      sn: this.sn,
+    };
+  }
+
+  /**************+********************************************************
+   * MPPT Commands
+   **************+********************************************************/
+
   /**
    * Set the silent mode of the buzzer.
    *
@@ -45,10 +69,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
    */
   async setSilentMode(enabled: 0 | 1) {
     const payload: BuzzerSilentMode = {
-      id: 123456789,
-      version: "1.0",
-      sn: this.sn,
-      moduleType: 5,
+      ...this.#payloadDefaults(5),
       operateType: "quietMode",
       params: { enabled },
     };
@@ -79,10 +100,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
    */
   async setCarCharger(enabled: 0 | 1) {
     const payload: CarChargerSwitch = {
-      id: 123456789,
-      version: "1.0",
-      sn: this.sn,
-      moduleType: 5,
+      ...this.#payloadDefaults(5),
       operateType: "mpptCar",
       params: { enabled },
     };
@@ -90,5 +108,70 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
     await this.restClient.setCommandPlain(
       carChargerSwitchSchema.parse(payload),
     );
+  }
+
+  /**
+   * Set the standby time for the AC.
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *
+   *   await delta2.setAcStandByTime(180);
+   * ```
+   *
+   * @param minutes
+   */
+  async setAcStandByTime(minutes: number) {
+    const payload: AcStandbyTime = {
+      ...this.#payloadDefaults(5),
+      operateType: "standbyTime",
+      params: {
+        standbyMins: minutes,
+      },
+    };
+
+    await this.restClient.setCommandPlain(acStandbyTimeSchema.parse(payload));
+  }
+
+  /**
+   * Set the car charger input.
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *
+   *   await delta2.setCarInput(8000);
+   * ```
+   *
+   * @param mAmpere - Maximum DC charging current (mA), range: 4000 mA–10000 mA
+   */
+  async setCarInput(mAmpere: number) {
+    const payload: CarChargerDc = {
+      id: 123456789,
+      version: "1.0",
+      sn: this.sn,
+      moduleType: 5,
+      operateType: "dcChgCfg",
+      params: {
+        dcChgCfg: mAmpere,
+      },
+    };
+
+    await this.restClient.setCommandPlain(carChargerDcSchema.parse(payload));
   }
 }
