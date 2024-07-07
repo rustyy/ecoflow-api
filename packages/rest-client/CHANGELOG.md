@@ -1,5 +1,13 @@
 # @ecoflow-api/rest-client
 
+## 0.0.6
+
+### Patch Changes
+
+- introduce delta2 device, fix some delta2 schemas, update dependencies
+- Updated dependencies
+  - @ecoflow-api/schemas@0.0.5
+
 ## 0.0.5
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @ecoflow-api/schemas
 
+## 0.0.5
+
+### Patch Changes
+
+- introduce delta2 device, fix some delta2 schemas, update dependencies
+
 ## 0.0.4
 
 ### Patch Changes
