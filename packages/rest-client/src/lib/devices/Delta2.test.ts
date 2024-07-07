@@ -33,6 +33,30 @@ describe("Delta2", () => {
     }).toThrowError("Invalid serial number for Delta2 device.");
   });
 
+  it("Should return data if api response could be parsed", async () => {
+    // @ts-ignore
+    restClient.getDevicePropertiesPlain = jest
+      .fn()
+      // @ts-ignore
+      .mockResolvedValue(propertiesFixture);
+
+    await expect(delta2.getProperties()).resolves.toBeDefined();
+  });
+
+  it("Should throw an error for invalid data received from api", async () => {
+    const data = {
+      sn: "fake_smart_plug_sn",
+      success: true,
+      code: 0,
+      message: "Test message",
+      time: new Date().getTime(),
+    };
+
+    // @ts-ignore
+    restClient.getDeviceProperties = jest.fn().mockResolvedValue(data);
+    await expect(delta2.getProperties()).rejects.toThrowError();
+  });
+
   it("Should be able to set Silent Mode", async () => {
     expect.assertions(1);
     await delta2.setSilentMode(1);
@@ -101,5 +125,26 @@ describe("Delta2", () => {
     expect.assertions(2);
     await expect(delta2.setCarInput(3999)).rejects.toThrowError();
     await expect(delta2.setCarInput(10001)).rejects.toThrowError();
+  });
+
+  it("should set device timeout", async () => {
+    expect.assertions(1);
+    await delta2.setDeviceTimeout(120);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "standbyTime",
+      params: {
+        standbyMin: 120,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should throw an error for invalid device timeout values", async () => {
+    expect.assertions(1);
+    await expect(delta2.setDeviceTimeout(-1)).rejects.toThrowError();
   });
 });

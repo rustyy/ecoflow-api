@@ -11,6 +11,8 @@ import {
   delta2QuotaAllSchema,
   Delta2SerialNumber,
   isDelta2SerialNumber,
+  pdStandByTime,
+  PdStandByTime,
 } from "@ecoflow-api/schemas";
 import { Device } from "./Device";
 import { RestClient } from "../RestClient";
@@ -46,6 +48,10 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
 
   /**************+********************************************************
    * MPPT Commands
+   * @todo Implement MPPT commands:
+   *    - "operateType":"acOutCfg"
+   *    - "operateType":"acChgCfg"
+   *    - "operateType":"carStandby"
    **************+********************************************************/
 
   /**
@@ -173,5 +179,61 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
     };
 
     await this.restClient.setCommandPlain(carChargerDcSchema.parse(payload));
+  }
+
+  /**************+********************************************************
+   * BMS Commands
+   * @todo Implement BMS commands:
+   *    - "operateType":"upsConfig"
+   *    - "operateType":"dsgCfg"
+   *    - "operateType":"openOilSoc"
+   *    - "operateType":"closeOilSoc"
+   **************+********************************************************/
+
+  /**************+********************************************************
+   * PD Commands
+   * @todo Implement PD commands:
+   *    - "operateType":"dcOutCfg"
+   *    - "operateType":"lcdCfg"
+   *    - "operateType":"pvChangePrio"
+   *    - "operateType":"watthConfig"
+   *    - "operateType":"acAutoOutConfig"
+   **************+********************************************************/
+
+  /**
+   * Set the standby time for the PD module.
+   * The device will power off if no loads are connected to it and
+   * no activity is detected in the set period.
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: https://api-e.ecoflow.com,
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *
+   *   // 2 hours timeout
+   *   await delta2.setDeviceTimeout(120);
+   * ```
+   *
+   * @param minutes
+   */
+  async setDeviceTimeout(minutes: number) {
+    const payload: PdStandByTime = {
+      id: 123456789,
+      version: "1.0",
+      sn: this.sn,
+      moduleType: 1,
+      operateType: "standbyTime",
+      params: {
+        standbyMin: minutes,
+      },
+    };
+
+    await this.restClient.setCommandPlain(pdStandByTime.parse(payload));
   }
 }
