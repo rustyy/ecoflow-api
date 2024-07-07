@@ -17,6 +17,7 @@ At the moment the following devices are supported with specific instances:
 
 - Smart Plug
 - PowerStream
+- Delta 2
 
 More devices to come.
 You still can use the plain-methods to request or set any information that is officially supported by the ecoflow api.
