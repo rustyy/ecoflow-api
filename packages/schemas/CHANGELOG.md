@@ -1,5 +1,11 @@
 # @ecoflow-api/schemas
 
+## 0.0.6
+
+### Patch Changes
+
+- add disclaimer, fix examples
+
 ## 0.0.5
 
 ### Patch Changes

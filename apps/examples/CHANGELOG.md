@@ -1,5 +1,14 @@
 # examples
 
+## 0.0.3
+
+### Patch Changes
+
+- add disclaimer, fix examples
+- Updated dependencies
+  - @ecoflow-api/rest-client@0.0.7
+  - @ecoflow-api/schemas@0.0.6
+
 ## 0.0.2
 
 ### Patch Changes
