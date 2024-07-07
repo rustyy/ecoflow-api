@@ -48,7 +48,7 @@ export class PowerStream extends Device<
    *   const client = new RestClient({
    *     accessKey: "my-access-key",
    *     secretKey: "my-secret-key",
-   *     host: https://api-e.ecoflow.com,
+   *     host: "https://api-e.ecoflow.com",
    *   });
    *
    *   const powerStream = client.getDevice(sn);
@@ -88,7 +88,7 @@ export class PowerStream extends Device<
    *   const client = new RestClient({
    *     accessKey: "my-access-key",
    *     secretKey: "my-secret-key",
-   *     host: https://api-e.ecoflow.com,
+   *     host: "https://api-e.ecoflow.com",
    *   });
    *
    *   const powerStream = client.getDevice(sn);
@@ -120,7 +120,7 @@ export class PowerStream extends Device<
    *   const client = new RestClient({
    *     accessKey: "my-access-key",
    *     secretKey: "my-secret-key",
-   *     host: https://api-e.ecoflow.com,
+   *     host: "https://api-e.ecoflow.com",
    *   });
    *
    *   const powerStream = client.getDevice(sn);
@@ -152,7 +152,7 @@ export class PowerStream extends Device<
    *   const client = new RestClient({
    *     accessKey: "my-access-key",
    *     secretKey: "my-secret-key",
-   *     host: https://api-e.ecoflow.com,
+   *     host: "https://api-e.ecoflow.com",
    *   });
    *
    *   const powerStream = client.getDevice(sn);
@@ -184,7 +184,7 @@ export class PowerStream extends Device<
    *   const client = new RestClient({
    *     accessKey: "my-access-key",
    *     secretKey: "my-secret-key",
-   *     host: https://api-e.ecoflow.com,
+   *     host: "https://api-e.ecoflow.com",
    *   });
    *
    *   const powerStream = client.getDevice(sn);
@@ -214,7 +214,7 @@ export class PowerStream extends Device<
    *   const client = new RestClient({
    *     accessKey: "my-access-key",
    *     secretKey: "my-secret-key",
-   *     host: https://api-e.ecoflow.com,
+   *     host: "https://api-e.ecoflow.com",
    *   });
    *
    *   const powerStream = client.getDevice(sn);

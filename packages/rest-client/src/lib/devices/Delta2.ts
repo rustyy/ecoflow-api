@@ -63,7 +63,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
    *   const client = new RestClient({
    *     accessKey: "my-access-key",
    *     secretKey: "my-secret-key",
-   *     host: https://api-e.ecoflow.com,
+   *     host: "https://api-e.ecoflow.com",
    *   });
    *
    *   const delta2 = client.getDevice(sn);
@@ -94,7 +94,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
    *   const client = new RestClient({
    *     accessKey: "my-access-key",
    *     secretKey: "my-secret-key",
-   *     host: https://api-e.ecoflow.com,
+   *     host: "https://api-e.ecoflow.com",
    *   });
    *
    *   const delta2 = client.getDevice(sn);
@@ -125,7 +125,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
    *   const client = new RestClient({
    *     accessKey: "my-access-key",
    *     secretKey: "my-secret-key",
-   *     host: https://api-e.ecoflow.com,
+   *     host: "https://api-e.ecoflow.com",
    *   });
    *
    *   const delta2 = client.getDevice(sn);
@@ -156,7 +156,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
    *   const client = new RestClient({
    *     accessKey: "my-access-key",
    *     secretKey: "my-secret-key",
-   *     host: https://api-e.ecoflow.com,
+   *     host: "https://api-e.ecoflow.com",
    *   });
    *
    *   const delta2 = client.getDevice(sn);
@@ -211,7 +211,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
    *   const client = new RestClient({
    *     accessKey: "my-access-key",
    *     secretKey: "my-secret-key",
-   *     host: https://api-e.ecoflow.com,
+   *     host: "https://api-e.ecoflow.com",
    *   });
    *
    *   const delta2 = client.getDevice(sn);
