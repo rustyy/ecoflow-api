@@ -168,10 +168,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
    */
   async setCarInput(mAmpere: number) {
     const payload: CarChargerDc = {
-      id: 123456789,
-      version: "1.0",
-      sn: this.sn,
-      moduleType: 5,
+      ...this.#payloadDefaults(5),
       operateType: "dcChgCfg",
       params: {
         dcChgCfg: mAmpere,
@@ -224,10 +221,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
    */
   async setDeviceTimeout(minutes: number) {
     const payload: PdStandByTime = {
-      id: 123456789,
-      version: "1.0",
-      sn: this.sn,
-      moduleType: 1,
+      ...this.#payloadDefaults(1),
       operateType: "standbyTime",
       params: {
         standbyMin: minutes,
