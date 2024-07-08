@@ -80,7 +80,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
       params: { enabled },
     };
 
-    await this.restClient.setCommandPlain(
+    return this.restClient.setCommandPlain(
       buzzerSilentModeSchema.parse(payload),
     );
   }
@@ -111,7 +111,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
       params: { enabled },
     };
 
-    await this.restClient.setCommandPlain(
+    return this.restClient.setCommandPlain(
       carChargerSwitchSchema.parse(payload),
     );
   }
@@ -144,7 +144,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
       },
     };
 
-    await this.restClient.setCommandPlain(acStandbyTimeSchema.parse(payload));
+    return this.restClient.setCommandPlain(acStandbyTimeSchema.parse(payload));
   }
 
   /**
@@ -178,7 +178,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
       },
     };
 
-    await this.restClient.setCommandPlain(carChargerDcSchema.parse(payload));
+    return this.restClient.setCommandPlain(carChargerDcSchema.parse(payload));
   }
 
   /**************+********************************************************
@@ -234,6 +234,6 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
       },
     };
 
-    await this.restClient.setCommandPlain(pdStandByTime.parse(payload));
+    return this.restClient.setCommandPlain(pdStandByTime.parse(payload));
   }
 }
