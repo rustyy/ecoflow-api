@@ -210,4 +210,72 @@ describe("Delta2", () => {
       delta2.setLcdTimeout("a-string" as any),
     ).rejects.toThrowError();
   });
+
+  it("should enable pv charging priority", async () => {
+    expect.assertions(2);
+    await delta2.enablePvChargingPriority(1);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "pvChangePrio",
+      params: {
+        pvChangeSet: 1,
+      },
+      sn: validSn,
+    });
+
+    await delta2.enablePvChargingPriority(0);
+
+    expect(restClient.setCommandPlain).toHaveBeenLastCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "pvChangePrio",
+      params: {
+        pvChangeSet: 0,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should throw an error for invalid pv charging priority values", async () => {
+    expect.assertions(2);
+    await expect(
+      delta2.enablePvChargingPriority(2 as any),
+    ).rejects.toThrowError();
+    await expect(
+      delta2.enablePvChargingPriority(-1 as any),
+    ).rejects.toThrowError();
+  });
+
+  it("should set AC auto out configuration", async () => {
+    expect.assertions(1);
+    await delta2.setAcAutoOutConfig(1, 20);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "acAutoOutConfig",
+      params: {
+        acAutoOutConfig: 1,
+        minAcOutSoc: 20,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should throw an error for invalid AC auto out configuration values", async () => {
+    expect.assertions(4);
+    await expect(
+      delta2.setAcAutoOutConfig(-1 as any, 20),
+    ).rejects.toThrowError();
+    await expect(
+      delta2.setAcAutoOutConfig(2 as any, 20),
+    ).rejects.toThrowError();
+    await expect(delta2.setAcAutoOutConfig(1, -1)).rejects.toThrowError();
+    await expect(delta2.setAcAutoOutConfig(1, 101)).rejects.toThrowError();
+  });
 });

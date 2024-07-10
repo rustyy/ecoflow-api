@@ -1,4 +1,6 @@
 import {
+  AcAlwaysOn,
+  acAlwaysOnSchema,
   AcStandbyTime,
   acStandbyTimeSchema,
   BuzzerSilentMode,
@@ -13,9 +15,12 @@ import {
   delta2QuotaAllSchema,
   Delta2SerialNumber,
   isDelta2SerialNumber,
+  LcdConfig,
   lcdConfigSchema,
   pdStandByTime,
   PdStandByTime,
+  PvPriority,
+  pvPrioritySchema,
 } from "@ecoflow-api/schemas";
 import { Device } from "./Device";
 import { RestClient } from "../RestClient";
@@ -193,9 +198,7 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
   /**************+********************************************************
    * PD Commands
    * @todo Implement PD commands:
-   *    - "operateType":"pvChangePrio"
    *    - "operateType":"watthConfig"
-   *    - "operateType":"acAutoOutConfig"
    **************+********************************************************/
 
   /**
@@ -235,6 +238,23 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
   /**
    * Enable or disable the USB output.
    *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *
+   *   // enable usb output
+   *   await delta2.enableUsbOutput(1);
+   *   // disable usb output
+   *   await delta2.enableUsbOutput(0);
+   * ```
+   *
    * @param enabled
    */
   async enableUsbOutput(enabled: 0 | 1) {
@@ -249,10 +269,26 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
 
   /**
    * Set the LCD screen timeout.
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *
+   *   // 10 seconds timeout
+   *   await delta2.setLcdTimeout(10);
+   * ```
+   *
    * @param delayOff - screen timeout, unit: seconds
    */
   async setLcdTimeout(delayOff: number) {
-    const payload = {
+    const payload: LcdConfig = {
       ...this.#payloadDefaults(1),
       operateType: "lcdCfg",
       params: {
@@ -262,5 +298,70 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
     };
 
     return this.restClient.setCommandPlain(lcdConfigSchema.parse(payload));
+  }
+
+  /**
+   * Prioritize PV charging
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *
+   *   await delta2.enablePvChargingPriority(1);
+   * ```
+   * .
+   * @param enabled - 0: Off; 1: On
+   */
+  async enablePvChargingPriority(enabled: 0 | 1) {
+    const payload: PvPriority = {
+      ...this.#payloadDefaults(1),
+      operateType: "pvChangePrio",
+      params: {
+        pvChangeSet: enabled,
+      },
+    };
+
+    return this.restClient.setCommandPlain(pvPrioritySchema.parse(payload));
+  }
+
+  /**
+   * Set the AC auto out configuration
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *
+   *   // enable ac auto out with minimum SOC of 50%
+   *   await delta2.setAcAutoOutConfig(1, 50);
+   * ```
+   *
+   * @param enabled - 0: Off; 1: On
+   * @param minSoc - Minimum SOC for AC auto out
+   */
+  async setAcAutoOutConfig(enabled: 0 | 1, minSoc: number) {
+    const payload: AcAlwaysOn = {
+      ...this.#payloadDefaults(1),
+      operateType: "acAutoOutConfig",
+      params: {
+        acAutoOutConfig: enabled,
+        minAcOutSoc: minSoc,
+      },
+    };
+
+    return this.restClient.setCommandPlain(acAlwaysOnSchema.parse(payload));
   }
 }
