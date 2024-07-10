@@ -139,6 +139,8 @@ await powerStream.setPowerSupplyPriority("powerSupply");
 await powerStream.setPowerSupplyPriority("battery");
 
 // Set the custom load power
+// Note: at the moment this seems to have no effect, 
+// although the api returns a success message.
 await powerStream.setCustomLoadPower(600);
 
 // Set the lower charging level
@@ -163,16 +165,11 @@ Note: not all commands have been implemented yet.
 Todo:
 - "operateType":"acOutCfg"
 - "operateType":"acChgCfg"
-- "operateType":"carStandby"
 - "operateType":"upsConfig"
 - "operateType":"dsgCfg"
 - "operateType":"openOilSoc"
 - "operateType":"closeOilSoc"
-- "operateType":"dcOutCfg"
-- "operateType":"lcdCfg"
-- "operateType":"pvChangePrio"
 - "operateType":"watthConfig"
-- "operateType":"acAutoOutConfig"
 
 ```ts
 import {RestClient} from '@ecoflow-api/rest-client';
@@ -207,6 +204,24 @@ await delta2.setCarInput(4000);
 
 // Set the device timeout to 120 minutes
 await delta2.setDeviceTimeout(120);
+
+// enable ac auto out with minimum SOC of 50%
+await delta2.setAcAutoOutConfig(1, 50);
+
+// Enable the pv charging priority
+await delta2.enablePvChargingPriority(1);
+
+// 10 seconds timeout for lcd display
+await delta2.setLcdTimeout(10);
+
+// enable usb output
+await delta2.enableUsbOutput(1);
+// disable usb output
+await delta2.enableUsbOutput(0);
+
+// Car standby for 4 hours
+await delta2.setCarStandByDuration(240);
+
 ```
 
 #### Unknown device
