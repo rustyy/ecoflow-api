@@ -65,7 +65,7 @@ export type DcUsbSwitch = z.infer<typeof dcUsbSwitchSchema>;
  *      "operateType":"lcdCfg",
  *      "params": {
  *          "delayOff":60,
- *          "brighLevel":1
+ *          "brightLevel":1
  *      }
  * }
  * ```
@@ -73,7 +73,7 @@ export type DcUsbSwitch = z.infer<typeof dcUsbSwitchSchema>;
 export const lcdConfigSchema = pdCommandSchema.extend({
   operateType: z.literal("lcdCfg"),
   params: z.object({
-    delayOff: z.number().int().positive(),
+    delayOff: z.number().int().min(0),
     brightLevel: z.literal(3),
   }),
 });

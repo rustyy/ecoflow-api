@@ -7,10 +7,13 @@ import {
   carChargerDcSchema,
   CarChargerSwitch,
   carChargerSwitchSchema,
+  DcUsbSwitch,
+  dcUsbSwitchSchema,
   Delta2QuotaAll,
   delta2QuotaAllSchema,
   Delta2SerialNumber,
   isDelta2SerialNumber,
+  lcdConfigSchema,
   pdStandByTime,
   PdStandByTime,
 } from "@ecoflow-api/schemas";
@@ -190,8 +193,6 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
   /**************+********************************************************
    * PD Commands
    * @todo Implement PD commands:
-   *    - "operateType":"dcOutCfg"
-   *    - "operateType":"lcdCfg"
    *    - "operateType":"pvChangePrio"
    *    - "operateType":"watthConfig"
    *    - "operateType":"acAutoOutConfig"
@@ -229,5 +230,37 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
     };
 
     return this.restClient.setCommandPlain(pdStandByTime.parse(payload));
+  }
+
+  /**
+   * Enable or disable the USB output.
+   *
+   * @param enabled
+   */
+  async enableUsbOutput(enabled: 0 | 1) {
+    const payload: DcUsbSwitch = {
+      ...this.#payloadDefaults(1),
+      operateType: "dcOutCfg",
+      params: { enabled },
+    };
+
+    return this.restClient.setCommandPlain(dcUsbSwitchSchema.parse(payload));
+  }
+
+  /**
+   * Set the LCD screen timeout.
+   * @param delayOff - screen timeout, unit: seconds
+   */
+  async setLcdTimeout(delayOff: number) {
+    const payload = {
+      ...this.#payloadDefaults(1),
+      operateType: "lcdCfg",
+      params: {
+        delayOff,
+        brightLevel: 3,
+      },
+    };
+
+    return this.restClient.setCommandPlain(lcdConfigSchema.parse(payload));
   }
 }

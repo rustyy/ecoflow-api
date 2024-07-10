@@ -147,4 +147,67 @@ describe("Delta2", () => {
     expect.assertions(1);
     await expect(delta2.setDeviceTimeout(-1)).rejects.toThrowError();
   });
+
+  it("should enable USB switch", async () => {
+    expect.assertions(1);
+    await delta2.enableUsbOutput(1);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "dcOutCfg",
+      params: {
+        enabled: 1,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should disable USB switch", async () => {
+    expect.assertions(1);
+    await delta2.enableUsbOutput(0);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "dcOutCfg",
+      params: {
+        enabled: 0,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should throw an error for invalid USB switch values", async () => {
+    expect.assertions(2);
+    await expect(delta2.enableUsbOutput(2 as any)).rejects.toThrowError();
+    await expect(delta2.enableUsbOutput(-1 as any)).rejects.toThrowError();
+  });
+
+  it("should set LCD timeout", async () => {
+    expect.assertions(1);
+    await delta2.setLcdTimeout(60);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "lcdCfg",
+      params: {
+        delayOff: 60,
+        brightLevel: 3,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should throw an error for invalid LCD timeout values", async () => {
+    expect.assertions(2);
+    await expect(delta2.setLcdTimeout(-1)).rejects.toThrowError();
+    await expect(
+      delta2.setLcdTimeout("a-string" as any),
+    ).rejects.toThrowError();
+  });
 });
