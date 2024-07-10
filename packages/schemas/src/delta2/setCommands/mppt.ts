@@ -174,6 +174,31 @@ export const carChargerDcSchema = mpptCommandSchema.extend({
 export type CarChargerDc = z.infer<typeof carChargerDcSchema>;
 
 /**
+ * CAR standby duration settings(Auto shutdown when there is no load, unit: minute)
+ *
+ * ```json
+ * {
+ *    "id":123456789,
+ *    "version":"1.0",
+ *    "sn":"R331ZEB4ZEAL0528",
+ *    "moduleType":5,
+ *    "operateType":"carStandby",
+ *    "params":{
+ *      "standbyMins":240
+ *     }
+ * }
+ * ```
+ */
+export const carStandBySchema = mpptCommandSchema.extend({
+  operateType: z.literal("carStandby"),
+  params: z.object({
+    standbyMins: z.number().int().min(0),
+  }),
+});
+
+export type CarStandBy = z.infer<typeof carStandBySchema>;
+
+/**
  * Discriminated union for MPPT commands.
  */
 export const delta2MPPTSetCommandSchema = z.discriminatedUnion("operateType", [
@@ -183,6 +208,7 @@ export const delta2MPPTSetCommandSchema = z.discriminatedUnion("operateType", [
   acChargingSettingsSchema,
   acStandbyTimeSchema,
   carChargerDcSchema,
+  carStandBySchema,
 ]);
 
 export type Delta2MPPTSetCommand = z.infer<typeof delta2MPPTSetCommandSchema>;
