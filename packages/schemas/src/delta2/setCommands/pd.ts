@@ -163,7 +163,7 @@ export const acAlwaysOnSchema = pdCommandSchema.extend({
   operateType: z.literal("acAutoOutConfig"),
   params: z.object({
     acAutoOutConfig: z.literal(0).or(z.literal(1)),
-    minAcOutSoc: z.number().int().positive(),
+    minAcOutSoc: z.number().int().min(0).max(100),
   }),
 });
 
