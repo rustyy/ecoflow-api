@@ -1,5 +1,13 @@
 # @ecoflow-api/rest-client
 
+## 0.0.8
+
+### Patch Changes
+
+- fixes delta2 schemas, additional functions for delta 2 implemented
+- Updated dependencies
+  - @ecoflow-api/schemas@0.0.7
+
 ## 0.0.7
 
 ### Patch Changes

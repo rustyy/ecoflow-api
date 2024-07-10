@@ -1,5 +1,11 @@
 # @ecoflow-api/schemas
 
+## 0.0.7
+
+### Patch Changes
+
+- fixes delta2 schemas, additional functions for delta 2 implemented
+
 ## 0.0.6
 
 ### Patch Changes
