@@ -278,4 +278,25 @@ describe("Delta2", () => {
     await expect(delta2.setAcAutoOutConfig(1, -1)).rejects.toThrowError();
     await expect(delta2.setAcAutoOutConfig(1, 101)).rejects.toThrowError();
   });
+
+  it("should set car standby duration", async () => {
+    expect.assertions(1);
+    await delta2.setCarStandByDuration(120);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 5,
+      operateType: "carStandby",
+      params: {
+        standbyMins: 120,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should throw an error for invalid car standby duration values", async () => {
+    expect.assertions(1);
+    await expect(delta2.setCarStandByDuration(-1)).rejects.toThrowError();
+  });
 });

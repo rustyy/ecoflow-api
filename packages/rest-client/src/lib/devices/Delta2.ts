@@ -9,6 +9,8 @@ import {
   carChargerDcSchema,
   CarChargerSwitch,
   carChargerSwitchSchema,
+  CarStandBy,
+  carStandBySchema,
   DcUsbSwitch,
   dcUsbSwitchSchema,
   Delta2QuotaAll,
@@ -59,8 +61,35 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
    * @todo Implement MPPT commands:
    *    - "operateType":"acOutCfg"
    *    - "operateType":"acChgCfg"
-   *    - "operateType":"carStandby"
    **************+********************************************************/
+
+  /**
+   * Set the car standby duration.
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *   // Standby for 4 hours
+   *   await delta2.setCarStandByDuration(240);
+   * ```
+   * @param standbyMins - Auto shutdown when there is no load, unit: minute
+   */
+  async setCarStandByDuration(standbyMins: number) {
+    const payload: CarStandBy = {
+      ...this.#payloadDefaults(5),
+      operateType: "carStandby",
+      params: { standbyMins },
+    };
+
+    return this.restClient.setCommandPlain(carStandBySchema.parse(payload));
+  }
 
   /**
    * Set the silent mode of the buzzer.
