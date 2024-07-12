@@ -8,6 +8,8 @@ import {
   glacierSetBuzzerSchema,
   GlacierSetEcoMode,
   glacierSetEcoModeSchema,
+  GlacierSetIceMaking,
+  glacierSetIceMakingSchema,
   GlacierSetScreenTimeout,
   glacierSetScreenTimeoutSchema,
   GlacierSetTemperature,
@@ -64,9 +66,7 @@ export class Glacier extends Device<GlacierSerialNumber, GlacierQuotaAll> {
       },
     };
 
-    return this.restClient.setCommandPlain(
-      glacierSetTemperatureSchema.parse(payload),
-    );
+    return this.sendCommand(payload, glacierSetTemperatureSchema);
   }
 
   /**
@@ -82,9 +82,7 @@ export class Glacier extends Device<GlacierSerialNumber, GlacierQuotaAll> {
       },
     };
 
-    return this.restClient.setCommandPlain(
-      glacierSetEcoModeSchema.parse(payload),
-    );
+    return this.sendCommand(payload, glacierSetEcoModeSchema);
   }
 
   /**
@@ -100,9 +98,7 @@ export class Glacier extends Device<GlacierSerialNumber, GlacierQuotaAll> {
       },
     };
 
-    return this.restClient.setCommandPlain(
-      glacierSetBuzzerSchema.parse(payload),
-    );
+    return this.sendCommand(payload, glacierSetBuzzerSchema);
   }
 
   /**
@@ -118,9 +114,7 @@ export class Glacier extends Device<GlacierSerialNumber, GlacierQuotaAll> {
       },
     };
 
-    return this.restClient.setCommandPlain(
-      glacierSetBuzzerCommandSchema.parse(payload),
-    );
+    return this.sendCommand(payload, glacierSetBuzzerCommandSchema);
   }
 
   /**
@@ -136,9 +130,7 @@ export class Glacier extends Device<GlacierSerialNumber, GlacierQuotaAll> {
         time,
       },
     };
-    return this.restClient.setCommandPlain(
-      glacierSetScreenTimeoutSchema.parse(payload),
-    );
+    return this.sendCommand(payload, glacierSetScreenTimeoutSchema);
   }
 
   /**
@@ -160,8 +152,28 @@ export class Glacier extends Device<GlacierSerialNumber, GlacierQuotaAll> {
       },
     };
 
-    return this.restClient.setCommandPlain(
-      glacierSetTemperatureUnitSchema.parse(payload),
-    );
+    return this.sendCommand(payload, glacierSetTemperatureUnitSchema);
+  }
+
+  /**
+   * Set ice making
+   * @param enable - 0: Disable; 1: Enable
+   * @param iceShape - "small" or "large" ice-cubes
+   */
+  async setIceMaking(enable: 0 | 1, iceShape: "small" | "large") {
+    if (iceShape !== "small" && iceShape !== "large") {
+      throw new Error("Invalid ice shape. Use 'small' or 'large'");
+    }
+
+    const payload: GlacierSetIceMaking = {
+      ...this.#payloadDefaults(),
+      operateType: "iceMake",
+      params: {
+        enable,
+        iceShape: iceShape === "small" ? 0 : 1,
+      },
+    };
+
+    return this.sendCommand(payload, glacierSetIceMakingSchema);
   }
 }

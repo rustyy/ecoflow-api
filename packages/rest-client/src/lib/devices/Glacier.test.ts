@@ -248,4 +248,35 @@ describe("Glacier", () => {
       glacier.setTemperatureUnit("invalid" as any),
     ).rejects.toThrowError();
   });
+
+  it("should set ice-making", async () => {
+    expect.assertions(2);
+    await glacier.setIceMaking(1, "small");
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "iceMake",
+      params: {
+        enable: 1,
+        iceShape: 0,
+      },
+      sn: validSn,
+    });
+
+    await glacier.setIceMaking(1, "large");
+
+    expect(restClient.setCommandPlain).toHaveBeenLastCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "iceMake",
+      params: {
+        enable: 1,
+        iceShape: 1,
+      },
+      sn: validSn,
+    });
+  });
 });
