@@ -6,15 +6,15 @@ Types and schemas for Ecoflow API as documented in https://developer-eu.ecoflow.
 
 - PowerStream
 - SmartPlug
+- Delta 2
+- Glacier
 
 ## Todo
 
 - Delta pro
-- Delta 2
 - Delta 2 Max
 - Smart Home Panel
 - Wave Air Conditioner
-- Glacier
 - Power Kits
 
 ## Disclaimer
