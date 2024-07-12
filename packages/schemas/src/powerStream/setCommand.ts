@@ -48,7 +48,7 @@ export type PowerSupplyPriority = z.infer<typeof powerSupplyPrioritySchema>;
 export const customLoadPowerSettingsSchema = defaultSchema.extend({
   cmdCode: z.literal("WN511_SET_PERMANENT_WATTS_PACK"),
   params: z.object({
-    permanentWatts: z.number().min(0).max(600),
+    permanentWatts: z.number().int().min(0),
   }),
 });
 

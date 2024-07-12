@@ -81,9 +81,8 @@ describe("PowerStream", () => {
   });
 
   it("should throw an error for an invalid custom load power value", async () => {
-    expect.assertions(2);
+    expect.assertions(1);
     await expect(powerStream.setCustomLoadPower(-1)).rejects.toThrowError();
-    await expect(powerStream.setCustomLoadPower(601)).rejects.toThrowError();
   });
 
   it("should set lower battery charging level", async () => {
