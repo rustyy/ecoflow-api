@@ -1,4 +1,5 @@
 import { RestClient } from "../RestClient";
+import { AnySchema } from "@ecoflow-api/schemas";
 
 /**
  * Device abstract class.
@@ -21,8 +22,8 @@ export abstract class Device<SerialNumber extends string, ParsedProperties> {
   /**
    * Sends a command with the given payload.
    */
-  protected async sendCommand(payload: any) {
-    return this.restClient.setCommandPlain(payload);
+  protected async sendCommand(payload: any, schema: AnySchema) {
+    return this.restClient.setCommandPlain(schema.parse(payload));
   }
 
   /**

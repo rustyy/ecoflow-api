@@ -2,12 +2,14 @@ import { Device } from "./Device";
 import {
   isSmartPlugSn,
   SmartPlugDeleteTimeTaskCommand,
+  SmartPlugDeleteTimeTaskCommandSchema,
   SmartPlugIndicatorBrightnessCommand,
   SmartPlugIndicatorBrightnessCommandSchema,
   SmartPlugQuotaAll,
   smartPlugQuotaAllSchema,
   SmartPlugSn,
   SmartPlugSwitchOnOffCommand,
+  smartPlugSwitchOnOffCommandSchema,
 } from "@ecoflow-api/schemas";
 import { RestClient } from "../RestClient";
 
@@ -54,7 +56,7 @@ export class SmartPlug extends Device<SmartPlugSn, SmartPlugQuotaAll> {
       },
     };
 
-    return this.sendCommand(payload);
+    return this.sendCommand(payload, SmartPlugDeleteTimeTaskCommandSchema);
   }
 
   /**
@@ -84,9 +86,7 @@ export class SmartPlug extends Device<SmartPlugSn, SmartPlugQuotaAll> {
       },
     };
 
-    return this.sendCommand(
-      SmartPlugIndicatorBrightnessCommandSchema.parse(payload),
-    );
+    return this.sendCommand(payload, SmartPlugIndicatorBrightnessCommandSchema);
   }
 
   /**
@@ -143,6 +143,6 @@ export class SmartPlug extends Device<SmartPlugSn, SmartPlugQuotaAll> {
       },
     };
 
-    return this.sendCommand(payload);
+    return this.sendCommand(payload, smartPlugSwitchOnOffCommandSchema);
   }
 }

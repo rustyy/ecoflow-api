@@ -74,9 +74,7 @@ export class PowerStream extends Device<
       sn: this.sn,
     };
 
-    await this.restClient.setCommandPlain(
-      powerSupplyPrioritySchema.parse(payload),
-    );
+    return this.sendCommand(payload, powerSupplyPrioritySchema);
   }
 
   /**
@@ -106,9 +104,7 @@ export class PowerStream extends Device<
       sn: this.sn,
     };
 
-    return await this.restClient.setCommandPlain(
-      customLoadPowerSettingsSchema.parse(payload),
-    );
+    return this.sendCommand(payload, customLoadPowerSettingsSchema);
   }
 
   /**
@@ -138,9 +134,7 @@ export class PowerStream extends Device<
       sn: this.sn,
     };
 
-    return await this.restClient.setCommandPlain(
-      lowerChargingLevelSchema.parse(payload),
-    );
+    return this.sendCommand(payload, lowerChargingLevelSchema);
   }
 
   /**
@@ -170,9 +164,7 @@ export class PowerStream extends Device<
       sn: this.sn,
     };
 
-    return await this.restClient.setCommandPlain(
-      upperChargingLevelSchema.parse(payload),
-    );
+    return this.sendCommand(payload, upperChargingLevelSchema);
   }
 
   /**
@@ -202,7 +194,7 @@ export class PowerStream extends Device<
       },
     };
 
-    return this.sendCommand(indicatorLightBrightnessSchema.parse(payload));
+    return this.sendCommand(payload, indicatorLightBrightnessSchema);
   }
 
   /**
@@ -232,6 +224,6 @@ export class PowerStream extends Device<
       },
     };
 
-    return this.sendCommand(powerStreamDeleteTaskSchema.parse(payload));
+    return this.sendCommand(payload, powerStreamDeleteTaskSchema);
   }
 }
