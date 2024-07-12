@@ -1,6 +1,8 @@
 import {
   Delta2SerialNumber,
+  GlacierSerialNumber,
   isDelta2SerialNumber,
+  isGlacierSerialNumber,
   isPowerStreamSerialNumber,
   isSmartPlugSn,
   PowerStreamSerialNumber,
@@ -11,6 +13,7 @@ import { UnknownDevice } from "./UnknownDevice";
 import { RestClient } from "../RestClient";
 import { PowerStream } from "./PowerStream";
 import { Delta2 } from "./Delta2";
+import { Glacier } from "./Glacier";
 
 export type DeviceFactoryReturnType<T extends string> = T extends SmartPlugSn
   ? SmartPlug
@@ -18,7 +21,9 @@ export type DeviceFactoryReturnType<T extends string> = T extends SmartPlugSn
     ? PowerStream
     : T extends Delta2SerialNumber
       ? Delta2
-      : UnknownDevice;
+      : T extends GlacierSerialNumber
+        ? Glacier
+        : UnknownDevice;
 
 /**
  * Factory function to create a device based on the serial number.
@@ -39,6 +44,10 @@ export function deviceFactory<T extends string, R = DeviceFactoryReturnType<T>>(
 
   if (isDelta2SerialNumber(sn)) {
     return new Delta2(restClient, sn) as R;
+  }
+
+  if (isGlacierSerialNumber(sn)) {
+    return new Glacier(restClient, sn) as R;
   }
 
   return new UnknownDevice(restClient, sn) as R;
