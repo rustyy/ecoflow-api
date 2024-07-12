@@ -103,4 +103,149 @@ describe("Glacier", () => {
     restClient.getDeviceProperties = jest.fn().mockResolvedValue(data);
     await expect(glacier.getProperties()).rejects.toThrowError();
   });
+
+  it("should enable/disable buzzer", () => {
+    expect.assertions(2);
+    glacier.enableBuzzer(1);
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "beepEn",
+      params: {
+        flag: 1,
+      },
+      sn: validSn,
+    });
+
+    glacier.enableBuzzer(0);
+    expect(restClient.setCommandPlain).toHaveBeenLastCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "beepEn",
+      params: {
+        flag: 0,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should throw an error for invalid buzzer values", async () => {
+    expect.assertions(2);
+    await expect(glacier.enableBuzzer(-1 as any)).rejects.toThrowError();
+    await expect(glacier.enableBuzzer(2 as any)).rejects.toThrowError();
+  });
+
+  it("should set buzzer beep", async () => {
+    expect.assertions(4);
+    await glacier.setBuzzerBeep(1);
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "beep",
+      params: {
+        flag: 1,
+      },
+      sn: validSn,
+    });
+
+    await glacier.setBuzzerBeep(2);
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "beep",
+      params: {
+        flag: 2,
+      },
+      sn: validSn,
+    });
+
+    await glacier.setBuzzerBeep(3);
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "beep",
+      params: {
+        flag: 3,
+      },
+      sn: validSn,
+    });
+
+    await glacier.setBuzzerBeep(0);
+    expect(restClient.setCommandPlain).toHaveBeenLastCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "beep",
+      params: {
+        flag: 0,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should throw an error for invalid buzzer beep values", async () => {
+    expect.assertions(2);
+    await expect(glacier.setBuzzerBeep(-1 as any)).rejects.toThrowError();
+    await expect(glacier.setBuzzerBeep(4 as any)).rejects.toThrowError();
+  });
+
+  it("should set screen timeout", async () => {
+    expect.assertions(1);
+    await glacier.setScreenTimeout(10);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "blTime",
+      params: {
+        time: 10,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should throw an error for invalid screen timeout values", async () => {
+    expect.assertions(1);
+    await expect(glacier.setScreenTimeout(-1)).rejects.toThrowError();
+  });
+
+  it("should set correct temperature unit", async () => {
+    expect.assertions(2);
+    await glacier.setTemperatureUnit("C");
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "tmpUnit",
+      params: {
+        unit: 0,
+      },
+      sn: validSn,
+    });
+
+    await glacier.setTemperatureUnit("F");
+    expect(restClient.setCommandPlain).toHaveBeenLastCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "tmpUnit",
+      params: {
+        unit: 1,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should throw an error for invalid temperature unit values", async () => {
+    expect.assertions(1);
+    await expect(
+      glacier.setTemperatureUnit("invalid" as any),
+    ).rejects.toThrowError();
+  });
 });
