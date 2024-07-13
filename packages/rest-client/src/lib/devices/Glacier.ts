@@ -61,7 +61,15 @@ export class Glacier extends Device<GlacierSerialNumber, GlacierQuotaAll> {
    * @param left - Temperature for left zone
    * @param middle - Temperature for middle zone
    */
-  async setTemperature(right: number, left: number, middle: number) {
+  async setTemperature({
+    right,
+    left,
+    middle,
+  }: {
+    right: number;
+    left: number;
+    middle: number;
+  }) {
     const payload: GlacierSetTemperature = {
       ...this.#payloadDefaults(),
       operateType: "temp",

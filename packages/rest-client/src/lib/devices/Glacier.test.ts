@@ -35,7 +35,11 @@ describe("Glacier", () => {
 
   it("should set temperature for right, left and middle zones", async () => {
     expect.assertions(1);
-    await glacier.setTemperature(20, 20, 20);
+    await glacier.setTemperature({
+      right: 20,
+      left: 20,
+      middle: 20,
+    });
 
     expect(restClient.setCommandPlain).toHaveBeenCalledWith({
       id: 123456789,
@@ -53,13 +57,52 @@ describe("Glacier", () => {
 
   it("should throw an error for invalid temperature values", async () => {
     expect.assertions(6);
-    await expect(glacier.setTemperature(-26, 10, 10)).rejects.toThrowError();
-    await expect(glacier.setTemperature(10, -26, 10)).rejects.toThrowError();
-    await expect(glacier.setTemperature(10, 10, -26)).rejects.toThrowError();
+    await expect(
+      glacier.setTemperature({
+        right: -26,
+        left: 10,
+        middle: 10,
+      }),
+    ).rejects.toThrowError();
 
-    await expect(glacier.setTemperature(26, 10, 10)).rejects.toThrowError();
-    await expect(glacier.setTemperature(10, 26, 10)).rejects.toThrowError();
-    await expect(glacier.setTemperature(10, 10, 26)).rejects.toThrowError();
+    await expect(
+      glacier.setTemperature({
+        right: 10,
+        left: -26,
+        middle: 10,
+      }),
+    ).rejects.toThrowError();
+    await expect(
+      glacier.setTemperature({
+        right: 10,
+        left: 10,
+        middle: -26,
+      }),
+    ).rejects.toThrowError();
+
+    await expect(
+      glacier.setTemperature({
+        right: 26,
+        left: 10,
+        middle: 10,
+      }),
+    ).rejects.toThrowError();
+
+    await expect(
+      glacier.setTemperature({
+        right: 10,
+        left: 26,
+        middle: 10,
+      }),
+    ).rejects.toThrowError();
+
+    await expect(
+      glacier.setTemperature({
+        right: 10,
+        left: 10,
+        middle: 26,
+      }),
+    ).rejects.toThrowError();
   });
 
   it("should set ECO mode", async () => {
