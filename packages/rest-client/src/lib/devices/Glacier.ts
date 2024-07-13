@@ -2,16 +2,22 @@ import {
   GlacierQuotaAll,
   glacierQuotaAllSchema,
   GlacierSerialNumber,
+  GlacierSetBatteryProtection,
+  glacierSetBatteryProtectionSchema,
   GlacierSetBuzzer,
   GlacierSetBuzzerCommand,
   glacierSetBuzzerCommandSchema,
   glacierSetBuzzerSchema,
   GlacierSetEcoMode,
   glacierSetEcoModeSchema,
+  GlacierSetIceDetaching,
+  glacierSetIceDetachingSchema,
   GlacierSetIceMaking,
   glacierSetIceMakingSchema,
   GlacierSetScreenTimeout,
   glacierSetScreenTimeoutSchema,
+  GlacierSetSensorDetection,
+  glacierSetSensorDetectionSchema,
   GlacierSetTemperature,
   glacierSetTemperatureSchema,
   GlacierSetTemperatureUnit,
@@ -175,5 +181,57 @@ export class Glacier extends Device<GlacierSerialNumber, GlacierQuotaAll> {
     };
 
     return this.sendCommand(payload, glacierSetIceMakingSchema);
+  }
+
+  /**
+   * Set ice detaching
+   * @param enable - 0: Invalid, 1: Detach iceiceTm: Duration of ice detaching; unit: secfsmState, 4: Detaching ice, 5: Detaching completed
+   */
+  async setIceDetaching(enable: 0 | 1 | 4 | 5) {
+    const payload: GlacierSetIceDetaching = {
+      ...this.#payloadDefaults(),
+      operateType: "deIce",
+      params: {
+        enable,
+      },
+    };
+
+    return this.sendCommand(payload, glacierSetIceDetachingSchema);
+  }
+
+  /**
+   * Set sensor detection blocking
+   *
+   * @param blocked - 0: Unblocked, 1: Blocked
+   */
+  async setSensorDetectionBlocking(blocked: 0 | 1) {
+    const payload: GlacierSetSensorDetection = {
+      ...this.#payloadDefaults(),
+      operateType: "sensorAdv",
+      params: {
+        sensorAdv: blocked,
+      },
+    };
+
+    return this.sendCommand(payload, glacierSetSensorDetectionSchema);
+  }
+
+  /**
+   * Set battery protection level
+   *
+   * @param enabled - 0: Disable, 1: Enable
+   * @param level - 0: Low, 1: Medium, 2: High
+   */
+  async setBatteryProtectionLevel(enabled: 0 | 1, level: 0 | 1 | 2) {
+    const payload: GlacierSetBatteryProtection = {
+      ...this.#payloadDefaults(),
+      operateType: "protectBat",
+      params: {
+        level,
+        state: enabled,
+      },
+    };
+
+    return this.sendCommand(payload, glacierSetBatteryProtectionSchema);
   }
 }

@@ -279,4 +279,110 @@ describe("Glacier", () => {
       sn: validSn,
     });
   });
+
+  it("should throw an error for invalid ice shape values", async () => {
+    expect.assertions(1);
+    await expect(
+      glacier.setIceMaking(1, "invalid" as any),
+    ).rejects.toThrowError();
+  });
+
+  it("should set ice detaching", async () => {
+    const allowedValues = [0, 1, 4, 5];
+    expect.assertions(allowedValues.length);
+
+    for (const index in allowedValues) {
+      await glacier.setIceDetaching(allowedValues[index] as any);
+
+      expect(restClient.setCommandPlain).toHaveBeenNthCalledWith(+index + 1, {
+        id: 123456789,
+        version: "1.0",
+        moduleType: 1,
+        operateType: "deIce",
+        params: {
+          enable: allowedValues[index],
+        },
+        sn: validSn,
+      });
+    }
+  });
+
+  it("should throw an error for invalid ice detaching values", async () => {
+    expect.assertions(1);
+    await expect(glacier.setIceDetaching(2 as any)).rejects.toThrowError();
+  });
+
+  it("should set sensor detection blocking", async () => {
+    expect.assertions(2);
+    await glacier.setSensorDetectionBlocking(1);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "sensorAdv",
+      params: {
+        sensorAdv: 1,
+      },
+      sn: validSn,
+    });
+
+    await glacier.setSensorDetectionBlocking(0);
+
+    expect(restClient.setCommandPlain).toHaveBeenLastCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "sensorAdv",
+      params: {
+        sensorAdv: 0,
+      },
+      sn: validSn,
+    });
+  });
+
+  it("should set battery protection level", async () => {
+    expect.assertions(3);
+    await glacier.setBatteryProtectionLevel(0, 0);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "protectBat",
+      params: {
+        state: 0,
+        level: 0,
+      },
+      sn: validSn,
+    });
+
+    await glacier.setBatteryProtectionLevel(1, 1);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "protectBat",
+      params: {
+        state: 1,
+        level: 1,
+      },
+      sn: validSn,
+    });
+
+    await glacier.setBatteryProtectionLevel(1, 2);
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "protectBat",
+      params: {
+        state: 1,
+        level: 2,
+      },
+      sn: validSn,
+    });
+  });
 });
