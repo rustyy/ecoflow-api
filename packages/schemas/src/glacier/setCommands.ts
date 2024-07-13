@@ -231,7 +231,7 @@ export type GlacierSetIceMaking = z.infer<typeof glacierSetIceMakingSchema>;
 export const glacierSetIceDetachingSchema = defaultSchema.extend({
   operateType: z.literal("deIce"),
   params: z.object({
-    enable: z.number().int().min(0).max(5),
+    enable: z.literal(0).or(z.literal(1)).or(z.literal(4)).or(z.literal(5)),
   }),
 });
 
