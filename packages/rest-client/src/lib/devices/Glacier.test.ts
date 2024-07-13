@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { RestClient, RestClientOptions } from "../RestClient";
 import { Glacier } from "./Glacier";
+import { glacierProperties } from "../../__fixtures__/glacierProperties";
 
 describe("Glacier", () => {
   let glacier: Glacier;
@@ -384,5 +385,29 @@ describe("Glacier", () => {
       },
       sn: validSn,
     });
+  });
+
+  it("Should throw an error for invalid data received from api", async () => {
+    const data = {
+      sn: "fake-sn",
+      success: true,
+      code: 0,
+      message: "Test message",
+      time: new Date().getTime(),
+    };
+
+    // @ts-ignore
+    restClient.getDeviceProperties = jest.fn().mockResolvedValue(data);
+    await expect(glacier.getProperties()).rejects.toThrowError();
+  });
+
+  it("Should return data if api response could be parsed", async () => {
+    // @ts-ignore
+    restClient.getDevicePropertiesPlain = jest
+      .fn()
+      // @ts-ignore
+      .mockResolvedValue(glacierProperties);
+
+    await expect(glacier.getProperties()).resolves.toBeDefined();
   });
 });
