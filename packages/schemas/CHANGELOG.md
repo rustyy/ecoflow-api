@@ -1,5 +1,11 @@
 # @ecoflow-api/schemas
 
+## 0.0.8
+
+### Patch Changes
+
+- Introduce glacier device type
+
 ## 0.0.7
 
 ### Patch Changes

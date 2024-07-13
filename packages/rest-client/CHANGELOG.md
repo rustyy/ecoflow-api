@@ -1,5 +1,13 @@
 # @ecoflow-api/rest-client
 
+## 0.0.9
+
+### Patch Changes
+
+- Introduce glacier device type
+- Updated dependencies
+  - @ecoflow-api/schemas@0.0.8
+
 ## 0.0.8
 
 ### Patch Changes
