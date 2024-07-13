@@ -55,11 +55,7 @@ export class Glacier extends Device<GlacierSerialNumber, GlacierQuotaAll> {
   }
 
   /**
-   * Set temperature for right, left and middle zones
-   *
-   * @param right - Temperature for right zone
-   * @param left - Temperature for left zone
-   * @param middle - Temperature for middle zone
+   * Set temperature for right, left and middle zones*
    */
   async setTemperature({
     right,
