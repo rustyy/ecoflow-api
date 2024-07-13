@@ -13,15 +13,25 @@ See: https://rustyy.github.io/ecoflow-api/modules/_ecoflow_api_rest_client.html
 
 ## Current device support
 
+All devices that are supported by the EcoFlow API itself are supposed to work with this client.
+You can use ```client.getDevicesPlain()```, ```client.getDevicePropertiesPlain("<sn>")```, 
+```client.getSerialNumbers()```, ```client.getMqttCredentials()```
+and ```client.setCommandPlain({...})``` to request or set any information 
+officially supported by the EcoFlow API.
+
+See https://developer-eu.ecoflow.com/us/document/ for more information.
+
+Apart from this, the client provides specific device instances that come with specific device functionality.
+Depending on the serial number of the device, the client will return a specific device instance that simplifies requests against the api (see examples below).
+
 At the moment the following devices are supported with specific instances:
 
 - Smart Plug
 - PowerStream
 - Delta 2
+- Glacier
 
 More devices to come.
-You still can use the plain-methods to request or set any information that is officially supported by the ecoflow api.
-See https://developer-eu.ecoflow.com/us/document/ for more information.
 
 ## Usage
 
@@ -222,6 +232,67 @@ await delta2.enableUsbOutput(0);
 // Car standby for 4 hours
 await delta2.setCarStandByDuration(240);
 
+```
+
+#### Glacier
+
+Serial number must start with _BX11_
+
+```ts
+import {RestClient} from '@ecoflow-api/rest-client';
+
+const client = new RestClient({
+    accessKey: "your-access",
+    secretKey: "your-secret",
+    host: "https://api-e.ecoflow.com"
+})
+
+// Get a specific device instance based on the serial number.
+const glacier = await client.getDevice("BX11xxxxxx");
+
+// request all properties of the glacier
+const properties = await glacier.getProperties();
+
+// Set the temperature of right, left and middle zone
+await glacier.setTemperature({right:5,left:5,middle:5});
+
+// Enable eco mode
+await glacier.enableEcoMode(1)
+// Disable eco mode
+await glacier.enableEcoMode(0)
+
+// Enable buzzer
+await glacier.enableBuzzer(1)
+// Disable buzzer
+await glacier.enableBuzzer(0)
+
+// 0: always beep; 1: beep once; 2: Beep twice; 3: Beep three times
+await glacier.setBuzzerBeep(0)
+await glacier.setBuzzerBeep(1)
+await glacier.setBuzzerBeep(2)
+await glacier.setBuzzerBeep(3)
+
+// Screen timeout in seconds - 0: screen always on
+await glacier.setScreenTimeout(10);
+
+// Set the temperature unit to Celsius or Fahrenheit
+await glacier.setTemperatureUnit("C")
+await glacier.setTemperatureUnit("F")
+
+// set ice making
+// enable -  0: Disable; 1: Enable
+// iceShape - "small" or "large" ice-cubes
+await glacier.setIceMaking(1,"large")
+
+// set ice detaching
+await glacier.setIceDetaching(4)
+
+// 0: Unblocked, 1: Blocked
+await glacier.setSensorDetectionBlocking(1)
+
+// enabled - 0: Disable, 1: Enable
+// level - 0: Low, 1: Medium, 2: High
+await glacier.setBatteryProtectionLevel(1,3)
 ```
 
 #### Unknown device
