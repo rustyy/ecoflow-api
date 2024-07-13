@@ -43,7 +43,7 @@ export type GlacierSetTemperature = z.infer<typeof glacierSetTemperatureSchema>;
 /**
  * Set ECO mode(mode: 1: ECO; 0: Normal)
  *
- * @exmaple
+ * @example
  * ```json
  *      {
  *          "id":123456789,
