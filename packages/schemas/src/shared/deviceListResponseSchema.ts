@@ -14,6 +14,7 @@ export const deviceListResponseSchema = z.object({
       sn: z.string(),
       online: z.literal(0).or(z.literal(1)),
       deviceName: z.string().optional(),
+      productName: z.string(),
     }),
   ),
 });
