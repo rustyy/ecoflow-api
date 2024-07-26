@@ -3,6 +3,7 @@
  */
 import { defaultSchema } from "./shared";
 import { z } from "zod";
+import { zeroOrOne } from "../../shared";
 
 const pdCommandSchema = defaultSchema.extend({
   moduleType: z.literal(1),
@@ -47,7 +48,7 @@ export type PdStandByTime = z.infer<typeof pdStandByTime>;
 export const dcUsbSwitchSchema = pdCommandSchema.extend({
   operateType: z.literal("dcOutCfg"),
   params: z.object({
-    enabled: z.literal(0).or(z.literal(1)),
+    enabled: zeroOrOne,
   }),
 });
 
@@ -96,7 +97,7 @@ export type LcdConfig = z.infer<typeof lcdConfigSchema>;
 export const pvPrioritySchema = pdCommandSchema.extend({
   operateType: z.literal("pvChangePrio"),
   params: z.object({
-    pvChangeSet: z.literal(0).or(z.literal(1)),
+    pvChangeSet: zeroOrOne,
   }),
 });
 
@@ -131,7 +132,7 @@ export type PvPriority = z.infer<typeof pvPrioritySchema>;
 export const energyManagementSchema = pdCommandSchema.extend({
   operateType: z.literal("watthConfig"),
   params: z.object({
-    isConfig: z.literal(0).or(z.literal(1)),
+    isConfig: zeroOrOne,
     // Note that bpPowerSoc depends on minDsgSoc, minChgSoc value.
     bpPowerSoc: z.number().int().positive().min(0).max(100),
     minDsgSoc: z.number().int(),
@@ -162,7 +163,7 @@ export type EnergyManagement = z.infer<typeof energyManagementSchema>;
 export const acAlwaysOnSchema = pdCommandSchema.extend({
   operateType: z.literal("acAutoOutConfig"),
   params: z.object({
-    acAutoOutConfig: z.literal(0).or(z.literal(1)),
+    acAutoOutConfig: zeroOrOne,
     minAcOutSoc: z.number().int().min(0).max(100),
   }),
 });

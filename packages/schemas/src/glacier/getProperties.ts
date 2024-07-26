@@ -1,6 +1,5 @@
 import { z } from "zod";
-
-const integer = z.number().int();
+import { integer, oneOrTwo, zeroOrOne, zeroOrOneOrTwo } from "../shared";
 
 export const glacierQuotaAllSchema = z.object({
   // int 	Current (mA)
@@ -34,9 +33,9 @@ export const glacierQuotaAllSchema = z.object({
   // Minimum MOS temperature
   "bms_bmsStatus.minMosTmp": integer,
   // BMS number: 0-2
-  "bms_bmsStatus.num": z.literal(0).or(z.literal(1)).or(z.literal(2)),
+  "bms_bmsStatus.num": zeroOrOneOrTwo,
   // Battery pack status: 0: Not enabled; 1: Enabled
-  "bms_bmsStatus.openBmsIdx": z.literal(0).or(z.literal(1)),
+  "bms_bmsStatus.openBmsIdx": zeroOrOne,
   // Output power
   "bms_bmsStatus.outWatts": integer,
   // Remaining capacity (mAh)
@@ -52,7 +51,7 @@ export const glacierQuotaAllSchema = z.object({
   // Temperature (°C)
   "bms_bmsStatus.tmp": integer,
   // BMS type: 1: Lithium battery; 2: Oil powered
-  "bms_bmsStatus.type": z.literal(1).or(z.literal(2)),
+  "bms_bmsStatus.type": oneOrTwo,
   // System version
   "bms_bmsStatus.ver": integer,
   // Voltage (mV)
@@ -74,7 +73,7 @@ export const glacierQuotaAllSchema = z.object({
   // Remaining discharging time (min)
   "bms_emsStatus.dsgRemain": integer,
   // 0: sleep 1: normal
-  "bms_emsStatus.emsFlag": z.literal(0).or(z.literal(1)),
+  "bms_emsStatus.emsFlag": zeroOrOne,
   // Fan level
   "bms_emsStatus.fanLvl": integer,
   // SoC value displayed on LCD
@@ -126,19 +125,19 @@ export const glacierQuotaAllSchema = z.object({
   // Duration of sensor blocking: SENSOR_ADV_MAX
   "pd.appSensorAdv": integer.array(),
   // Battery pack in-place status: 0: Not in place; 1: In place
-  "pd.batFlag": z.literal(0).or(z.literal(1)),
+  "pd.batFlag": zeroOrOne,
   // Battery level (%)
   "pd.batPct": integer,
   // Unit: min; a negative value indicates a discharging time, and positive value indicates a charging time
   "pd.batTime": integer,
   // 0: Buzzer disabled; 1: Buzzer enabled
-  "pd.beepEn": z.literal(0).or(z.literal(1)),
+  "pd.beepEn": zeroOrOne,
   // Screen timeout (unit: sec)
   "pd.blTime": integer,
   // Ice making limit on compressor: 0: Ice making is allowed; 1: Ice making is not allowed
-  "pd.bldcDntIce": z.literal(0).or(z.literal(1)),
+  "pd.bldcDntIce": zeroOrOne,
   // Compressor work limit: 0: Allow to work; 1: Do not allow to work
-  "pd.bldcDntWork": z.literal(0).or(z.literal(1)),
+  "pd.bldcDntWork": zeroOrOne,
   // BMS in-place flag, detected through BMS->PD heartbeat packet: 0: Not in place; 1: In place
   "pd.bmsInFlag": integer,
   // Count of long presses: USER_BEHAVIOR_BUTTON_MAX
@@ -146,7 +145,7 @@ export const glacierQuotaAllSchema = z.object({
   // Count of short pressings: USER_BEHAVIOR_BUTTON_MAX
   "pd.buttonShort": integer.array(),
   // Car charger battery protection reminder: 0: Do not remind; 1: Remind
-  "pd.carBatLow": z.literal(0).or(z.literal(1)),
+  "pd.carBatLow": zeroOrOne,
   // Count of working while charging
   "pd.chargeWorkCount": integer,
   // Duration of working while charging
@@ -179,7 +178,7 @@ export const glacierQuotaAllSchema = z.object({
   // Duration of cooling zone being opened
   "pd.coolCoverTime": integer,
   // 0: Normal; 1: Eco
-  "pd.coolMode": z.literal(0).or(z.literal(1)),
+  "pd.coolMode": zeroOrOne,
   // Count of dual temperature zones
   "pd.coolZoneDoubleCount": integer,
   // Duration of dual temperature zone
@@ -195,7 +194,7 @@ export const glacierQuotaAllSchema = z.object({
   // Count of pressing the ice making button when ice making is disabled
   "pd.dntMakeIceDevice": integer,
   // Door status detection. 1: Open; 0: Closed
-  "pd.doorStat": z.literal(0).or(z.literal(1)),
+  "pd.doorStat": zeroOrOne,
   // EMS charging flag
   "pd.emsChgFlg": integer,
   // Error code
@@ -231,13 +230,13 @@ export const glacierQuotaAllSchema = z.object({
   // Fan level
   "pd.fanLvl": integer,
   // Ambient temperature reliability: 0: Unreliable; 1: Reliable
-  "pd.flagAmbintReady": z.literal(0).or(z.literal(1)),
+  "pd.flagAmbintReady": zeroOrOne,
   // Partition detection
   "pd.flagTwoZone": integer,
   // Real-time running status
   "pd.fsmState": integer,
   // Ice taking reminder: 0: Do not remind; 1: Remind
-  "pd.iceAlert": z.literal(0).or(z.literal(1)),
+  "pd.iceAlert": zeroOrOne,
   // Large/small ice cube status:
   // 0: Small ice cube (in preparation);
   // 1: Large ice cube (in preparation);
@@ -263,7 +262,7 @@ export const glacierQuotaAllSchema = z.object({
   // mv
   "pd.motorVol": integer,
   // Waiting for compressor: 0: No need to wait; 1: Need to wait
-  "pd.motorWait": z.literal(0).or(z.literal(1)),
+  "pd.motorWait": zeroOrOne,
   // w
   "pd.motorWat": integer,
   // Count of being networked: NETWORK_TYPE_MAX
@@ -296,7 +295,7 @@ export const glacierQuotaAllSchema = z.object({
   // 0: Normal (24 V output, 40 V output);
   // 1: Charging suspended (or when there is no input) (24 V off, 40 V output);
   // 2: Standby (24 V off, 40 V off)
-  "pd.runState": z.literal(0).or(z.literal(1)).or(z.literal(2)),
+  "pd.runState": zeroOrOneOrTwo,
   // Sensor status; refer to @ST_SENSOR for data explanation; bit 1: Error; bit 0: Normal
   "pd.sensor": integer,
   // Sensor detection blocking. Refer to @ST_SENSOR for data explanation. Bit: 1: Blocked; 0: Unblocked.
@@ -326,7 +325,7 @@ export const glacierQuotaAllSchema = z.object({
   // Right temperature zone setting value (works when partition is inserted)
   "pd.tmpRSet": integer,
   // 0: Celsius; 1: Fahrenheit
-  "pd.tmpUnit": z.literal(0).or(z.literal(1)),
+  "pd.tmpUnit": zeroOrOne,
   // Warning: BIT0: Over-temperature; BIT1: Under-temperature; BIT2: Overload; BIT3: Charging error; BIT4: Fan error; BIT5: BLCD communication error
   "pd.warnInfo": integer,
   // Ice making zone water level: 0-3 levels
@@ -340,9 +339,9 @@ export const glacierQuotaAllSchema = z.object({
   // Running duration of each work mode; WORK_MODE_MAX
   "pd.workModeTime": integer.array(),
   // 0:no input, 1:has input
-  "pd.xt150InState": z.literal(0).or(z.literal(1)),
+  "pd.xt150InState": zeroOrOne,
   // 0: no input, 1: has input
-  "pd.xt60InState": z.literal(0).or(z.literal(1)),
+  "pd.xt60InState": zeroOrOne,
 });
 
 export type GlacierQuotaAll = z.infer<typeof glacierQuotaAllSchema>;

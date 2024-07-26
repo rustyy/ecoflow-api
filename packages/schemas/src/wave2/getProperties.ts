@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { integer, zeroOrOne, zeroOrOneOrTwo } from "../shared";
+import { integer, oneOrTwo, zeroOrOne, zeroOrOneOrTwo } from "../shared";
 
 export const wave2QuotaAllSchema = z.object({
   // Count of pressing button for wakeup
@@ -292,7 +292,7 @@ export const wave2QuotaAllSchema = z.object({
   // PV voltage (unit: 0.01 V)
   "pd.mpptVol": integer,
   // MPPT operating status; 1: Car charging; 2: Solar charging
-  "pd.mpptWork": z.literal(1).or(z.literal(2)),
+  "pd.mpptWork": oneOrTwo,
   // Error code
   "pd.pdErrCode": integer,
   // Set mode
@@ -304,7 +304,7 @@ export const wave2QuotaAllSchema = z.object({
   // Unit of temperature
   "pd.pdTempSys": integer,
   // Remotely power on/off: 1: Power on; 2: Power off,
-  "pd.powerMode": z.literal(1).or(z.literal(2)),
+  "pd.powerMode": oneOrTwo,
   // Count of shutdown
   "pd.powerOffCounts": integer,
   // Count of startup
@@ -443,7 +443,7 @@ export const wave2QuotaAllSchema = z.object({
   // Length of time when MPPT power supply falls in interval 2 (301 W-400 W), measured in seconds
   "power.mpptWattsRange2Time": integer,
   // MPPT operating status; 1: Car charging; 2: Solar charging
-  "power.mpptWork": z.literal(1).or(z.literal(2)),
+  "power.mpptWork": oneOrTwo,
   // Count of PFC software overcurrent
   "power.pfcOcpS": integer,
   // Reserved power field: 32 bytes

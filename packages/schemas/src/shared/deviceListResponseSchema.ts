@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { zeroOrOne } from "./helpers";
 
 /**
  * Describes response from device list endpoint
@@ -12,7 +13,7 @@ export const deviceListResponseSchema = z.object({
   data: z.array(
     z.object({
       sn: z.string(),
-      online: z.literal(0).or(z.literal(1)),
+      online: zeroOrOne,
       deviceName: z.string().optional(),
     }),
   ),

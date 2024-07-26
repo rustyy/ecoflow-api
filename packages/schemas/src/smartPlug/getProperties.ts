@@ -1,11 +1,9 @@
 import { z } from "zod";
-import { taskSchema } from "../shared";
+import { integer, taskSchema } from "../shared";
 
 /*********************************************
  * Quota
  *********************************************/
-
-const integer = z.number().int();
 
 export const smartPlugQuotaAllSchema = z.object({
   // RGB light brightness: 0–1023 (the larger the value, the higher the brightness)

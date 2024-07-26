@@ -1,6 +1,5 @@
 import { z } from "zod";
-
-const integer = z.number().int();
+import { integer, oneOrTwo, zeroOrOne, zeroOrOneOrTwo } from "../shared";
 
 export const delta2QuotaAllSchema = z.object({
   /**
@@ -14,7 +13,7 @@ export const delta2QuotaAllSchema = z.object({
   // BQ hardware protection register
   "bms_bmsStatus.bqSysStatReg": integer,
   // Cell material LI/LFP/LA, battery capacity type: 1: 2.5 Ah per battery; 2: 2 Ah per battery
-  "bms_bmsStatus.cellId": z.literal(1).or(z.literal(2)),
+  "bms_bmsStatus.cellId": oneOrTwo,
   // Design capacity (mAh)
   "bms_bmsStatus.designCap": integer,
   // Global error code
@@ -58,7 +57,7 @@ export const delta2QuotaAllSchema = z.object({
   // Temperature (°C)
   "bms_bmsStatus.temp": integer,
   // BMS type: 1: lithium battery; 2: oil-powered
-  "bms_bmsStatus.type": z.literal(1).or(z.literal(2)),
+  "bms_bmsStatus.type": oneOrTwo,
   // Voltage (mV)
   "bms_bmsStatus.vol": integer,
   // BMS in-place signal (3 byte): BIT0: Hardware in-place signal; BIT1: Software in-place signal
@@ -82,7 +81,7 @@ export const delta2QuotaAllSchema = z.object({
   // Remaining discharging time (min)
   "bms_emsStatus.dsgRemainTime": integer,
   // 0:sleep 1:normal
-  "bms_emsStatus.emsIsNormalFlag": z.literal(0).or(z.literal(1)),
+  "bms_emsStatus.emsIsNormalFlag": zeroOrOne,
   // SoC value displayed on LCD - used for displaying SOC with decimal point [key indicator]
   "bms_emsStatus.f32LcdShowSoc": z.number(),
   // Fan level
@@ -115,7 +114,7 @@ export const delta2QuotaAllSchema = z.object({
   // Maximum charging power for AC fast charging (W)
   "inv.FastChgWatts": integer,
   // AC fast/slow charging dip switch: 0: unknown; 1: fast charging mode; 2: slow charging mode
-  "inv.acDipSwitch": z.literal(0).or(z.literal(1)).or(z.literal(2)),
+  "inv.acDipSwitch": zeroOrOneOrTwo,
   //  Inverter input current (mA)
   "inv.acInAmp": integer,
   //  Inverter input frequency (Hz)
@@ -123,15 +122,15 @@ export const delta2QuotaAllSchema = z.object({
   // Inverter input voltage (mV)
   "inv.acInVol": integer,
   // AC switch: 0: off; 1: on
-  "inv.cfgAcEnabled": z.literal(0).or(z.literal(1)),
+  "inv.cfgAcEnabled": zeroOrOne,
   // Configured output frequency for inverter (Hz) [key indicator]
   "inv.cfgAcOutFreq": integer,
   // Output voltage configured for the inverter (V)
   "inv.cfgAcOutVol": integer,
   // AC charging mode: 0: full power; 1: mute
-  "inv.cfgAcWorkMode": z.literal(0).or(z.literal(1)),
+  "inv.cfgAcWorkMode": zeroOrOne,
   // X-Boost switch: 0: off; 1: on
-  "inv.cfgAcXboost": z.literal(0).or(z.literal(1)),
+  "inv.cfgAcXboost": zeroOrOne,
   // Charger type: 1: AC charging; 2: DC adapter charging; 3: solar charging; 4: CC; 5: BC
   "inv.chargerType": z.number().int().min(0).max(5),
   // PV charging pause flag bit: 1: charging stopped
@@ -181,7 +180,7 @@ export const delta2QuotaAllSchema = z.object({
   // Auto shutdown when there is no load: 0: Never shut down; default: 12*60mins; unit: min [key indicator]
   "mppt.acStandbyMins": integer,
   // Buzzer status: 0: Default; 1: Silent mode [Key Indicators]
-  "mppt.beepState": z.literal(0).or(z.literal(1)),
+  "mppt.beepState": zeroOrOne,
   // Car charger output current (mA)
   "mppt.carOutAmp": integer,
   // Car charger output voltage (mV)
@@ -191,25 +190,25 @@ export const delta2QuotaAllSchema = z.object({
   // Auto shutdown when there is no load: 0: Never shut down; default value: 12*60mins; unit: min [key indicator]
   "mppt.carStandbyMin": integer,
   // Car charger switch status: 0: Off; 1: On [key indicator]
-  "mppt.carState": z.literal(0).or(z.literal(1)),
+  "mppt.carState": zeroOrOne,
   // Car charging temperature (°C)
   "mppt.carTemp": integer,
   // AC switch: 0: off; 1: on
-  "mppt.cfgAcEnabled": z.literal(0).or(z.literal(1)),
+  "mppt.cfgAcEnabled": zeroOrOne,
   // Output frequency configured for the inverter (Hz)
   "mppt.cfgAcOutFreq": integer,
   // Output voltage configured for the inverter (V)
   "mppt.cfgAcOutVol": integer,
   // X-Boost switch: 1: On; 0: Off [key indicator]
-  "mppt.cfgAcXboost": z.literal(0).or(z.literal(1)),
+  "mppt.cfgAcXboost": zeroOrOne,
   // Configured charging type, which is valid when xt60_chg_type is 0: 0: Auto; 1: MPPT; 2: Adapter
-  "mppt.cfgChgType": z.literal(0).or(z.literal(1)).or(z.literal(2)),
+  "mppt.cfgChgType": zeroOrOneOrTwo,
   // C maximum charging power (W) [key indicator]
   "mppt.cfgChgWatts": integer,
   // PV charging pause flag bit: 1: charging stopped
   "mppt.chgPauseFlag": integer,
   // Charging status: 0: Off; 1: Charging; 2: Standby (during AC charging, DC charging stops)
-  "mppt.chgState": z.literal(0).or(z.literal(1)).or(z.literal(2)),
+  "mppt.chgState": zeroOrOneOrTwo,
   // Actual charging type: 0: null; 1: Adapter (adapter/DC power); 2: MPPT (solar energy); 3: AC (grid charging); 4: Gas (petrol and electricity); 5: Wind (wind power) [key indicator]
   "mppt.chgType": z
     .literal(0)
@@ -219,7 +218,7 @@ export const delta2QuotaAllSchema = z.object({
     .or(z.literal(4))
     .or(z.literal(5)),
   // DCDC 24 V switch status: 0: off; 1: on
-  "mppt.dc24vState": z.literal(0).or(z.literal(1)),
+  "mppt.dc24vState": zeroOrOne,
   // DCDC 24 V temperature (°C)
   "mppt.dc24vTemp": integer,
   // DC maximum charging current (mA) [key indicator]
@@ -257,18 +256,18 @@ export const delta2QuotaAllSchema = z.object({
   // MPPT version number
   "mppt.swVer": integer,
   // XT60 paddle status: 0: Not detected; 1: MPPT; 2: Adapter
-  "mppt.x60ChgType": z.literal(0).or(z.literal(1)).or(z.literal(2)),
+  "mppt.x60ChgType": zeroOrOneOrTwo,
 
   /**
    * PD Module
    */
 
   // BEEP mode: 0: Normal; 1: Silent
-  "pd.beepMode": z.literal(0).or(z.literal(1)),
+  "pd.beepMode": zeroOrOne,
   // LCD brightness level: 0-3 levels
   "pd.brightLevel": integer,
   // CAR button status: 0: OFF; 1: ON
-  "pd.carState": z.literal(0).or(z.literal(1)),
+  "pd.carState": zeroOrOne,
   // CAR temperature (°C)
   "pd.carTemp": integer,
   // CAR use time (s)
@@ -276,7 +275,7 @@ export const delta2QuotaAllSchema = z.object({
   // Car output power (W) [key indicator]
   "pd.carWatts": integer,
   // Charging/discharging status on screen: 1: discharging; 2: charging
-  "pd.chgDsgState": z.literal(0).or(z.literal(1)).or(z.literal(2)),
+  "pd.chgDsgState": zeroOrOneOrTwo,
   // Cumulative AC charge (wall socket) (Wh)
   "pd.chgPowerAC": integer,
   // Cumulative DC charge (adapter) (Wh)
@@ -286,7 +285,7 @@ export const delta2QuotaAllSchema = z.object({
   // DC charging time (s)
   "pd.dcInUsedTime": integer,
   // DC button status: 0: OFF; 1: ON [key indicator]
-  "pd.dcOutState": z.literal(0).or(z.literal(1)),
+  "pd.dcOutState": zeroOrOne,
   // Cumulative AC power discharged (Wh)
   "pd.dsgPowerAC": integer,
   // Cumulative DC discharge capacity (Wh)
@@ -300,9 +299,9 @@ export const delta2QuotaAllSchema = z.object({
     .or(z.literal(2))
     .or(z.literal(3)),
   // 4+8 ports; only supports left port status identification: 0: NULL; 1: Extra battery; 2: Smart generator
-  "pd.ext4p8Port": z.literal(0).or(z.literal(1)).or(z.literal(2)),
+  "pd.ext4p8Port": zeroOrOneOrTwo,
   // RJ45 port: 0: NULL; 1: RC(BLE_CTL)
-  "pd.extRj45Port": z.literal(0).or(z.literal(1)),
+  "pd.extRj45Port": zeroOrOne,
   // ICO flag bit: BYTE0-BYTE13
   "pd.icoBytes": integer.array().length(14),
   // Inverter use time (s)

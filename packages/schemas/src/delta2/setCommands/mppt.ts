@@ -4,6 +4,7 @@
 
 import { defaultSchema } from "./shared";
 import { z } from "zod";
+import { zeroOrOne } from "../../shared";
 
 /**
  * Represents a schema for the MPPT command.
@@ -31,7 +32,7 @@ const mpptCommandSchema = defaultSchema.extend({
 export const buzzerSilentModeSchema = mpptCommandSchema.extend({
   operateType: z.literal("quietMode"),
   params: z.object({
-    enabled: z.literal(0).or(z.literal(1)),
+    enabled: zeroOrOne,
   }),
 });
 
@@ -56,7 +57,7 @@ export type BuzzerSilentMode = z.infer<typeof buzzerSilentModeSchema>;
 export const carChargerSwitchSchema = mpptCommandSchema.extend({
   operateType: z.literal("mpptCar"),
   params: z.object({
-    enabled: z.literal(0).or(z.literal(1)),
+    enabled: zeroOrOne,
   }),
 });
 
@@ -85,8 +86,8 @@ export type CarChargerSwitch = z.infer<typeof carChargerSwitchSchema>;
 export const acDischargeSchema = mpptCommandSchema.extend({
   operateType: z.literal("acOutCfg"),
   params: z.object({
-    enabled: z.literal(0).or(z.literal(1)),
-    xboost: z.literal(0).or(z.literal(1)),
+    enabled: zeroOrOne,
+    xboost: zeroOrOne,
     out_voltage: z.number().int(),
     out_freq: z.number().int(),
   }),
@@ -115,7 +116,7 @@ export const acChargingSettingsSchema = mpptCommandSchema.extend({
   operateType: z.literal("acChgCfg"),
   params: z.object({
     chgWatts: z.number().int(),
-    chgPauseFlag: z.literal(0).or(z.literal(1)),
+    chgPauseFlag: zeroOrOne,
   }),
 });
 
