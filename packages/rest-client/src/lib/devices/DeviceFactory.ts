@@ -5,8 +5,10 @@ import {
   isGlacierSerialNumber,
   isPowerStreamSerialNumber,
   isSmartPlugSn,
+  isWave2SerialNumber,
   PowerStreamSerialNumber,
   SmartPlugSn,
+  Wave2SerialNumber,
 } from "@ecoflow-api/schemas";
 import { SmartPlug } from "./SmartPlug";
 import { UnknownDevice } from "./UnknownDevice";
@@ -14,6 +16,7 @@ import { RestClient } from "../RestClient";
 import { PowerStream } from "./PowerStream";
 import { Delta2 } from "./Delta2";
 import { Glacier } from "./Glacier";
+import { Wave2 } from "./Wave2";
 
 export type DeviceFactoryReturnType<T extends string> = T extends SmartPlugSn
   ? SmartPlug
@@ -23,7 +26,9 @@ export type DeviceFactoryReturnType<T extends string> = T extends SmartPlugSn
       ? Delta2
       : T extends GlacierSerialNumber
         ? Glacier
-        : UnknownDevice;
+        : T extends Wave2SerialNumber
+          ? Wave2
+          : UnknownDevice;
 
 /**
  * Factory function to create a device based on the serial number.
@@ -48,6 +53,10 @@ export function deviceFactory<T extends string, R = DeviceFactoryReturnType<T>>(
 
   if (isGlacierSerialNumber(sn)) {
     return new Glacier(restClient, sn) as R;
+  }
+
+  if (isWave2SerialNumber(sn)) {
+    return new Wave2(restClient, sn) as R;
   }
 
   return new UnknownDevice(restClient, sn) as R;
