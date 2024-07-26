@@ -8,6 +8,7 @@ import { Delta2 } from "./Delta2";
 import { Glacier } from "./Glacier";
 import { SmartHomePanel } from "./SmartHomePanel";
 import { DeltaPro } from "./DeltaPro";
+import { Wave2 } from "./Wave2";
 
 describe("deviceFactory", () => {
   let restClient: RestClient;
@@ -64,6 +65,13 @@ describe("deviceFactory", () => {
     const sn = "DCABZ*****";
     const device = deviceFactory(sn, restClient);
     expect(device).toBeInstanceOf(DeltaPro);
+    expect(device.sn).toBe(sn);
+  });
+
+  it("returns a Wave2 instance when the serial number is for a Glacier", () => {
+    const sn = "KT21*****";
+    const device = deviceFactory(sn, restClient);
+    expect(device).toBeInstanceOf(Wave2);
     expect(device.sn).toBe(sn);
   });
 });
