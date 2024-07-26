@@ -1,5 +1,12 @@
 # @ecoflow-api/schemas
 
+## 0.0.9
+
+### Patch Changes
+
+- 2e14caa: - fixes #2 - support "productName" field on device-list
+- 3808353: - wave2-schemas added
+
 ## 0.0.8
 
 ### Patch Changes
