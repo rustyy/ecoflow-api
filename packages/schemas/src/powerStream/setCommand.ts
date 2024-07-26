@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { powerStreamSerialNumberSchema } from "./serialNumber";
+import { zeroOrOne } from "../shared";
 
 /*********************************************
  * Set commands
@@ -29,7 +30,7 @@ const defaultSchema = z.object({
 export const powerSupplyPrioritySchema = defaultSchema.extend({
   cmdCode: z.literal("WN511_SET_SUPPLY_PRIORITY_PACK"),
   params: z.object({
-    supplyPriority: z.literal(0).or(z.literal(1)),
+    supplyPriority: zeroOrOne,
   }),
 });
 

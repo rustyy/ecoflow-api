@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { smartPlugSerialNumberSchema } from "./serialNumber";
+import { zeroOrOne } from "../shared";
 
 /*********************************************
  * Set commands
@@ -15,7 +16,7 @@ export const smartPlugSwitchOnOffCommandSchema = z.object({
   cmdCode: z.literal("WN511_SOCKET_SET_PLUG_SWITCH_MESSAGE"),
   params: z
     .object({
-      plugSwitch: z.literal(0).or(z.literal(1)),
+      plugSwitch: zeroOrOne,
     })
     .strict(),
 });

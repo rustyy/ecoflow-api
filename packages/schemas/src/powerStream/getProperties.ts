@@ -1,7 +1,5 @@
 import { z } from "zod";
-import { taskSchema } from "../shared";
-
-const integer = z.number().int();
+import { integer, taskSchema, zeroOrOne } from "../shared";
 
 export const powerStreamQuotaAllSchema = z.object({
   /**********
@@ -119,7 +117,7 @@ export const powerStreamQuotaAllSchema = z.object({
   // INV input power: 0.1 W; positive for discharging and negative for charging
   "20_1.invOutputWatts": integer,
   // Micro-inverter switch: 0: off; 1: on
-  "20_1.invOnOff": z.literal(0).or(z.literal(1)),
+  "20_1.invOnOff": zeroOrOne,
   // INV output voltage: 0.1 V; ac_voltage
   "20_1.invOpVolt": integer.nonnegative(),
   // INV input current: 0.1 A; positive for discharging and negative for charging
@@ -195,7 +193,7 @@ export const powerStreamQuotaAllSchema = z.object({
   // Change time
   "20_1.updateTime": z.string(),
   // Power supply priority: 0: prioritize power supply; 1: prioritize power storage
-  "20_1.supplyPriority": z.literal(0).or(z.literal(1)),
+  "20_1.supplyPriority": zeroOrOne,
   // Discharge limit
   "20_1.lowerLimit": integer,
   // Charge Level
