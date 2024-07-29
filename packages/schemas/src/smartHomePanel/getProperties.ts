@@ -85,7 +85,7 @@ export const shpQuotaAllSchema = z.object({
   "emergencyStrategy.cmdSet": integer,
   "selfCheck.result": integer,
   "mainsLoadWatt.cmdSet": integer,
-  "epsModeInfo.eps": integer,
+  "epsModeInfo.eps": z.boolean(),
   "areaInfo.id": integer,
   "channelPower.id": integer,
   "splitPhaseInfo.cmdSet": integer,
