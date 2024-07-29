@@ -56,4 +56,48 @@ describe("SmartHomePanel", () => {
 
     await expect(device.getProperties()).resolves.toBeDefined();
   });
+
+  it("should update rtc time", async () => {
+    const rtcTime = {
+      sec: 0,
+      min: 0,
+      hour: 0,
+      day: 0,
+      week: 0,
+      month: 0,
+      year: 0,
+    };
+
+    await device.setRtcTime(rtcTime);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 3,
+        ...rtcTime,
+      },
+    });
+  });
+
+  it("should set load channel control", async () => {
+    const loadChannelControl = {
+      ch: 1,
+      ctrlMode: 1,
+      sta: 1,
+    };
+
+    await device.setLoadChannelControl(loadChannelControl);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 16,
+        ...loadChannelControl,
+      },
+    });
+  });
 });
