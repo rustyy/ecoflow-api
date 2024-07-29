@@ -6,6 +6,8 @@ import {
   shpQuotaAllSchema,
   ShpRtcTimeUpdate,
   shpRtcTimeUpdateSchema,
+  ShpStandbyChannelControl,
+  shpStandbyChannelControlSchema,
   SmartHomePanelSerialNumber,
 } from "@ecoflow-api/schemas";
 import { Device } from "./Device";
@@ -126,5 +128,40 @@ export class SmartHomePanel extends Device<
     });
 
     return this.sendCommand(payload, shpLoadChannelControlSchema);
+  }
+
+  /**
+   * Standby channel control
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setStandbyChannelControl({ch:1, ctrlMode:1, sta:1});
+   * ```
+   */
+  async setStandbyChannelControl({
+    ch,
+    ctrlMode,
+    sta,
+  }: {
+    ch: number;
+    ctrlMode: number;
+    sta: number;
+  }) {
+    const payload: ShpStandbyChannelControl = this.#payloadDefaults({
+      id: 17 as const,
+      ch,
+      ctrlMode,
+      sta,
+    });
+
+    return this.sendCommand(payload, shpStandbyChannelControlSchema);
   }
 }

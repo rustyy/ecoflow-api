@@ -100,4 +100,24 @@ describe("SmartHomePanel", () => {
       },
     });
   });
+
+  it("should set standby channel control", async () => {
+    const data = {
+      ch: 1,
+      ctrlMode: 1,
+      sta: 1,
+    };
+
+    await device.setStandbyChannelControl(data);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 17,
+        ...data,
+      },
+    });
+  });
 });
