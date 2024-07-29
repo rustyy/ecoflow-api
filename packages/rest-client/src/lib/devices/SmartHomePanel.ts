@@ -10,7 +10,6 @@ import {
 } from "@ecoflow-api/schemas";
 import { Device } from "./Device";
 import { RestClient } from "../RestClient";
-import { z } from "zod";
 
 export class SmartHomePanel extends Device<
   SmartHomePanelSerialNumber,
