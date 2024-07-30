@@ -234,4 +234,39 @@ describe("SmartHomePanel", () => {
       },
     });
   });
+
+  it("should set region info", async () => {
+    await device.setRegionInfo("test");
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 34,
+        area: "test",
+      },
+    });
+  });
+
+  it("should set emergency mode", async () => {
+    const data = {
+      isCfg: 1 as const,
+      backupMode: 1 as const,
+      overloadMode: 0 as const,
+      chSta: [{ priority: 1, isEnable: 1 as const }],
+    };
+
+    await device.setEmergencyMode(data);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 64,
+        ...data,
+      },
+    });
+  });
 });

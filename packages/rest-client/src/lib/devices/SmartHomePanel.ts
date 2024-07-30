@@ -1,9 +1,12 @@
 import {
+  ChSta,
   isSmartHomePanelSerialNumber,
   ShpChannelCurrentConfig,
   shpChannelCurrentConfigSchema,
   ShpChannelEnableStatusConfig,
   shpChannelEnableStatusConfigSchema,
+  ShpEmergencyMode,
+  shpEmergencyModeSchema,
   ShpEpsModeConfig,
   shpEpsModeConfigSchema,
   ShpGridPowerParamConfig,
@@ -14,6 +17,8 @@ import {
   shpLoadChannelInfoConfigSchema,
   ShpQuotaAll,
   shpQuotaAllSchema,
+  ShpRegionInfoConfig,
+  shpRegionInfoConfigSchema,
   ShpRtcTimeUpdate,
   shpRtcTimeUpdateSchema,
   ShpSplitPhaseInfoCfgList,
@@ -305,5 +310,42 @@ export class SmartHomePanel extends Device<
     });
 
     return this.sendCommand(payload, shpLoadChannelInfoConfigSchema);
+  }
+
+  /**
+   * Set region info
+   */
+  async setRegionInfo(area: string) {
+    const payload: ShpRegionInfoConfig = this.#payloadDefaults({
+      id: 34 as const,
+      area,
+    });
+
+    return this.sendCommand(payload, shpRegionInfoConfigSchema);
+  }
+
+  /**
+   * Set emergency mode
+   */
+  async setEmergencyMode({
+    isCfg,
+    backupMode,
+    overloadMode,
+    chSta,
+  }: {
+    isCfg: 0 | 1;
+    backupMode: 0 | 1;
+    overloadMode: 0 | 1;
+    chSta: ChSta[];
+  }) {
+    const payload: ShpEmergencyMode = this.#payloadDefaults({
+      id: 64 as const,
+      isCfg,
+      backupMode,
+      overloadMode,
+      chSta,
+    });
+
+    return this.sendCommand(payload, shpEmergencyModeSchema);
   }
 }
