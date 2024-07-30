@@ -1,11 +1,18 @@
 import {
   isSmartHomePanelSerialNumber,
+  ShpChannelCurrentConfig,
+  shpChannelCurrentConfigSchema,
+  ShpGridPowerParamConfig,
+  shpGridPowerParamConfigSchema,
   ShpLoadChannelControl,
   shpLoadChannelControlSchema,
   ShpQuotaAll,
   shpQuotaAllSchema,
   ShpRtcTimeUpdate,
   shpRtcTimeUpdateSchema,
+  ShpSplitPhaseInfoCfgList,
+  ShpSplitPhaseInfoConfig,
+  shpSplitPhaseInfoConfigSchema,
   ShpStandbyChannelControl,
   shpStandbyChannelControlSchema,
   SmartHomePanelSerialNumber,
@@ -163,5 +170,79 @@ export class SmartHomePanel extends Device<
     });
 
     return this.sendCommand(payload, shpStandbyChannelControlSchema);
+  }
+
+  /**
+   * Set split phase info config
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setSplitPhaseInfoConfig([
+   *      {linkCh: 0, linkMark: 0},
+   *      {linkCh: 0, linkMark: 0},
+   *      {linkCh: 0, linkMark: 0},
+   *      {linkCh: 0, linkMark: 0},
+   *      {linkCh: 0, linkMark: 0},
+   *      {linkCh: 0, linkMark: 0},
+   *      {linkCh: 0, linkMark: 0},
+   *      {linkCh: 0, linkMark: 0},
+   *      {linkCh: 0, linkMark: 0},
+   *      {linkCh: 0, linkMark: 0},
+   *   ]);
+   * ```
+   */
+  async setSplitPhaseInfoConfig(cfgList: ShpSplitPhaseInfoCfgList) {
+    const payload: ShpSplitPhaseInfoConfig = this.#payloadDefaults({
+      id: 18 as const,
+      cfgList,
+    });
+
+    return this.sendCommand(payload, shpSplitPhaseInfoConfigSchema);
+  }
+
+  /**
+   * Set channel current configuration
+   */
+  async setChannelCurrentConfiguration({
+    channel,
+    cur,
+  }: {
+    channel: number;
+    cur: 6 | 13 | 16 | 20 | 30;
+  }) {
+    const payload: ShpChannelCurrentConfig = this.#payloadDefaults({
+      id: 20 as const,
+      chNum: channel,
+      cur,
+    });
+
+    return this.sendCommand(payload, shpChannelCurrentConfigSchema);
+  }
+
+  /**
+   * Set grid power configuration
+   */
+  async setGridPowerConfiguration({
+    gridVol,
+    gridFreq,
+  }: {
+    gridVol: number;
+    gridFreq: number;
+  }) {
+    const payload: ShpGridPowerParamConfig = this.#payloadDefaults({
+      id: 22 as const,
+      gridVol,
+      gridFreq,
+    });
+
+    return this.sendCommand(payload, shpGridPowerParamConfigSchema);
   }
 }

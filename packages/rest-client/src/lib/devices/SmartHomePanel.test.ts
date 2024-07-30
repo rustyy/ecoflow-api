@@ -120,4 +120,65 @@ describe("SmartHomePanel", () => {
       },
     });
   });
+
+  it("should set Split-phase information configuration", async () => {
+    const data = [
+      { linkCh: 0, linkMark: 0 },
+      { linkCh: 0, linkMark: 0 },
+      { linkCh: 0, linkMark: 0 },
+      { linkCh: 0, linkMark: 0 },
+      { linkCh: 0, linkMark: 0 },
+      { linkCh: 0, linkMark: 0 },
+      { linkCh: 0, linkMark: 0 },
+      { linkCh: 0, linkMark: 0 },
+      { linkCh: 0, linkMark: 0 },
+      { linkCh: 0, linkMark: 0 },
+    ];
+
+    await device.setSplitPhaseInfoConfig(data);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 18,
+        cfgList: data,
+      },
+    });
+  });
+
+  it("should set channel current configuration", async () => {
+    await device.setChannelCurrentConfiguration({ channel: 10, cur: 6 });
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 20,
+        chNum: 10,
+        cur: 6,
+      },
+    });
+  });
+
+  it("should set Grid power parameter configuration", async () => {
+    const data = {
+      gridFreq: 50,
+      gridVol: 220,
+    };
+
+    await device.setGridPowerConfiguration(data);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 22,
+        ...data,
+      },
+    });
+  });
 });
