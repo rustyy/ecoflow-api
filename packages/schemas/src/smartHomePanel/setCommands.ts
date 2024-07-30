@@ -134,16 +134,22 @@ export type ShpStandbyChannelControl = z.infer<
  * }
  * ```
  */
+export const shpSplitPhaseInfoCfgListSchema = z.array(
+  z.object({
+    linkMark: z.number().int(),
+    linkCh: z.number().int(),
+  }),
+);
+
+export type ShpSplitPhaseInfoCfgList = z.infer<
+  typeof shpSplitPhaseInfoCfgListSchema
+>;
+
 export const shpSplitPhaseInfoConfigSchema = defaultSchema.extend({
   params: z.object({
     cmdSet: z.literal(11),
     id: z.literal(18),
-    cfgList: z.array(
-      z.object({
-        linkMark: z.number().int(),
-        linkCh: z.number().int(),
-      }),
-    ),
+    cfgList: shpSplitPhaseInfoCfgListSchema,
   }),
 });
 
