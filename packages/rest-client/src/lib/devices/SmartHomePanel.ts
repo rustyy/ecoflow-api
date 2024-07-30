@@ -2,10 +2,16 @@ import {
   isSmartHomePanelSerialNumber,
   ShpChannelCurrentConfig,
   shpChannelCurrentConfigSchema,
+  ShpChannelEnableStatusConfig,
+  shpChannelEnableStatusConfigSchema,
+  ShpEpsModeConfig,
+  shpEpsModeConfigSchema,
   ShpGridPowerParamConfig,
   shpGridPowerParamConfigSchema,
   ShpLoadChannelControl,
   shpLoadChannelControlSchema,
+  ShpLoadChannelInfoConfig,
+  shpLoadChannelInfoConfigSchema,
   ShpQuotaAll,
   shpQuotaAllSchema,
   ShpRtcTimeUpdate,
@@ -244,5 +250,60 @@ export class SmartHomePanel extends Device<
     });
 
     return this.sendCommand(payload, shpGridPowerParamConfigSchema);
+  }
+
+  /**
+   * EPS mode configuration (eps: 0: off, 1: on)
+   */
+  async enableEpsMode(enabled: 0 | 1) {
+    const payload: ShpEpsModeConfig = this.#payloadDefaults({
+      id: 24 as const,
+      eps: enabled,
+    });
+
+    return this.sendCommand(payload, shpEpsModeConfigSchema);
+  }
+
+  /**
+   * Enable channel status
+   */
+  async enableChannelStatus({
+    channel,
+    enable,
+  }: {
+    channel: number;
+    enable: 0 | 1;
+  }) {
+    const payload: ShpChannelEnableStatusConfig = this.#payloadDefaults({
+      id: 26 as const,
+      isEnable: enable,
+      chNum: channel,
+    });
+
+    return this.sendCommand(payload, shpChannelEnableStatusConfigSchema);
+  }
+
+  /**
+   * Set load channel info
+   */
+  async setLoadChannelInfo({
+    channel,
+    channelName,
+    iconInfo,
+  }: {
+    channel: number;
+    channelName: string;
+    iconInfo: number;
+  }) {
+    const payload: ShpLoadChannelInfoConfig = this.#payloadDefaults({
+      id: 32 as const,
+      chNum: channel,
+      info: {
+        chName: channelName,
+        iconInfo,
+      },
+    });
+
+    return this.sendCommand(payload, shpLoadChannelInfoConfigSchema);
   }
 }

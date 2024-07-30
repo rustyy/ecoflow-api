@@ -181,4 +181,57 @@ describe("SmartHomePanel", () => {
       },
     });
   });
+
+  it("should set EPS mode", async () => {
+    await device.enableEpsMode(1);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 24,
+        eps: 1,
+      },
+    });
+  });
+
+  it("should set channel status", async () => {
+    await device.enableChannelStatus({ channel: 1, enable: 1 });
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 26,
+        isEnable: 1,
+        chNum: 1,
+      },
+    });
+  });
+
+  it("should set load channel info", async () => {
+    const data = {
+      channel: 1,
+      iconInfo: 1,
+      channelName: "test",
+    };
+
+    await device.setLoadChannelInfo(data);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 32,
+        chNum: 1,
+        info: {
+          chName: "test",
+          iconInfo: 1,
+        },
+      },
+    });
+  });
 });
