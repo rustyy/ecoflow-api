@@ -483,42 +483,48 @@ export type ShpEmergencyMode = z.infer<typeof shpEmergencyModeSchema>;
  * }
  * ```
  */
+export const shpScheduledChargingJobCfgSchema = z.object({
+  param: z.object({
+    lowBattery: z.number().int(),
+    chChargeWatt: z.number().int(),
+    chSta: z.array(z.number().int()),
+    hightBattery: z.number().int(),
+  }),
+  comCfg: z.object({
+    timeScale: z.array(z.number().int()),
+    isCfg: zeroOrOne,
+    type: z.number().int(),
+    timeRange: z.object({
+      isCfg: zeroOrOne,
+      startTime: secToYear,
+      timeMode: z.number().int(),
+      endTime: secToYear,
+      mode1: z.object({
+        thur: z.number().int(),
+        sat: z.number().int(),
+        wed: z.number().int(),
+        tues: z.number().int(),
+        fri: z.number().int(),
+        sun: z.number().int(),
+        mon: z.number().int(),
+      }),
+      isEnable: zeroOrOne,
+    }),
+    isEnable: zeroOrOne,
+    setTime: secToYear,
+  }),
+});
+
+export type ShpScheduledChargingJobCfg = z.infer<
+  typeof shpScheduledChargingJobCfgSchema
+>;
+
 export const shpScheduledChargingJobSchema = defaultSchema.extend({
   params: z.object({
     cmdSet: z.literal(11),
     id: z.literal(81),
     cfgIndex: z.number().int(),
-    cfg: z.object({
-      param: z.object({
-        lowBattery: z.number().int(),
-        chChargeWatt: z.number().int(),
-        chSta: z.array(z.number().int()),
-        hightBattery: z.number().int(),
-      }),
-      comCfg: z.object({
-        timeScale: z.array(z.number().int()),
-        isCfg: zeroOrOne,
-        type: z.number().int(),
-        timeRange: z.object({
-          isCfg: zeroOrOne,
-          startTime: secToYear,
-          timeMode: z.number().int(),
-          endTime: secToYear,
-          mode1: z.object({
-            thur: z.number().int(),
-            sat: z.number().int(),
-            wed: z.number().int(),
-            tues: z.number().int(),
-            fri: z.number().int(),
-            sun: z.number().int(),
-            mon: z.number().int(),
-          }),
-          isEnable: zeroOrOne,
-        }),
-        isEnable: zeroOrOne,
-        setTime: secToYear,
-      }),
-    }),
+    cfg: shpScheduledChargingJobCfgSchema,
   }),
 });
 
@@ -613,28 +619,33 @@ export type ShpScheduledChargingJob = z.infer<
  * }
  * ```
  */
+export const shpScheduledDischargingJobCfgSchema = z.object({
+  chSta: z.array(z.number().int()),
+  comCfg: z.object({
+    timeScale: z.array(z.number().int()),
+    isCfg: zeroOrOne,
+    type: z.number().int(),
+    timeRange: z.object({
+      isCfg: zeroOrOne,
+      timeMode: z.number().int(),
+      startTime: secToYear,
+      endTime: secToYear,
+      isEnable: zeroOrOne,
+    }),
+    isEnable: zeroOrOne,
+    setTime: secToYear,
+  }),
+});
+export type ShpScheduledDischargingJobCfg = z.infer<
+  typeof shpScheduledDischargingJobCfgSchema
+>;
+
 export const shpScheduledDischargingJobSchema = defaultSchema.extend({
   params: z.object({
     cmdSet: z.literal(11),
     id: z.literal(82),
     cfgIndex: z.number().int(),
-    cfg: z.object({
-      chSta: z.array(z.number().int()),
-      comCfg: z.object({
-        timeScale: z.array(z.number().int()),
-        isCfg: zeroOrOne,
-        type: z.number().int(),
-        timeRange: z.object({
-          isCfg: zeroOrOne,
-          timeMode: z.number().int(),
-          startTime: secToYear,
-          endTime: secToYear,
-          isEnable: zeroOrOne,
-        }),
-        isEnable: zeroOrOne,
-        setTime: secToYear,
-      }),
-    }),
+    cfg: shpScheduledDischargingJobCfgSchema,
   }),
 });
 

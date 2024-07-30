@@ -269,4 +269,139 @@ describe("SmartHomePanel", () => {
       },
     });
   });
+
+  it("should set scheduled charging job", async () => {
+    const data = {
+      cfgIndex: 1,
+      cfg: {
+        param: {
+          lowBattery: 95,
+          chChargeWatt: 2000,
+          chSta: [1, 0],
+          hightBattery: 100,
+        },
+        comCfg: {
+          timeScale: [
+            255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
+            255, 255, 255, 255, 127,
+          ],
+          isCfg: 1 as const,
+          type: 1,
+          timeRange: {
+            isCfg: 1 as const,
+            startTime: {
+              sec: 0,
+              min: 0,
+              week: 4,
+              hour: 0,
+              month: 1,
+              year: 2023,
+              day: 11,
+            },
+            timeMode: 0,
+            endTime: {
+              sec: 59,
+              min: 59,
+              week: 7,
+              hour: 23,
+              month: 1,
+              year: 2023,
+              day: 22,
+            },
+            mode1: {
+              thur: 0,
+              sat: 0,
+              wed: 0,
+              tues: 0,
+              fri: 0,
+              sun: 0,
+              mon: 0,
+            },
+            isEnable: 1 as const,
+          },
+          isEnable: 1 as const,
+          setTime: {
+            sec: 35,
+            min: 53,
+            week: 4,
+            hour: 15,
+            month: 1,
+            year: 2023,
+            day: 11,
+          },
+        },
+      },
+    };
+
+    await device.setScheduledChargingJob(data);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 81,
+        ...data,
+      },
+    });
+  });
+
+  it("should set scheduled discharging job", async () => {
+    const data = {
+      cfgIndex: 1,
+      cfg: {
+        chSta: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        comCfg: {
+          timeScale: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          isCfg: 1 as const,
+          type: 2,
+          timeRange: {
+            isCfg: 1 as const,
+            timeMode: 0,
+            startTime: {
+              sec: 0,
+              min: 0,
+              week: 2,
+              hour: 0,
+              month: 10,
+              year: 2022,
+              day: 24,
+            },
+            endTime: {
+              sec: 59,
+              min: 59,
+              week: 2,
+              hour: 23,
+              month: 10,
+              year: 2022,
+              day: 25,
+            },
+            isEnable: 1 as const,
+          },
+          isEnable: 1 as const,
+          setTime: {
+            sec: 61,
+            min: 9,
+            week: 7,
+            hour: 16,
+            month: 11,
+            year: 2022,
+            day: 15,
+          },
+        },
+      },
+    };
+
+    await device.setScheduledDischargingJob(data);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 82,
+        ...data,
+      },
+    });
+  });
 });

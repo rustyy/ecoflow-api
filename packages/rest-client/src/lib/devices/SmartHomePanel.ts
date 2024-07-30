@@ -21,6 +21,12 @@ import {
   shpRegionInfoConfigSchema,
   ShpRtcTimeUpdate,
   shpRtcTimeUpdateSchema,
+  ShpScheduledChargingJob,
+  ShpScheduledChargingJobCfg,
+  shpScheduledChargingJobSchema,
+  ShpScheduledDischargingJob,
+  ShpScheduledDischargingJobCfg,
+  shpScheduledDischargingJobSchema,
   ShpSplitPhaseInfoCfgList,
   ShpSplitPhaseInfoConfig,
   shpSplitPhaseInfoConfigSchema,
@@ -347,5 +353,43 @@ export class SmartHomePanel extends Device<
     });
 
     return this.sendCommand(payload, shpEmergencyModeSchema);
+  }
+
+  /**
+   * Set scheduled charging job
+   */
+  async setScheduledChargingJob({
+    cfgIndex,
+    cfg,
+  }: {
+    cfgIndex: number;
+    cfg: ShpScheduledChargingJobCfg;
+  }) {
+    const payload: ShpScheduledChargingJob = this.#payloadDefaults({
+      id: 81 as const,
+      cfgIndex,
+      cfg,
+    });
+
+    return this.sendCommand(payload, shpScheduledChargingJobSchema);
+  }
+
+  /**
+   * Set scheduled discharging job
+   */
+  async setScheduledDischargingJob({
+    cfgIndex,
+    cfg,
+  }: {
+    cfgIndex: number;
+    cfg: ShpScheduledDischargingJobCfg;
+  }) {
+    const payload: ShpScheduledDischargingJob = this.#payloadDefaults({
+      id: 82 as const,
+      cfgIndex,
+      cfg,
+    });
+
+    return this.sendCommand(payload, shpScheduledDischargingJobSchema);
   }
 }
