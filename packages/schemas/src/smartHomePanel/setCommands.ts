@@ -370,6 +370,13 @@ export type ShpRegionInfoConfig = z.infer<typeof shpRegionInfoConfigSchema>;
  * }
  * ```
  */
+export const chStaSchema = z.object({
+  priority: z.number().int(),
+  isEnable: zeroOrOne,
+});
+
+export type ChSta = z.infer<typeof chStaSchema>;
+
 export const shpEmergencyModeSchema = defaultSchema.extend({
   params: z.object({
     cmdSet: z.literal(11),
@@ -377,12 +384,7 @@ export const shpEmergencyModeSchema = defaultSchema.extend({
     isCfg: zeroOrOne,
     backupMode: zeroOrOne,
     overloadMode: zeroOrOne,
-    chSta: z.array(
-      z.object({
-        priority: z.number().int(),
-        isEnable: zeroOrOne,
-      }),
-    ),
+    chSta: chStaSchema.array(),
   }),
 });
 
