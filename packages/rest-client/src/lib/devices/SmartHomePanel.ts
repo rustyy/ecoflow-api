@@ -233,6 +233,22 @@ export class SmartHomePanel extends Device<
 
   /**
    * Set channel current configuration
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setChannelCurrentConfiguration({
+   *    channel: 2,
+   *    cur: 6,
+   *   });
+   * ```
    */
   async setChannelCurrentConfiguration({
     channel,
@@ -252,6 +268,22 @@ export class SmartHomePanel extends Device<
 
   /**
    * Set grid power configuration
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setGridPowerConfiguration({
+   *    gridVol: 220,
+   *    gridFreq: 50,
+   *   });
+   * ```
    */
   async setGridPowerConfiguration({
     gridVol,
@@ -271,6 +303,19 @@ export class SmartHomePanel extends Device<
 
   /**
    * EPS mode configuration (eps: 0: off, 1: on)
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.enableEpsMode(1);
+   * ```
    */
   async enableEpsMode(enabled: 0 | 1) {
     const payload: ShpEpsModeConfig = this.#payloadDefaults({
@@ -283,6 +328,22 @@ export class SmartHomePanel extends Device<
 
   /**
    * Enable channel status
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.enableChannelStatus({
+   *    channel: 1,
+   *    enable: 1,
+   *   });
+   * ```
    */
   async enableChannelStatus({
     channel,
@@ -302,6 +363,23 @@ export class SmartHomePanel extends Device<
 
   /**
    * Set load channel info
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setLoadChannelInfo({
+   *    channel: 1,
+   *    channelName: "my-channel",
+   *    iconInfo: 10,
+   *   });
+   * ```
    */
   async setLoadChannelInfo({
     channel,
@@ -326,6 +404,19 @@ export class SmartHomePanel extends Device<
 
   /**
    * Set region info
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setRegionInfo("US,somewhere");
+   * ```
    */
   async setRegionInfo(area: string) {
     const payload: ShpRegionInfoConfig = this.#payloadDefaults({
@@ -338,6 +429,35 @@ export class SmartHomePanel extends Device<
 
   /**
    * Set emergency mode
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setEmergencyMode({
+   *    isCfg: 1,
+   *    backupMode: 1,
+   *    overloadMode: 1,
+   *    chSta: [
+   *      { "priority": 1, "isEnable": 1 },
+   *      { "priority": 1, "isEnable": 1 },
+   *      { "priority": 2, "isEnable": 1 },
+   *      { "priority": 3, "isEnable": 1 },
+   *      { "priority": 4, "isEnable": 1 },
+   *      { "priority": 5, "isEnable": 1 },
+   *      { "priority": 6, "isEnable": 1 },
+   *      { "priority": 7, "isEnable": 1 },
+   *      { "priority": 8, "isEnable": 1 },
+   *      { "priority": 9, "isEnable": 1 }
+   *    ]
+   *   });
+   * ```
    */
   async setEmergencyMode({
     isCfg,
@@ -363,6 +483,98 @@ export class SmartHomePanel extends Device<
 
   /**
    * Set scheduled charging job
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setScheduledChargingJob({
+   *     cfgIndex: 1,
+   *     cfg: {
+   *       "param": {
+   *         "lowBattery": 95,
+   *         "chChargeWatt": 2000,
+   *         "chSta": [
+   *           1,
+   *           0
+   *         ],
+   *         "hightBattery": 100
+   *       },
+   *       "comCfg": {
+   *         "timeScale": [
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           255,
+   *           127
+   *         ],
+   *         "isCfg": 1,
+   *         "type": 1,
+   *         "timeRange": {
+   *           "isCfg": 1,
+   *           "startTime": {
+   *             "sec": 0,
+   *             "min": 0,
+   *             "week": 4,
+   *             "hour": 0,
+   *             "month": 1,
+   *             "year": 2023,
+   *             "day": 11
+   *           },
+   *           "timeMode": 0,
+   *           "endTime": {
+   *             "sec": 59,
+   *             "min": 59,
+   *             "week": 7,
+   *             "hour": 23,
+   *             "month": 1,
+   *             "year": 2023,
+   *             "day": 22
+   *           },
+   *           "mode1": {
+   *             "thur": 0,
+   *             "sat": 0,
+   *             "wed": 0,
+   *             "tues": 0,
+   *             "fri": 0,
+   *             "sun": 0,
+   *             "mon": 0
+   *           },
+   *           "isEnable": 1
+   *         },
+   *         "isEnable": 1,
+   *         "setTime": {
+   *           "sec": 35,
+   *           "min": 53,
+   *           "week": 4,
+   *           "hour": 15,
+   *           "month": 1,
+   *           "year": 2023,
+   *           "day": 11
+   *         }
+   *       }
+   *     }
+   *   });
+   * ```
    */
   async setScheduledChargingJob({
     cfgIndex,
@@ -382,6 +594,92 @@ export class SmartHomePanel extends Device<
 
   /**
    * Set scheduled discharging job
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setScheduledChargingJob({
+   *    cfgIndex: 1,
+   *    cfg: {
+   *       "chSta": [
+   *         1,
+   *         1,
+   *         1,
+   *         1,
+   *         1,
+   *         1,
+   *         1,
+   *         1,
+   *         1,
+   *         1
+   *       ],
+   *       "comCfg": {
+   *         "timeScale": [
+   *           1,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0,
+   *           0
+   *         ],
+   *         "isCfg": 1,
+   *         "type": 2,
+   *         "timeRange": {
+   *           "isCfg": 1,
+   *           "timeMode": 0,
+   *           "startTime": {
+   *             "sec": 0,
+   *             "min": 0,
+   *             "week": 2,
+   *             "hour": 0,
+   *             "month": 10,
+   *             "year": 2022,
+   *             "day": 24
+   *           },
+   *           "endTime": {
+   *             "sec": 59,
+   *             "min": 59,
+   *             "week": 2,
+   *             "hour": 23,
+   *             "month": 10,
+   *             "year": 2022,
+   *             "day": 25
+   *           },
+   *           "isEnable": 1
+   *         },
+   *         "isEnable": 1,
+   *         "setTime": {
+   *           "sec": 61,
+   *           "min": 9,
+   *           "week": 7,
+   *           "hour": 16,
+   *           "month": 11,
+   *           "year": 2022,
+   *           "day": 15
+   *         }
+   *       }
+   *     }
+   *   });
+   * ```
    */
   async setScheduledDischargingJob({
     cfgIndex,
@@ -401,7 +699,19 @@ export class SmartHomePanel extends Device<
 
   /**
    * Set configuration status
-   * @param cfgSta
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setConfigurationStatus(1);
+   * ```
    */
   async setConfigurationStatus(cfgSta: number) {
     const payload: ShpSetConfigStatus = this.#payloadDefaults({
@@ -414,6 +724,19 @@ export class SmartHomePanel extends Device<
 
   /**
    * Start self check
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setStartSelfCheck(1);
+   * ```
    */
   async setStartSelfCheck(selfCheckType: number) {
     const payload: ShpStartSelfCheck = this.#payloadDefaults({
@@ -426,6 +749,22 @@ export class SmartHomePanel extends Device<
 
   /**
    * Set standby charging and discharging parameters
+   *
+   * @example
+   * ```typescript
+   *   const sn = "SP10*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setStandByChargingDischargingParameters({
+   *     discLower: 10,
+   *     forceChargeHigh: 20,
+   *   });
+   * ```
    */
   async setStandByChargingDischargingParameters({
     discLower,
