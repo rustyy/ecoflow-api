@@ -51,7 +51,7 @@ const plainDevices = await client.getDevicesPlain();
 
 // Get a specific device instance based on the serial number.
 // e.g. a smart plug
-const smartPlug = await client.getDevice("HW52xxxxxx");
+const smartPlug = await client.getDevice("HW52*****");
 smartPlug.turnOn();
 ```
 
@@ -108,7 +108,7 @@ const client = new RestClient({
 const plainDevices = await client.getDevicesPlain();
 
 // Get a specific device instance based on the serial number.
-const smartPlug = await client.getDevice("HW52xxxxxx");
+const smartPlug = await client.getDevice("HW52*****");
 
 // request all properties of the smart plug
 const properties = await smartPlug.getProperties()
@@ -138,7 +138,7 @@ const client = new RestClient({
 })
 
 // Get a specific device instance based on the serial number.
-const powerStream = await client.getDevice("HW51xxxxxx");
+const powerStream = await client.getDevice("HW51*****");
 
 // request all properties of the powerStream
 const properties = await powerStream.getProperties()
@@ -191,7 +191,7 @@ const client = new RestClient({
 })
 
 // Get a specific device instance based on the serial number.
-const delta2 = await client.getDevice("R331xxxxxx");
+const delta2 = await client.getDevice("R331*****");
 
 // request all properties of the delta2
 const properties = await delta2.getProperties();
@@ -248,7 +248,7 @@ const client = new RestClient({
 })
 
 // Get a specific device instance based on the serial number.
-const glacier = await client.getDevice("BX11xxxxxx");
+const glacier = await client.getDevice("BX11*****");
 
 // request all properties of the glacier
 const properties = await glacier.getProperties();
@@ -293,6 +293,283 @@ await glacier.setSensorDetectionBlocking(1)
 // enabled - 0: Disable, 1: Enable
 // level - 0: Low, 1: Medium, 2: High
 await glacier.setBatteryProtectionLevel(1,3)
+```
+
+#### Smart Home Panel
+
+Serial number must start with _SP10_
+
+```ts
+import {RestClient} from '@ecoflow-api/rest-client';
+
+const client = new RestClient({
+    accessKey: "your-access",
+    secretKey: "your-secret",
+    host: "https://api-e.ecoflow.com"
+})
+
+// Get a specific device instance based on the serial number.
+const shp = await client.getDevice("SP10*****");
+
+// request all properties of the shp
+const properties = await shp.getProperties();
+
+// Update RTC time
+await shp.setRtcTime({
+    sec: 10,
+    min: 10,
+    hour: 10,
+    day: 5,
+    week: 6,
+    month: 10,
+    year: 2024,
+});
+
+// Load channel control
+await shp.setLoadChannelControl({ch:1, ctrlMode:1, sta:1});
+
+// Standby channel control
+await shp.setStandbyChannelControl({ch:1, ctrlMode:1, sta:1});
+
+// Set split phase info config
+await shp.setSplitPhaseInfoConfig([
+    {linkCh: 0, linkMark: 0},
+    {linkCh: 0, linkMark: 0},
+    {linkCh: 0, linkMark: 0},
+    {linkCh: 0, linkMark: 0},
+    {linkCh: 0, linkMark: 0},
+    {linkCh: 0, linkMark: 0},
+    {linkCh: 0, linkMark: 0},
+    {linkCh: 0, linkMark: 0},
+    {linkCh: 0, linkMark: 0},
+    {linkCh: 0, linkMark: 0},
+]);
+
+// Set channel current configuration
+await shp.setChannelCurrentConfiguration({
+    channel: 2,
+    cur: 6,
+});
+
+
+await shp.setGridPowerConfiguration({
+    gridVol: 220,
+    gridFreq: 50,
+});
+
+// Set grid power configuration
+await shp.setGridPowerConfiguration({
+    gridVol: 220,
+    gridFreq: 50,
+});
+
+// EPS mode configuration (eps: 0: off, 1: on)
+await shp.enableEpsMode(1);
+
+// Enable channel status
+await shp.enableChannelStatus({
+    channel: 1,
+    enable: 1,
+});
+
+// Set load channel info
+await shp.setLoadChannelInfo({
+    channel: 1,
+    channelName: "my-channel",
+    iconInfo: 10,
+});
+
+// Set region info
+await shp.setRegionInfo("US,somewhere");
+
+// Set emergency mode
+await shp.setEmergencyMode({
+    isCfg: 1,
+    backupMode: 1,
+    overloadMode: 1,
+    chSta: [
+        { "priority": 1, "isEnable": 1 },
+        { "priority": 1, "isEnable": 1 },
+        { "priority": 2, "isEnable": 1 },
+        { "priority": 3, "isEnable": 1 },
+        { "priority": 4, "isEnable": 1 },
+        { "priority": 5, "isEnable": 1 },
+        { "priority": 6, "isEnable": 1 },
+        { "priority": 7, "isEnable": 1 },
+        { "priority": 8, "isEnable": 1 },
+        { "priority": 9, "isEnable": 1 }
+    ]
+});
+
+// Set scheduled charging job
+await shp.setScheduledChargingJob({
+    cfgIndex: 1,
+    cfg: {
+        "param": {
+            "lowBattery": 95,
+            "chChargeWatt": 2000,
+            "chSta": [
+                1,
+                0
+            ],
+            "hightBattery": 100
+        },
+        "comCfg": {
+            "timeScale": [
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                127
+            ],
+            "isCfg": 1,
+            "type": 1,
+            "timeRange": {
+                "isCfg": 1,
+                "startTime": {
+                    "sec": 0,
+                    "min": 0,
+                    "week": 4,
+                    "hour": 0,
+                    "month": 1,
+                    "year": 2023,
+                    "day": 11
+                },
+                "timeMode": 0,
+                "endTime": {
+                    "sec": 59,
+                    "min": 59,
+                    "week": 7,
+                    "hour": 23,
+                    "month": 1,
+                    "year": 2023,
+                    "day": 22
+                },
+                "mode1": {
+                    "thur": 0,
+                    "sat": 0,
+                    "wed": 0,
+                    "tues": 0,
+                    "fri": 0,
+                    "sun": 0,
+                    "mon": 0
+                },
+                "isEnable": 1
+            },
+            "isEnable": 1,
+            "setTime": {
+                "sec": 35,
+                "min": 53,
+                "week": 4,
+                "hour": 15,
+                "month": 1,
+                "year": 2023,
+                "day": 11
+            }
+        }
+    }
+});
+
+// Set scheduled discharging job
+await shp.setScheduledChargingJob({
+    cfgIndex: 1,
+    cfg: {
+        "chSta": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+        ],
+        "comCfg": {
+            "timeScale": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "isCfg": 1,
+            "type": 2,
+            "timeRange": {
+                "isCfg": 1,
+                "timeMode": 0,
+                "startTime": {
+                    "sec": 0,
+                    "min": 0,
+                    "week": 2,
+                    "hour": 0,
+                    "month": 10,
+                    "year": 2022,
+                    "day": 24
+                },
+                "endTime": {
+                    "sec": 59,
+                    "min": 59,
+                    "week": 2,
+                    "hour": 23,
+                    "month": 10,
+                    "year": 2022,
+                    "day": 25
+                },
+                "isEnable": 1
+            },
+            "isEnable": 1,
+            "setTime": {
+                "sec": 61,
+                "min": 9,
+                "week": 7,
+                "hour": 16,
+                "month": 11,
+                "year": 2022,
+                "day": 15
+            }
+        }
+    }
+});
+
+// Set configuration status
+await shp.setConfigurationStatus(1);
+
+// Start self check
+await shp.setStartSelfCheck(1);
+
+// Set standby charging and discharging parameters
+await shp.setStandByChargingDischargingParameters({
+    discLower: 10,
+    forceChargeHigh: 20,
+});
 ```
 
 #### Unknown device

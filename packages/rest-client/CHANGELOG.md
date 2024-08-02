@@ -1,5 +1,13 @@
 # @ecoflow-api/rest-client
 
+## 0.0.10
+
+### Patch Changes
+
+- 9531129: add extended support for Smart Home Panel
+- Updated dependencies [9531129]
+  - @ecoflow-api/schemas@0.0.10
+
 ## 0.0.9
 
 ### Patch Changes

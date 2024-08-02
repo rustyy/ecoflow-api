@@ -1,5 +1,11 @@
 # @ecoflow-api/schemas
 
+## 0.0.10
+
+### Patch Changes
+
+- 9531129: add extended support for Smart Home Panel
+
 ## 0.0.9
 
 ### Patch Changes
