@@ -15,6 +15,8 @@ import {
   shpLoadChannelControlSchema,
   ShpLoadChannelInfoConfig,
   shpLoadChannelInfoConfigSchema,
+  ShpPushStandbyChargeDischargeParams,
+  shpPushStandbyChargeDischargeParamsSchema,
   ShpQuotaAll,
   shpQuotaAllSchema,
   ShpRegionInfoConfig,
@@ -27,11 +29,15 @@ import {
   ShpScheduledDischargingJob,
   ShpScheduledDischargingJobCfg,
   shpScheduledDischargingJobSchema,
+  ShpSetConfigStatus,
+  shpSetConfigStatusSchema,
   ShpSplitPhaseInfoCfgList,
   ShpSplitPhaseInfoConfig,
   shpSplitPhaseInfoConfigSchema,
   ShpStandbyChannelControl,
   shpStandbyChannelControlSchema,
+  ShpStartSelfCheck,
+  shpStartSelfCheckSchema,
   SmartHomePanelSerialNumber,
 } from "@ecoflow-api/schemas";
 import { Device } from "./Device";
@@ -391,5 +397,49 @@ export class SmartHomePanel extends Device<
     });
 
     return this.sendCommand(payload, shpScheduledDischargingJobSchema);
+  }
+
+  /**
+   * Set configuration status
+   * @param cfgSta
+   */
+  async setConfigurationStatus(cfgSta: number) {
+    const payload: ShpSetConfigStatus = this.#payloadDefaults({
+      id: 7 as const,
+      cfgSta,
+    });
+
+    return this.sendCommand(payload, shpSetConfigStatusSchema);
+  }
+
+  /**
+   * Start self check
+   */
+  async setStartSelfCheck(selfCheckType: number) {
+    const payload: ShpStartSelfCheck = this.#payloadDefaults({
+      id: 112 as const,
+      selfCheckType,
+    });
+
+    return this.sendCommand(payload, shpStartSelfCheckSchema);
+  }
+
+  /**
+   * Set standby charging and discharging parameters
+   */
+  async setStandByChargingDischargingParameters({
+    discLower,
+    forceChargeHigh,
+  }: {
+    discLower: number;
+    forceChargeHigh: number;
+  }) {
+    const payload: ShpPushStandbyChargeDischargeParams = this.#payloadDefaults({
+      id: 29 as const,
+      discLower,
+      forceChargeHigh,
+    });
+
+    return this.sendCommand(payload, shpPushStandbyChargeDischargeParamsSchema);
   }
 }

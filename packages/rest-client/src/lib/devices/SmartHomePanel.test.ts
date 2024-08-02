@@ -404,4 +404,51 @@ describe("SmartHomePanel", () => {
       },
     });
   });
+
+  it("should set configuration status", async () => {
+    await device.setConfigurationStatus(1);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 7,
+        cfgSta: 1,
+      },
+    });
+  });
+
+  it("should set start self check", async () => {
+    await device.setStartSelfCheck(1);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 112,
+        selfCheckType: 1,
+      },
+    });
+  });
+
+  it("should set standby charging/discharging parameters", async () => {
+    const data = {
+      discLower: 1,
+      forceChargeHigh: 1,
+    };
+
+    await device.setStandByChargingDischargingParameters(data);
+
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      operateType: "TCP",
+      params: {
+        cmdSet: 11,
+        id: 29,
+        ...data,
+      },
+    });
+  });
 });
