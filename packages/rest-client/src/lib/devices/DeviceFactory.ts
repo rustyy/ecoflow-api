@@ -4,6 +4,7 @@ import {
   isDelta2SerialNumber,
   isGlacierSerialNumber,
   isPowerStreamSerialNumber,
+  isSmartHomePanelSerialNumber,
   isSmartPlugSn,
   PowerStreamSerialNumber,
   SmartPlugSn,
@@ -14,6 +15,7 @@ import { RestClient } from "../RestClient";
 import { PowerStream } from "./PowerStream";
 import { Delta2 } from "./Delta2";
 import { Glacier } from "./Glacier";
+import { SmartHomePanel } from "./SmartHomePanel";
 
 export type DeviceFactoryReturnType<T extends string> = T extends SmartPlugSn
   ? SmartPlug
@@ -48,6 +50,10 @@ export function deviceFactory<T extends string, R = DeviceFactoryReturnType<T>>(
 
   if (isGlacierSerialNumber(sn)) {
     return new Glacier(restClient, sn) as R;
+  }
+
+  if (isSmartHomePanelSerialNumber(sn)) {
+    return new SmartHomePanel(restClient, sn) as R;
   }
 
   return new UnknownDevice(restClient, sn) as R;

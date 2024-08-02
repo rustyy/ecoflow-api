@@ -6,6 +6,7 @@ import { RestClient } from "../RestClient";
 import { PowerStream } from "./PowerStream";
 import { Delta2 } from "./Delta2";
 import { Glacier } from "./Glacier";
+import { SmartHomePanel } from "./SmartHomePanel";
 
 describe("deviceFactory", () => {
   let restClient: RestClient;
@@ -19,9 +20,9 @@ describe("deviceFactory", () => {
   });
 
   it("returns a SmartPlug instance when the serial number is for a SmartPlug", () => {
-    const device = deviceFactory("HW52xxxx", restClient);
+    const device = deviceFactory("HW52*****", restClient);
     expect(device).toBeInstanceOf(SmartPlug);
-    expect(device.sn).toBe("HW52xxxx");
+    expect(device.sn).toBe("HW52*****");
   });
 
   it("returns a UnknownDevice instance when the serial number can not be mapped to a device", () => {
@@ -31,23 +32,30 @@ describe("deviceFactory", () => {
   });
 
   it("returns a PowerStream instance when the serial number is for a PowerStream", () => {
-    const sn = "HW51xxxx";
+    const sn = "HW51*****";
     const device = deviceFactory(sn, restClient);
     expect(device).toBeInstanceOf(PowerStream);
     expect(device.sn).toBe(sn);
   });
 
   it("returns a Delta 2 instance when the serial number is for a Delta 2", () => {
-    const sn = "R331xxxx";
+    const sn = "R331*****";
     const device = deviceFactory(sn, restClient);
     expect(device).toBeInstanceOf(Delta2);
     expect(device.sn).toBe(sn);
   });
 
   it("returns a Glacier instance when the serial number is for a Glacier", () => {
-    const sn = "BX11xxxxx";
+    const sn = "BX11*****";
     const device = deviceFactory(sn, restClient);
     expect(device).toBeInstanceOf(Glacier);
+    expect(device.sn).toBe(sn);
+  });
+
+  it("returns a SHP instance when the serial number is for a SHP", () => {
+    const sn = "SP10*****";
+    const device = deviceFactory(sn, restClient);
+    expect(device).toBeInstanceOf(SmartHomePanel);
     expect(device.sn).toBe(sn);
   });
 });
