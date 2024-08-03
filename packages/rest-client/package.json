@@ -1,6 +1,6 @@
 {
   "name": "@ecoflow-api/rest-client",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "A rest client for the Ecoflow API for NodeJS",
   "keywords": [
     "ecoflow",
