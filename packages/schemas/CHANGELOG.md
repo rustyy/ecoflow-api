@@ -1,5 +1,12 @@
 # @ecoflow-api/schemas
 
+## 0.0.11
+
+### Patch Changes
+
+- db300fe: pass through unknown properties in getProperties responses
+- 1c64f48: fix: add missing SHP type to deviceFactory return-type
+
 ## 0.0.10
 
 ### Patch Changes

@@ -11,12 +11,14 @@ export const deviceListResponseSchema = z.object({
   code: z.literal("0"),
   message: z.literal("Success"),
   data: z.array(
-    z.object({
-      sn: z.string(),
-      online: zeroOrOne,
-      deviceName: z.string().optional(),
-      productName: z.string(),
-    }),
+    z
+      .object({
+        sn: z.string(),
+        online: zeroOrOne,
+        deviceName: z.string().optional(),
+        productName: z.string(),
+      })
+      .passthrough(),
   ),
 });
 
