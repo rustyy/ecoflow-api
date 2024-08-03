@@ -7,6 +7,7 @@ import {
   isSmartHomePanelSerialNumber,
   isSmartPlugSn,
   PowerStreamSerialNumber,
+  SmartHomePanelSerialNumber,
   SmartPlugSn,
 } from "@ecoflow-api/schemas";
 import { SmartPlug } from "./SmartPlug";
@@ -25,7 +26,9 @@ export type DeviceFactoryReturnType<T extends string> = T extends SmartPlugSn
       ? Delta2
       : T extends GlacierSerialNumber
         ? Glacier
-        : UnknownDevice;
+        : T extends SmartHomePanelSerialNumber
+          ? SmartHomePanel
+          : UnknownDevice;
 
 /**
  * Factory function to create a device based on the serial number.
