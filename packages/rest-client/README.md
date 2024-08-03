@@ -587,7 +587,7 @@ const client = new RestClient({
 
 const device = await client.getDevice("some-unsupported-sn");
 
-// request all properties of the powerStream
+// request all properties of the device
 const properties = await device.getProperties()
 ```
 
