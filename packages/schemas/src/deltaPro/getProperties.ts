@@ -210,7 +210,7 @@ export const deltaProQuotaAllSchema = z
     // PV output power (W)
     "mppt.outWatts": integer,
     // Reserved
-    "mppt.reserved": integer.array(),
+    "mppt.reserved": integer.array().optional(),
     // Version number
     "mppt.swVer": integer,
     // XT60 charging type: 0: not detected; 1: MPPT; 2: adapter
@@ -218,7 +218,7 @@ export const deltaProQuotaAllSchema = z
     // Beep status 0 Normal, 1 Quiet
     "pd.beepState": zeroOrOne,
     // LCD brightness level: 0–3
-    "pd.brightnessLevel": integer.min(0).max(3),
+    "pd.brightnessLevel": integer.min(0).max(3).optional(),
     // CAR button state: 0: off; 1: on
     "pd.carState": zeroOrOne,
     // CAR temperature (°C)
