@@ -4,6 +4,8 @@ import {
   DeltaProSerialNumber,
   DeltaProSetCarCharger,
   deltaProSetCarChargerSchema,
+  DeltaProSetChargeLevel,
+  deltaProSetChargeLevelSchema,
   DeltaProSetXBoost,
   deltaProSetXBoostSchema,
   isDeltaProSerialNumber,
@@ -59,5 +61,17 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
       enabled,
     });
     return this.sendCommand(payload, deltaProSetCarChargerSchema);
+  }
+
+  /**
+   * Set the maximum charge level
+   * @param level
+   */
+  async setMaxChargeLevel(level: number) {
+    const payload: DeltaProSetChargeLevel = this.#payloadDefaults({
+      id: 49 as const,
+      maxChgSoc: level,
+    });
+    return this.sendCommand(payload, deltaProSetChargeLevelSchema);
   }
 }

@@ -84,4 +84,17 @@ describe("Delta Pro", () => {
       },
     });
   });
+
+  it("should set the charge level", async () => {
+    const level = 100;
+    await device.setMaxChargeLevel(level);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 49,
+        maxChgSoc: level,
+      },
+    });
+  });
 });
