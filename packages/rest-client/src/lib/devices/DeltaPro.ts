@@ -2,6 +2,10 @@ import {
   DeltaProQuotaAll,
   deltaProQuotaAllSchema,
   DeltaProSerialNumber,
+  DeltaProSetCarCharger,
+  deltaProSetCarChargerSchema,
+  DeltaProSetXBoost,
+  deltaProSetXBoostSchema,
   isDeltaProSerialNumber,
 } from "@ecoflow-api/schemas";
 import { Device } from "./Device";
@@ -16,7 +20,44 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
     }
   }
 
+  #payloadDefaults<T>(params: T) {
+    return {
+      sn: this.sn,
+      params: {
+        cmdSet: 32 as const,
+        ...params,
+      },
+    };
+  }
+
   protected parseProperties(data: any) {
     return deltaProQuotaAllSchema.parse(data);
+  }
+
+  /**
+   * Enable or disable xboost
+   *
+   * @param enabled 0 = disable, 1 = enable
+   * @param xboost 0 = disable, 1 = enable
+   */
+  async enableXboost(enabled: 0 | 1, xboost: 0 | 1) {
+    const payload: DeltaProSetXBoost = this.#payloadDefaults({
+      id: 66 as const,
+      enabled,
+      xboost,
+    });
+    return this.sendCommand(payload, deltaProSetXBoostSchema);
+  }
+
+  /**
+   * Enable or disable the car charger
+   * @param enabled
+   */
+  async enableCharger(enabled: 0 | 1) {
+    const payload: DeltaProSetCarCharger = this.#payloadDefaults({
+      id: 81 as const,
+      enabled,
+    });
+    return this.sendCommand(payload, deltaProSetCarChargerSchema);
   }
 }
