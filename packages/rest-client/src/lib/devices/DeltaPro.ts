@@ -2,10 +2,34 @@ import {
   DeltaProQuotaAll,
   deltaProQuotaAllSchema,
   DeltaProSerialNumber,
+  DeltaProSetACCharging,
+  deltaProSetACChargingSchema,
+  DeltaProSetACStandbyTime,
+  deltaProSetACStandbyTimeSchema,
+  DeltaProSetBeep,
+  deltaProSetBeepSchema,
+  DeltaProSetBypassACAutoStart,
+  deltaProSetBypassACAutoStartSchema,
   DeltaProSetCarCharger,
   deltaProSetCarChargerSchema,
+  DeltaProSetCarInputCurrent,
+  deltaProSetCarInputCurrentSchema,
   DeltaProSetChargeLevel,
   deltaProSetChargeLevelSchema,
+  DeltaProSetDischargeLevel,
+  deltaProSetDischargeLevelSchema,
+  DeltaProSetPVCharging,
+  deltaProSetPVChargingSchema,
+  DeltaProSetScreenBrightness,
+  deltaProSetScreenBrightnessSchema,
+  DeltaProSetScreenTimeout,
+  deltaProSetScreenTimeoutSchema,
+  DeltaProSetSmartGeneratorAutoOff,
+  deltaProSetSmartGeneratorAutoOffSchema,
+  DeltaProSetSmartGeneratorAutoOn,
+  deltaProSetSmartGeneratorAutoOnSchema,
+  DeltaProSetUnitTimeout,
+  deltaProSetUnitTimeoutSchema,
   DeltaProSetXBoost,
   deltaProSetXBoostSchema,
   isDeltaProSerialNumber,
@@ -67,11 +91,155 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
    * Set the maximum charge level
    * @param level
    */
-  async setMaxChargeLevel(level: number) {
+  async setChargeLevel(level: number) {
     const payload: DeltaProSetChargeLevel = this.#payloadDefaults({
       id: 49 as const,
       maxChgSoc: level,
     });
     return this.sendCommand(payload, deltaProSetChargeLevelSchema);
+  }
+
+  /**
+   * Set the minimum discharge level
+   * @param level
+   */
+  async setDischargeLevel(level: number) {
+    const payload: DeltaProSetDischargeLevel = this.#payloadDefaults({
+      id: 51 as const,
+      minDsgSoc: level,
+    });
+    return this.sendCommand(payload, deltaProSetDischargeLevelSchema);
+  }
+
+  /**
+   * Set the car input current
+   * @param input
+   */
+  async setCarInput(input: number) {
+    const payload: DeltaProSetCarInputCurrent = this.#payloadDefaults({
+      id: 71 as const,
+      currMa: input,
+    });
+    return this.sendCommand(payload, deltaProSetCarInputCurrentSchema);
+  }
+
+  /**
+   * Enable or disable the beep
+   * @param enabled 0 = disable, 1 = enable
+   */
+  async enableBeep(enabled: 0 | 1) {
+    const payload: DeltaProSetBeep = this.#payloadDefaults({
+      id: 38 as const,
+      enabled,
+    });
+    return this.sendCommand(payload, deltaProSetBeepSchema);
+  }
+
+  /**
+   * Set the screen brightness
+   * @param brightness
+   */
+  async setScreenBrightness(brightness: number) {
+    const payload: DeltaProSetScreenBrightness = this.#payloadDefaults({
+      id: 39 as const,
+      lcdBrightness: brightness,
+    });
+    return this.sendCommand(payload, deltaProSetScreenBrightnessSchema);
+  }
+
+  /**
+   * Setting the lower threshold percentage of smart generator auto on
+   * @param threshold
+   */
+  async setSmartGeneratorAutoOnThreshold(threshold: number) {
+    const payload: DeltaProSetSmartGeneratorAutoOn = this.#payloadDefaults({
+      id: 52 as const,
+      openOilSoc: threshold,
+    });
+    return this.sendCommand(payload, deltaProSetSmartGeneratorAutoOnSchema);
+  }
+
+  /**
+   * Setting the upper threshold percentage of smart generator auto off
+   * @param threshold
+   */
+  async setSmartGeneratorAutoOffThreshold(threshold: number) {
+    const payload: DeltaProSetSmartGeneratorAutoOff = this.#payloadDefaults({
+      id: 53 as const,
+      closeOilSoc: threshold,
+    });
+    return this.sendCommand(payload, deltaProSetSmartGeneratorAutoOffSchema);
+  }
+
+  /**
+   * Set the unit timeout
+   * @param timeout
+   */
+  async setUnitTimeout(timeout: number) {
+    const payload: DeltaProSetUnitTimeout = this.#payloadDefaults({
+      id: 33 as const,
+      standByMode: timeout,
+    });
+    return this.sendCommand(payload, deltaProSetUnitTimeoutSchema);
+  }
+
+  /**
+   * Set the screen timeout
+   * @param timeout
+   */
+  async setScreenTimeout(timeout: number) {
+    const payload: DeltaProSetScreenTimeout = this.#payloadDefaults({
+      id: 39 as const,
+      lcdTime: timeout,
+    });
+    return this.sendCommand(payload, deltaProSetScreenTimeoutSchema);
+  }
+
+  /**
+   * Setting the AC standby time
+   * @param time
+   */
+  async setAcStandbyTime(time: number) {
+    const payload: DeltaProSetACStandbyTime = this.#payloadDefaults({
+      id: 153 as const,
+      standByMins: time,
+    });
+    return this.sendCommand(payload, deltaProSetACStandbyTimeSchema);
+  }
+
+  /**
+   * AC charging settings
+   * @param power
+   */
+  async setAcChargingPower(power: number) {
+    const payload: DeltaProSetACCharging = this.#payloadDefaults({
+      id: 69 as const,
+      slowChgPower: power,
+    });
+    return this.sendCommand(payload, deltaProSetACChargingSchema);
+  }
+
+  /**
+   * Set the pv charging type
+   * @param type
+   */
+  async setPvChargingType(type: number) {
+    const payload: DeltaProSetPVCharging = this.#payloadDefaults({
+      id: 82 as const,
+      chgType: type,
+    });
+    return this.sendCommand(payload, deltaProSetPVChargingSchema);
+  }
+
+  /**
+   * Enable Bypass AC auto start
+   * @param enabled
+   */
+  async enableAcAutoStartBypass(enabled: 0 | 1) {
+    const payload: DeltaProSetBypassACAutoStart = this.#payloadDefaults({
+      id: 84 as const,
+      enabled,
+    });
+    return this.sendCommand(payload, deltaProSetBypassACAutoStartSchema);
   }
 }

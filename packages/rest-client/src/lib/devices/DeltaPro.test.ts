@@ -87,13 +87,180 @@ describe("Delta Pro", () => {
 
   it("should set the charge level", async () => {
     const level = 100;
-    await device.setMaxChargeLevel(level);
+    await device.setChargeLevel(level);
     expect(restClient.setCommandPlain).toBeCalledWith({
       sn: validSn,
       params: {
         cmdSet: 32,
         id: 49,
         maxChgSoc: level,
+      },
+    });
+  });
+
+  it("should set the discharge level", async () => {
+    const level = 100;
+    await device.setDischargeLevel(level);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 51,
+        minDsgSoc: level,
+      },
+    });
+  });
+
+  it("should set car input current", async () => {
+    const current = 100;
+    await device.setCarInput(current);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 71,
+        currMa: current,
+      },
+    });
+  });
+
+  it("should enable/disable beep", async () => {
+    const enabled = 1;
+    await device.enableBeep(enabled);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 38,
+        enabled,
+      },
+    });
+
+    const disabled = 0;
+    await device.enableBeep(disabled);
+    expect(restClient.setCommandPlain).toHaveBeenLastCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 38,
+        enabled: disabled,
+      },
+    });
+  });
+
+  it("should set screen brightness", async () => {
+    const lcdBrightness = 100;
+    await device.setScreenBrightness(lcdBrightness);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 39,
+        lcdBrightness,
+      },
+    });
+  });
+
+  it("should set smart generator auto on threshold", async () => {
+    const threshold = 100;
+    await device.setSmartGeneratorAutoOnThreshold(threshold);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 52,
+        openOilSoc: threshold,
+      },
+    });
+  });
+
+  it("should set smart generator auto off threshold", async () => {
+    const threshold = 100;
+    await device.setSmartGeneratorAutoOffThreshold(threshold);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 53,
+        closeOilSoc: threshold,
+      },
+    });
+  });
+
+  it("should set unit timeout", async () => {
+    const timeout = 100;
+    await device.setUnitTimeout(timeout);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 33,
+        standByMode: timeout,
+      },
+    });
+  });
+
+  it("should set screen timeout", async () => {
+    const timeout = 100;
+    await device.setScreenTimeout(timeout);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 39,
+        lcdTime: timeout,
+      },
+    });
+  });
+
+  it("should set AC standby time", async () => {
+    const timeout = 100;
+    await device.setAcStandbyTime(timeout);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 153,
+        standByMins: timeout,
+      },
+    });
+  });
+
+  it("should set AC charging power", async () => {
+    const power = 100;
+    await device.setAcChargingPower(power);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 69,
+        slowChgPower: power,
+      },
+    });
+  });
+
+  it("should set pv charging type", async () => {
+    const type = 1;
+    await device.setPvChargingType(type);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 82,
+        chgType: type,
+      },
+    });
+  });
+
+  it("should set ac autostart bypass", async () => {
+    const enabled = 1;
+    await device.enableAcAutoStartBypass(enabled);
+    expect(restClient.setCommandPlain).toBeCalledWith({
+      sn: validSn,
+      params: {
+        cmdSet: 32,
+        id: 84,
+        enabled,
       },
     });
   });
