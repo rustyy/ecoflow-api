@@ -30,6 +30,8 @@ At the moment the following devices are supported with specific instances:
 - PowerStream
 - Delta 2
 - Glacier
+- Smart Home Panel
+- Delta Pro
 
 More devices to come.
 
@@ -570,6 +572,52 @@ await shp.setStandByChargingDischargingParameters({
     discLower: 10,
     forceChargeHigh: 20,
 });
+```
+
+#### Delta Pro
+
+Serial number must start with _DCABZ_
+
+```typescript
+  const sn = "DCABZ*****";
+  const client = new RestClient({
+    accessKey: "my-access-key",
+    secretKey: "my-secret-key",
+    host: "https://api-e.ecoflow.com",
+  });
+
+  const device = client.getDevice(sn);
+  
+  // Enable or disable xboost
+  await device.enableXboost(0, 1);
+  // Enable or disable the car charger
+  await device.enableCharger(1);
+  // Set the maximum charge level
+  await device.setChargeLevel(50);
+  // Set the discharge level
+  await device.setDischargeLevel(10);
+  // Set the car input current
+  await device.setCarInput(4000);
+  // Enable beep
+  await device.enableBeep(1)
+  // Set the screen brightness
+  await device.setScreenBrightness(50);
+  // Setting the lower threshold percentage of smart generator auto on
+  await device.setSmartGeneratorAutoOnThreshold(52);
+  // Setting the upper threshold percentage of smart generator auto off
+  await device.setSmartGeneratorAutoOffThreshold(10);
+  // Set the unit timeout
+  await device.setUnitTimeout(10);
+  // Set the screen timeout
+  await device.setScreenTimeout(60);
+  // Setting the AC standby time
+  await device.setAcStandbyTime(720);
+  // AC charging settings
+  await device.setAcChargingPower(0);
+  // Set the pv charging type
+  await device.setPvChargingType(1);
+  // Enable Bypass AC auto start
+  await device.enableAcAutoStartBypass(1);
 ```
 
 #### Unknown device

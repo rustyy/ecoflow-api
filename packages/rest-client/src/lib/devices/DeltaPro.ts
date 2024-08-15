@@ -63,6 +63,19 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
   /**
    * Enable or disable xboost
    *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.enableXboost(0, 1);
+   * ```
+   *
    * @param enabled 0 = disable, 1 = enable
    * @param xboost 0 = disable, 1 = enable
    */
@@ -77,6 +90,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * Enable or disable the car charger
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.enableCharger(1);
+   * ```
+   *
    * @param enabled
    */
   async enableCharger(enabled: 0 | 1) {
@@ -89,6 +116,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * Set the maximum charge level
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setChargeLevel(50);
+   * ```
+   *
    * @param level
    */
   async setChargeLevel(level: number) {
@@ -100,7 +141,21 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
   }
 
   /**
-   * Set the minimum discharge level
+   * Set the discharge level
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setDischargeLevel(10);
+   * ```
+   *
    * @param level
    */
   async setDischargeLevel(level: number) {
@@ -113,6 +168,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * Set the car input current
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setCarInput(4000);
+   * ```
+   *
    * @param input
    */
   async setCarInput(input: number) {
@@ -125,6 +194,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * Enable or disable the beep
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.enableBeep(1);
+   * ```
+   *
    * @param enabled 0 = disable, 1 = enable
    */
   async enableBeep(enabled: 0 | 1) {
@@ -137,6 +220,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * Set the screen brightness
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setScreenBrightness(50);
+   * ```
+   *
    * @param brightness
    */
   async setScreenBrightness(brightness: number) {
@@ -149,6 +246,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * Setting the lower threshold percentage of smart generator auto on
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setSmartGeneratorAutoOnThreshold(52);
+   * ```
+   *
    * @param threshold
    */
   async setSmartGeneratorAutoOnThreshold(threshold: number) {
@@ -161,6 +272,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * Setting the upper threshold percentage of smart generator auto off
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setSmartGeneratorAutoOffThreshold(10);
+   * ```
+   *
    * @param threshold
    */
   async setSmartGeneratorAutoOffThreshold(threshold: number) {
@@ -173,6 +298,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * Set the unit timeout
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setUnitTimeout(10);
+   * ```
+   *
    * @param timeout
    */
   async setUnitTimeout(timeout: number) {
@@ -185,6 +324,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * Set the screen timeout
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setScreenTimeout(60);
+   * ```
+   *
    * @param timeout
    */
   async setScreenTimeout(timeout: number) {
@@ -197,6 +350,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * Setting the AC standby time
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setAcStandbyTime(720);
+   * ```
+   *
    * @param time
    */
   async setAcStandbyTime(time: number) {
@@ -209,6 +376,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * AC charging settings
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setAcChargingPower(0);
+   * ```
+   *
    * @param power
    */
   async setAcChargingPower(power: number) {
@@ -221,6 +402,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * Set the pv charging type
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.setPvChargingType(0);
+   * ```
+   *
    * @param type
    */
   async setPvChargingType(type: number) {
@@ -233,6 +428,20 @@ export class DeltaPro extends Device<DeltaProSerialNumber, DeltaProQuotaAll> {
 
   /**
    * Enable Bypass AC auto start
+   *
+   * @example
+   * ```typescript
+   *   const sn = "DCABZ*****";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const device = client.getDevice(sn);
+   *   await device.enableAcAutoStartBypass(1);
+   * ```
+   *
    * @param enabled
    */
   async enableAcAutoStartBypass(enabled: 0 | 1) {
