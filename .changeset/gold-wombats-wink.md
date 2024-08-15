@@ -3,4 +3,4 @@
 "@ecoflow-api/schemas": patch
 ---
 
-feature(schemas): add delta pro schemas
+add delta pro support
