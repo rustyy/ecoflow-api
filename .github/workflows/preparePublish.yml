@@ -31,7 +31,9 @@ jobs:
           git config user.email "<>"
           git config pull.rebase true
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+      - name: build
+        run: npm run build
       - name: Bump version
         run: |
           npx changeset version
