@@ -10,10 +10,10 @@ Types and schemas for Ecoflow API as documented in https://developer-eu.ecoflow.
 - Glacier
 - Wave Air Conditioner
 - Smart Home Panel
+- Delta pro
 
 ## Todo
 
-- Delta pro
 - Delta 2 Max
 - Power Kits
 

@@ -32,7 +32,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@ecoflow-api/schemas": "*"
+    "@ecoflow-api/schemas": "0.0.12"
   },
   "devDependencies": {
     "@ecoflow-api/typescript-config": "*",

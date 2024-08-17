@@ -1,7 +1,9 @@
 import {
   Delta2SerialNumber,
+  DeltaProSerialNumber,
   GlacierSerialNumber,
   isDelta2SerialNumber,
+  isDeltaProSerialNumber,
   isGlacierSerialNumber,
   isPowerStreamSerialNumber,
   isSmartHomePanelSerialNumber,
@@ -17,18 +19,17 @@ import { PowerStream } from "./PowerStream";
 import { Delta2 } from "./Delta2";
 import { Glacier } from "./Glacier";
 import { SmartHomePanel } from "./SmartHomePanel";
+import { DeltaPro } from "./DeltaPro";
 
-export type DeviceFactoryReturnType<T extends string> = T extends SmartPlugSn
-  ? SmartPlug
-  : T extends PowerStreamSerialNumber
-    ? PowerStream
-    : T extends Delta2SerialNumber
-      ? Delta2
-      : T extends GlacierSerialNumber
-        ? Glacier
-        : T extends SmartHomePanelSerialNumber
-          ? SmartHomePanel
-          : UnknownDevice;
+// prettier-ignore
+export type DeviceFactoryReturnType<T extends string> =
+  T extends SmartPlugSn ? SmartPlug :
+  T extends PowerStreamSerialNumber ? PowerStream :
+  T extends Delta2SerialNumber ? Delta2 :
+  T extends GlacierSerialNumber ? Glacier :
+  T extends SmartHomePanelSerialNumber ? SmartHomePanel :
+  T extends DeltaProSerialNumber ? DeltaPro :
+  UnknownDevice;
 
 /**
  * Factory function to create a device based on the serial number.
@@ -57,6 +58,10 @@ export function deviceFactory<T extends string, R = DeviceFactoryReturnType<T>>(
 
   if (isSmartHomePanelSerialNumber(sn)) {
     return new SmartHomePanel(restClient, sn) as R;
+  }
+
+  if (isDeltaProSerialNumber(sn)) {
+    return new DeltaPro(restClient, sn) as R;
   }
 
   return new UnknownDevice(restClient, sn) as R;

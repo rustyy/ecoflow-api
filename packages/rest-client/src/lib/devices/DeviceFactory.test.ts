@@ -7,6 +7,7 @@ import { PowerStream } from "./PowerStream";
 import { Delta2 } from "./Delta2";
 import { Glacier } from "./Glacier";
 import { SmartHomePanel } from "./SmartHomePanel";
+import { DeltaPro } from "./DeltaPro";
 
 describe("deviceFactory", () => {
   let restClient: RestClient;
@@ -56,6 +57,13 @@ describe("deviceFactory", () => {
     const sn = "SP10*****";
     const device = deviceFactory(sn, restClient);
     expect(device).toBeInstanceOf(SmartHomePanel);
+    expect(device.sn).toBe(sn);
+  });
+
+  it("returns a Delta Pro instance when the serial number is for a DP", () => {
+    const sn = "DCABZ*****";
+    const device = deviceFactory(sn, restClient);
+    expect(device).toBeInstanceOf(DeltaPro);
     expect(device.sn).toBe(sn);
   });
 });
