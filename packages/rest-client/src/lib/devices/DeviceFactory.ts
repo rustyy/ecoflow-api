@@ -21,19 +21,15 @@ import { Glacier } from "./Glacier";
 import { SmartHomePanel } from "./SmartHomePanel";
 import { DeltaPro } from "./DeltaPro";
 
-export type DeviceFactoryReturnType<T extends string> = T extends SmartPlugSn
-  ? SmartPlug
-  : T extends PowerStreamSerialNumber
-    ? PowerStream
-    : T extends Delta2SerialNumber
-      ? Delta2
-      : T extends GlacierSerialNumber
-        ? Glacier
-        : T extends SmartHomePanelSerialNumber
-          ? SmartHomePanel
-          : T extends DeltaProSerialNumber
-            ? DeltaPro
-            : UnknownDevice;
+// prettier-ignore
+export type DeviceFactoryReturnType<T extends string> =
+  T extends SmartPlugSn ? SmartPlug :
+  T extends PowerStreamSerialNumber ? PowerStream :
+  T extends Delta2SerialNumber ? Delta2 :
+  T extends GlacierSerialNumber ? Glacier :
+  T extends SmartHomePanelSerialNumber ? SmartHomePanel :
+  T extends DeltaProSerialNumber ? DeltaPro :
+  UnknownDevice;
 
 /**
  * Factory function to create a device based on the serial number.
