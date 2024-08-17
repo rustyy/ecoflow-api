@@ -1,0 +1,50 @@
+name: prepare publish
+
+on:
+  pull_request:
+    branches: [ "main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+  bumpVersion:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git config pull.rebase true
+      - name: Install dependencies
+        run: npm ci
+      - name: Bump version
+        run: |
+          changeset version
+          npm install
+      - name: Generate docs
+        run: npm run docs
+      - name: commit changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+            git fetch origin
+            git pull origin ${{ github.head_ref }}
+            git status
+            git add .
+            git commit -m "chore: bump version, regnerate docs"
+            git push origin HEAD:${{ github.head_ref }}
