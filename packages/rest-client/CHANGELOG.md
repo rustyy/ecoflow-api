@@ -1,5 +1,13 @@
 # @ecoflow-api/rest-client
 
+## 0.0.13
+
+### Patch Changes
+
+- 6d4d890: add delta pro support
+- Updated dependencies [6d4d890]
+  - @ecoflow-api/schemas@0.0.13
+
 ## 0.0.12
 
 ### Patch Changes

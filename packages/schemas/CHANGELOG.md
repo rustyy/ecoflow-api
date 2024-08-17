@@ -1,5 +1,11 @@
 # @ecoflow-api/schemas
 
+## 0.0.13
+
+### Patch Changes
+
+- 6d4d890: add delta pro support
+
 ## 0.0.12
 
 ### Patch Changes
