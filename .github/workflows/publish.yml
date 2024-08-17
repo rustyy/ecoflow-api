@@ -1,0 +1,32 @@
+name: publish packages
+
+on:
+  push:
+    branches: [ "main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git config pull.rebase true
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run publish-packages
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: push tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          git fetch origin
+          git pull origin ${{ github.GITHUB_TOKEN }}
+          git push --tags
