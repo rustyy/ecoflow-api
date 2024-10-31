@@ -1,5 +1,15 @@
 # examples
 
+## 0.0.4
+
+### Patch Changes
+
+- f08608d: update dependencies
+- Updated dependencies [c61ebea]
+- Updated dependencies [f08608d]
+  - @ecoflow-api/rest-client@0.0.14
+  - @ecoflow-api/schemas@0.0.14
+
 ## 0.0.3
 
 ### Patch Changes

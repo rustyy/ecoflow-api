@@ -181,7 +181,6 @@ Todo:
 - "operateType":"dsgCfg"
 - "operateType":"openOilSoc"
 - "operateType":"closeOilSoc"
-- "operateType":"watthConfig"
 
 ```ts
 import {RestClient} from '@ecoflow-api/rest-client';
@@ -233,6 +232,14 @@ await delta2.enableUsbOutput(0);
 
 // Car standby for 4 hours
 await delta2.setCarStandByDuration(240);
+
+// Set energy management
+await delta2.setEnergyManagement({
+    "isConfig":1,
+    "bpPowerSoc":95,
+    "minDsgSoc":255,
+    "minChgSoc":255
+});
 
 ```
 

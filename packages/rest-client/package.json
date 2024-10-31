@@ -1,6 +1,6 @@
 {
   "name": "@ecoflow-api/rest-client",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A rest client for the Ecoflow API for NodeJS",
   "keywords": [
     "ecoflow",
@@ -32,7 +32,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@ecoflow-api/schemas": "0.0.13"
+    "@ecoflow-api/schemas": "0.0.14"
   },
   "devDependencies": {
     "@ecoflow-api/typescript-config": "*",
@@ -43,6 +43,6 @@
     "ts-node": "^10.9.2",
     "tsup": "^8.0.2",
     "typedoc": "^0.26.4",
-    "typescript": "^5.4.5"
+    "typescript": "^5.6.3"
   }
 }

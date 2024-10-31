@@ -16,6 +16,9 @@ import {
   Delta2QuotaAll,
   delta2QuotaAllSchema,
   Delta2SerialNumber,
+  EnergyManagement,
+  EnergyManagementParams,
+  energyManagementSchema,
   isDelta2SerialNumber,
   LcdConfig,
   lcdConfigSchema,
@@ -222,9 +225,43 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
 
   /**************+********************************************************
    * PD Commands
-   * @todo Implement PD commands:
-   *    - "operateType":"watthConfig"
    **************+********************************************************/
+
+  /**
+   * Set the energy management configuration.
+   * - isConfig: energy management configuration, 0: disabled, 1: enabled
+   * - bpPowerSoc: backup reserve level;
+   * - minDsgSoc: discharge limit (not in use);
+   * - minChgSoc: charge limit (not in use))
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *
+   *   await delta2.setEnergyManagement({
+   *     "isConfig":1,
+   *     "bpPowerSoc":95,
+   *     "minDsgSoc":255,
+   *     "minChgSoc":255
+   *   });
+   * ```
+   */
+  async setEnergyManagement(params: EnergyManagementParams) {
+    const payload: EnergyManagement = {
+      ...this.#payloadDefaults(1),
+      operateType: "watthConfig",
+      params,
+    };
+
+    return this.sendCommand(payload, energyManagementSchema);
+  }
 
   /**
    * Set the standby time for the PD module.

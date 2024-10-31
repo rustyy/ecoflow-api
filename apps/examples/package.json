@@ -1,6 +1,6 @@
 {
   "name": "examples",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "scripts": {
     "build": "tsup src/**/*.ts --clean --format cjs --dts --minify",
@@ -18,9 +18,10 @@
     "@ecoflow-api/schemas": "*"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^1.21.1",
     "@ecoflow-api/typescript-config": "*",
     "@types/node": "^20.12.13",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.6.3"
   }
 }

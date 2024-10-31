@@ -1,5 +1,15 @@
 # @ecoflow-api/rest-client
 
+## 0.0.14
+
+### Patch Changes
+
+- c61ebea: feat: add "setEngeryManagement" function for delta 2
+- f08608d: update dependencies
+- Updated dependencies [c61ebea]
+- Updated dependencies [f08608d]
+  - @ecoflow-api/schemas@0.0.14
+
 ## 0.0.13
 
 ### Patch Changes

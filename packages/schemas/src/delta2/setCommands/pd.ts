@@ -129,15 +129,21 @@ export type PvPriority = z.infer<typeof pvPrioritySchema>;
  * }
  * ```
  */
+export const energyManagementParamsSchema = z.object({
+  isConfig: zeroOrOne,
+  // Note that bpPowerSoc depends on minDsgSoc, minChgSoc value.
+  bpPowerSoc: z.number().int().positive().min(0).max(100),
+  minDsgSoc: z.number().int(),
+  minChgSoc: z.number().int(),
+});
+
+export type EnergyManagementParams = z.infer<
+  typeof energyManagementParamsSchema
+>;
+
 export const energyManagementSchema = pdCommandSchema.extend({
   operateType: z.literal("watthConfig"),
-  params: z.object({
-    isConfig: zeroOrOne,
-    // Note that bpPowerSoc depends on minDsgSoc, minChgSoc value.
-    bpPowerSoc: z.number().int().positive().min(0).max(100),
-    minDsgSoc: z.number().int(),
-    minChgSoc: z.number().int(),
-  }),
+  params: energyManagementParamsSchema,
 });
 
 export type EnergyManagement = z.infer<typeof energyManagementSchema>;

@@ -299,4 +299,28 @@ describe("Delta2", () => {
     expect.assertions(1);
     await expect(delta2.setCarStandByDuration(-1)).rejects.toThrowError();
   });
+
+  it("should set energy management configuration", async () => {
+    expect.assertions(1);
+    await delta2.setEnergyManagement({
+      isConfig: 1,
+      bpPowerSoc: 95,
+      minDsgSoc: 255,
+      minChgSoc: 255,
+    });
+
+    expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+      id: 123456789,
+      version: "1.0",
+      moduleType: 1,
+      operateType: "watthConfig",
+      params: {
+        isConfig: 1,
+        bpPowerSoc: 95,
+        minDsgSoc: 255,
+        minChgSoc: 255,
+      },
+      sn: validSn,
+    });
+  });
 });
