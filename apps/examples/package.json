@@ -1,6 +1,6 @@
 {
   "name": "examples",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "scripts": {
     "build": "tsup src/**/*.ts --clean --format cjs --dts --minify",
