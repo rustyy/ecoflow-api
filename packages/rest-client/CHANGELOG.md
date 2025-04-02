@@ -1,5 +1,16 @@
 # @ecoflow-api/rest-client
 
+## 0.1.0
+
+### Minor Changes
+
+- 59a71f5: update dependencies
+
+### Patch Changes
+
+- Updated dependencies [59a71f5]
+  - @ecoflow-api/schemas@0.1.0
+
 ## 0.0.14
 
 ### Patch Changes

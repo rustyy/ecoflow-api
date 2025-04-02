@@ -1,5 +1,11 @@
 # @ecoflow-api/schemas
 
+## 0.1.0
+
+### Minor Changes
+
+- 59a71f5: update dependencies
+
 ## 0.0.14
 
 ### Patch Changes
