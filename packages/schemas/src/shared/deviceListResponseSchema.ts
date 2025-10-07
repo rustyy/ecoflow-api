@@ -16,7 +16,7 @@ export const deviceListResponseSchema = z.object({
         sn: z.string(),
         online: zeroOrOne,
         deviceName: z.string().optional(),
-        productName: z.string(),
+        productName: z.string().optional(),
       })
       .passthrough(),
   ),
