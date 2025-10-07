@@ -1,5 +1,13 @@
 # @ecoflow-api/rest-client
 
+## 0.1.1
+
+### Patch Changes
+
+- 63e1a94: fix #26: productName in device-list response to be optional
+- Updated dependencies [63e1a94]
+  - @ecoflow-api/schemas@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes
