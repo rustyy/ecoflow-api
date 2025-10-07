@@ -28,7 +28,8 @@ jobs:
       - name: push tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REF: ${{ github.head_ref }}
         run: |
           git fetch origin
-          git pull origin ${{ github.head_ref }}
+          git pull origin $REF
           git push --tags

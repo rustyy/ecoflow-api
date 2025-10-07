@@ -43,8 +43,9 @@ jobs:
       - name: commit changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REF: ${{ github.head_ref }}
         run: |
             git status
             git add .
             git commit -m "chore: bump version, regnerate docs"
-            git push origin HEAD:${{ github.head_ref }}
+            git push origin HEAD:$REF
