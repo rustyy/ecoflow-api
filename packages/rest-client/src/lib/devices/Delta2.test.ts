@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { RestClient, RestClientOptions } from "../RestClient";
 import { propertiesFixture } from "../../__fixtures__/delta2Properties";
 import { Delta2 } from "./Delta2";
+import { getPropertiesFailsOnInvalidResponse } from "../../__fixtures__/shared";
 
 describe("Delta2", () => {
   let delta2: Delta2;
@@ -44,17 +45,7 @@ describe("Delta2", () => {
   });
 
   it("Should throw an error for invalid data received from api", async () => {
-    const data = {
-      sn: "fake_smart_plug_sn",
-      success: true,
-      code: 0,
-      message: "Test message",
-      time: Date.now(),
-    };
-
-    // @ts-ignore
-    restClient.getDeviceProperties = jest.fn().mockResolvedValue(data);
-    await expect(delta2.getProperties()).rejects.toThrowError();
+    await getPropertiesFailsOnInvalidResponse(restClient, delta2);
   });
 
   it("Should be able to set Silent Mode", async () => {

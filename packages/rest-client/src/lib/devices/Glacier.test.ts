@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { RestClient, RestClientOptions } from "../RestClient";
 import { Glacier } from "./Glacier";
 import { glacierProperties } from "../../__fixtures__/glacierProperties";
+import { getPropertiesFailsOnInvalidResponse } from "../../__fixtures__/shared";
 
 describe("Glacier", () => {
   let glacier: Glacier;
@@ -135,17 +136,7 @@ describe("Glacier", () => {
   });
 
   it("Should throw an error for invalid data received from api", async () => {
-    const data = {
-      sn: "fake_smart_plug_sn",
-      success: true,
-      code: 0,
-      message: "Test message",
-      time: Date.now(),
-    };
-
-    // @ts-ignore
-    restClient.getDeviceProperties = jest.fn().mockResolvedValue(data);
-    await expect(glacier.getProperties()).rejects.toThrowError();
+    await getPropertiesFailsOnInvalidResponse(restClient, glacier);
   });
 
   it("should enable/disable buzzer", () => {
@@ -428,20 +419,6 @@ describe("Glacier", () => {
       },
       sn: validSn,
     });
-  });
-
-  it("Should throw an error for invalid data received from api", async () => {
-    const data = {
-      sn: "fake-sn",
-      success: true,
-      code: 0,
-      message: "Test message",
-      time: Date.now(),
-    };
-
-    // @ts-ignore
-    restClient.getDeviceProperties = jest.fn().mockResolvedValue(data);
-    await expect(glacier.getProperties()).rejects.toThrowError();
   });
 
   it("Should return data if api response could be parsed", async () => {
