@@ -49,7 +49,7 @@ describe("Delta2", () => {
       success: true,
       code: 0,
       message: "Test message",
-      time: new Date().getTime(),
+      time: Date.now(),
     };
 
     // @ts-ignore
