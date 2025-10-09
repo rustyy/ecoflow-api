@@ -6,7 +6,7 @@ import { z } from "zod";
  *********************************************/
 
 export const smartPlugSerialNumberSchema = z.custom<`HW52${string}`>((val) => {
-  return typeof val === "string" ? /^HW52/.test(val) : false;
+  return typeof val === "string" ? val.startsWith("HW52") : false;
 });
 
 export type SmartPlugSn = z.infer<typeof smartPlugSerialNumberSchema>;

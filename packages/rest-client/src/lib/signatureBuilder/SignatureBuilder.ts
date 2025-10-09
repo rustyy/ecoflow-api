@@ -18,7 +18,7 @@ export class SignatureBuilder {
   buildDataString(data: Record<string, any>) {
     const flattened = flattenObject(data);
     const tmp = [];
-    const keys = Object.keys(flattened).sort();
+    const keys = Object.keys(flattened).sort((a, b) => a.localeCompare(b));
 
     for (const key of keys) {
       tmp.push(`${key}=${flattened[key]}`);
