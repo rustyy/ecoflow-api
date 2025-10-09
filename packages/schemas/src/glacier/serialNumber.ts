@@ -6,7 +6,7 @@ import { z } from "zod";
  *********************************************/
 
 export const glacierSerialNumberSchema = z.custom<`BX11${string}`>((val) => {
-  return typeof val === "string" ? /^BX11/.test(val) : false;
+  return typeof val === "string" ? val.startsWith("BX11") : false;
 });
 
 export type GlacierSerialNumber = z.infer<typeof glacierSerialNumberSchema>;

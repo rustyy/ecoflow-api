@@ -6,7 +6,7 @@ import { z } from "zod";
  *********************************************/
 
 export const delta2SerialNumberSchema = z.custom<`R331${string}`>((val) => {
-  return typeof val === "string" ? /^R331/.test(val) : false;
+  return typeof val === "string" ? val.startsWith("R331") : false;
 });
 
 export type Delta2SerialNumber = z.infer<typeof delta2SerialNumberSchema>;

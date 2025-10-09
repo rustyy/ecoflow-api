@@ -1,6 +1,6 @@
 {
   "name": "@ecoflow-api/rest-client",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A rest client for the Ecoflow API for NodeJS",
   "keywords": [
     "ecoflow",
@@ -32,7 +32,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@ecoflow-api/schemas": "0.1.1"
+    "@ecoflow-api/schemas": "0.2.0"
   },
   "devDependencies": {
     "@ecoflow-api/typescript-config": "*",

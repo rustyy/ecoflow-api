@@ -1,5 +1,15 @@
 # @ecoflow-api/schemas
 
+## 0.2.0
+
+### Minor Changes
+
+- 4693690: update dependencies
+
+### Patch Changes
+
+- 15c5e56: Remove code smells
+
 ## 0.1.1
 
 ### Patch Changes

@@ -8,9 +8,14 @@ describe("SignatureBuilder", () => {
       const msg = {
         val1: "bar",
         val2: null,
+        1: 1,
+        a: "b",
+        0: 0,
       };
 
-      expect(builder.buildDataString(msg)).toBe("val1=bar&val2=null");
+      expect(builder.buildDataString(msg)).toBe(
+        "0=0&1=1&a=b&val1=bar&val2=null",
+      );
     });
 
     test("Sorts key/values", () => {

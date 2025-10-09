@@ -1,5 +1,18 @@
 # @ecoflow-api/rest-client
 
+## 0.2.0
+
+### Minor Changes
+
+- 4693690: update dependencies
+
+### Patch Changes
+
+- 15c5e56: Remove code smells
+- Updated dependencies [15c5e56]
+- Updated dependencies [4693690]
+  - @ecoflow-api/schemas@0.2.0
+
 ## 0.1.1
 
 ### Patch Changes
