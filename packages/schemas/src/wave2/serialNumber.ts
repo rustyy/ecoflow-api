@@ -6,7 +6,7 @@ import { z } from "zod";
  *********************************************/
 
 export const wave2SerialNumberSchema = z.custom<`KT21${string}`>((val) => {
-  return typeof val === "string" ? /^KT21/.test(val) : false;
+  return typeof val === "string" ? val.startsWith("KT21") : false;
 });
 
 export type Wave2SerialNumber = z.infer<typeof wave2SerialNumberSchema>;

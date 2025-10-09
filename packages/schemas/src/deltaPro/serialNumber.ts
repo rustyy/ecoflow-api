@@ -6,7 +6,7 @@ import { z } from "zod";
  *********************************************/
 
 export const deltaProSerialNumberSchema = z.custom<`DCABZ${string}`>((val) => {
-  return typeof val === "string" ? /^DCABZ/.test(val) : false;
+  return typeof val === "string" ? val.startsWith("DCABZ") : false;
 });
 
 export type DeltaProSerialNumber = z.infer<typeof deltaProSerialNumberSchema>;
