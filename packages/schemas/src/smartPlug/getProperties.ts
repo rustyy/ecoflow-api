@@ -45,63 +45,63 @@ export const smartPlugQuotaAllSchema = z
     "2_2.task10": taskSchema,
     "2_2.task11": taskSchema,
 
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.consNum": integer,
-    // @todo: Not documented in the official docs. can be negative
+    // Note: Not documented in the official docs. can be negative
     "2_1.consWatt": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.geneNum": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.geneWatt": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.heartbeatFrequency": integer.nonnegative(),
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.lanState": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.matterFabric": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.maxWatts": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.meshEnable": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.meshId": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.meshLayel": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.mqttErr": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.mqttErrTime": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.otaDlErr": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.otaDlTlsErr": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.parentMac": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.parentWifiRssi": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.resetCount": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.resetReason": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.rtcResetReason": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.runTime": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.selfEmsSwitch": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.selfMac": integer,
-    // @todo: Not documented in the official docs. can be negative
+    // Note: Not documented in the official docs. can be negative
     "2_1.staIpAddr": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.stackFree": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.stackMinFree": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.wifiErr": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_1.wifiErrTime": integer,
-    // @todo: Not documented in the official docs.
+    // Note: Not documented in the official docs.
     "2_2.updateTime": z.string(),
   })
   .passthrough();
