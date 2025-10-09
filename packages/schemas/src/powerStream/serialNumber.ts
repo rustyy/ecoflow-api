@@ -7,7 +7,7 @@ import { z } from "zod";
 
 export const powerStreamSerialNumberSchema = z.custom<`HW51${string}`>(
   (val) => {
-    return typeof val === "string" ? /^HW51/.test(val) : false;
+    return typeof val === "string" ? val.startsWith("HW51") : false;
   },
 );
 

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { RestClient, RestClientOptions } from "../RestClient";
 import { DeltaPro } from "./DeltaPro";
 import { propertiesFixture } from "../../__fixtures__/deltaProProperties";
+import { getPropertiesFailsOnInvalidResponse } from "../../__fixtures__/shared";
 
 describe("Delta Pro", () => {
   let device: DeltaPro;
@@ -34,17 +35,7 @@ describe("Delta Pro", () => {
   });
 
   it("Should throw an error for invalid data received from api", async () => {
-    const data = {
-      sn: "fake-sn",
-      success: true,
-      code: 0,
-      message: "Test message",
-      time: new Date().getTime(),
-    };
-
-    // @ts-ignore
-    restClient.getDeviceProperties = jest.fn().mockResolvedValue(data);
-    await expect(device.getProperties()).rejects.toThrowError();
+    await getPropertiesFailsOnInvalidResponse(restClient, device);
   });
 
   it("Should return data if api response could be parsed", async () => {

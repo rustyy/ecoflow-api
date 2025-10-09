@@ -7,7 +7,7 @@ import { z } from "zod";
 
 export const smartHomePanelSerialNumberSchema = z.custom<`SP10${string}`>(
   (val) => {
-    return typeof val === "string" ? /^SP10/.test(val) : false;
+    return typeof val === "string" ? val.startsWith("SP10") : false;
   },
 );
 

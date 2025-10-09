@@ -9,7 +9,7 @@ export type RequestHeaders = [
 ];
 
 export class RequestHandler {
-  #signatureBuilder: SignatureBuilder;
+  readonly #signatureBuilder: SignatureBuilder;
 
   constructor(signatureBuilder: SignatureBuilder) {
     this.#signatureBuilder = signatureBuilder;
