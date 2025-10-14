@@ -394,3 +394,134 @@ export const deltaPro3EnergyBackupCommandSchema = deltaPro3BaseSchema.extend({
 export type DeltaPro3EnergyBackupCommand = z.infer<
   typeof deltaPro3EnergyBackupCommandSchema
 >;
+
+/**
+ * Sets the maximum input current of the low-voltage PV port.
+ * {
+ *     "sn": "MR51ZAS2PG330026",
+ *     "cmdId": 17,
+ *     "dirDest": 1,
+ *     "dirSrc": 1,
+ *     "cmdFunc": 254,
+ *     "dest": 2,
+ *     "needAck": true,
+ *     "params": {
+ *         "cfgPlugInInfoPvLDcAmpMax": 7
+ *     }
+ * }
+ */
+export const deltaPro3PlugInInfoPvLDcAmpMaxCommandSchema =
+  deltaPro3BaseSchema.extend({
+    params: z.object({
+      cfgPlugInInfoPvLDcAmpMax: z.number().int(),
+    }),
+  });
+
+export type DeltaPro3PlugInInfoPvLDcAmpMaxCommand = z.infer<
+  typeof deltaPro3PlugInInfoPvLDcAmpMaxCommandSchema
+>;
+
+/**
+ * Sets the maximum input current of the high-voltage PV port.
+ * {
+ *     "sn": "MR51ZAS2PG330026",
+ *     "cmdId": 17,
+ *     "dirDest": 1,
+ *     "dirSrc": 1,
+ *     "cmdFunc": 254,
+ *     "dest": 2,
+ *     "needAck": true,
+ *     "params": {
+ *         "cfgPlugInInfoPvHDcAmpMax": 12
+ *     }
+ * }
+ */
+export const deltaPro3PlugInInfoPvHDcAmpMaxCommandSchema =
+  deltaPro3BaseSchema.extend({
+    params: z.object({
+      cfgPlugInInfoPvHDcAmpMax: z.number().int(),
+    }),
+  });
+
+export type DeltaPro3PlugInInfoPvHDcAmpMaxCommand = z.infer<
+  typeof deltaPro3PlugInInfoPvHDcAmpMaxCommandSchema
+>;
+
+/**
+ * Sets the maximum AC charging power.
+ * {
+ *     "sn": "MR51ZAS2PG330026",
+ *     "cmdId": 17,
+ *     "dirDest": 1,
+ *     "dirSrc": 1,
+ *     "cmdFunc": 254,
+ *     "dest": 2,
+ *     "needAck": true,
+ *     "params": {
+ *         "cfgPlugInInfoAcInChgPowMax": 3000
+ *     }
+ * }
+ */
+export const deltaPro3SetMaxAcChargingPowCommandSchema =
+  deltaPro3BaseSchema.extend({
+    params: z.object({
+      cfgPlugInInfoAcInChgPowMax: z.number().int(),
+    }),
+  });
+
+export type DeltaPro3SetMaxAcChargingPowCommand = z.infer<
+  typeof deltaPro3SetMaxAcChargingPowCommandSchema
+>;
+
+/**
+ * Maximum charging power of the Power In/Out port.
+ * {
+ *     "sn": "MR51ZAS2PG330026",
+ *     "cmdId": 17,
+ *     "dirDest": 1,
+ *     "dirSrc": 1,
+ *     "cmdFunc": 254,
+ *     "dest": 2,
+ *     "needAck": true,
+ *     "params": {
+ *         "cfgPlugInInfo5p8ChgPowMax": 1800
+ *     }
+ * }
+ */
+export const deltaPro3MaxChargingPowIOCommandSchema =
+  deltaPro3BaseSchema.extend({
+    params: z.object({
+      cfgPlugInInfo5p8ChgPowMax: z.number().int(),
+    }),
+  });
+
+export type DeltaPro3MaxChargingPowIOCommand = z.infer<
+  typeof deltaPro3MaxChargingPowIOCommandSchema
+>;
+
+/**
+ * Smart Generator auto start/stop switch.
+ * {
+ *     "sn": "MR51ZAS2PG330026",
+ *     "cmdId": 17,
+ *     "dirDest": 1,
+ *     "dirSrc": 1,
+ *     "cmdFunc": 254,
+ *     "dest": 2,
+ *     "needAck": true,
+ *     "params": {
+ *         "cfgCmsOilSelfStart": true
+ *     }
+ * }
+ */
+export const deltaPro3CmsOilSelfStartCommandSchema = deltaPro3BaseSchema.extend(
+  {
+    params: z.object({
+      cfgCmsOilSelfStart: z.boolean(),
+    }),
+  },
+);
+
+export type DeltaPro3CmsOilSelfStartCommand = z.infer<
+  typeof deltaPro3CmsOilSelfStartCommandSchema
+>;
