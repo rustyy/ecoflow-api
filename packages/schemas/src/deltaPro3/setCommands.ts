@@ -651,3 +651,32 @@ export const deltaPro3AcEnergySavingModeCommandSchema =
 export type DeltaPro3AcEnergySavingModeCommand = z.infer<
   typeof deltaPro3AcEnergySavingModeCommandSchema
 >;
+
+/**
+ * Battery charging/discharging order.
+ * 0: default
+ * 1: The device will automatically decide the charge and discharge order based on each battery's voltage.
+ * 2: The main battery is prioritized during charging, and extra batteries are prioritized during discharging.
+ * {
+ *     "sn": "MR51ZAS2PG330026",
+ *     "cmdId": 17,
+ *     "dirDest": 1,
+ *     "dirSrc": 1,
+ *     "cmdFunc": 254,
+ *     "dest": 2,
+ *     "needAck": true,
+ *     "params": {
+ *         "cfgMultiBpChgDsgMode": 1
+ *     }
+ * }
+ */
+export const deltaPro3BatterChargingOrderCommandSchema =
+  deltaPro3BaseSchema.extend({
+    params: z.object({
+      cfgMultiBpChgDsgMode: z.number().int().min(0).max(2),
+    }),
+  });
+
+export type DeltaPro3BatterChargingOrderCommand = z.infer<
+  typeof deltaPro3BatterChargingOrderCommandSchema
+>;
