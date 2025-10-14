@@ -525,3 +525,129 @@ export const deltaPro3CmsOilSelfStartCommandSchema = deltaPro3BaseSchema.extend(
 export type DeltaPro3CmsOilSelfStartCommand = z.infer<
   typeof deltaPro3CmsOilSelfStartCommandSchema
 >;
+
+/**
+ * Sets the SOC that automatically starts the Smart Generator.
+ * {
+ *     "sn": "MR51ZAS2PG330026",
+ *     "cmdId": 17,
+ *     "dirDest": 1,
+ *     "dirSrc": 1,
+ *     "cmdFunc": 254,
+ *     "dest": 2,
+ *     "needAck": true,
+ *     "params": {
+ *         "cfgCmsOilOnSoc": 36
+ *     }
+ * }
+ */
+export const deltaPro3CmsOilOnSocCommandSchema = deltaPro3BaseSchema.extend({
+  params: z.object({
+    cfgCmsOilOnSoc: z.number().int().min(0).max(100),
+  }),
+});
+
+export type DeltaPro3CmsOilOnSocCommand = z.infer<
+  typeof deltaPro3CmsOilOnSocCommandSchema
+>;
+
+/**
+ * Sets the SOC that automatically stops the Smart Generator.
+ * {
+ *     "sn": "MR51ZAS2PG330026",
+ *     "cmdId": 17,
+ *     "dirDest": 1,
+ *     "dirSrc": 1,
+ *     "cmdFunc": 254,
+ *     "dest": 2,
+ *     "needAck": true,
+ *     "params": {
+ *         "cfgCmsOilOffSoc": 67
+ *     }
+ * }
+ */
+export const deltaPro3CmsOilOffSocCommandSchema = deltaPro3BaseSchema.extend({
+  params: z.object({
+    cfgCmsOilOffSoc: z.number().int().min(0).max(100),
+  }),
+});
+
+export type DeltaPro3CmsOilOffSocCommand = z.infer<
+  typeof deltaPro3CmsOilOffSocCommandSchema
+>;
+
+/**
+ * GFCI switch.
+ * {
+ *     "sn": "MR51ZAS2PG330026",
+ *     "cmdId": 17,
+ *     "dirDest": 1,
+ *     "dirSrc": 1,
+ *     "cmdFunc": 254,
+ *     "dest": 2,
+ *     "needAck": true,
+ *     "params": {
+ *         "cfgLlcGFCIFlag": true
+ *     }
+ * }
+ */
+export const deltaPro3LlcGFCIFlagCommandSchema = deltaPro3BaseSchema.extend({
+  params: z.object({
+    cfgLlcGFCIFlag: z.boolean(),
+  }),
+});
+
+export type DeltaPro3LlcGFCIFlagCommand = z.infer<
+  typeof deltaPro3LlcGFCIFlagCommandSchema
+>;
+
+/**
+ * Sets Bluetooth timeout.
+ * {
+ *     "sn": "MR51ZAS2PG330026",
+ *     "cmdId": 17,
+ *     "dirDest": 1,
+ *     "dirSrc": 1,
+ *     "cmdFunc": 254,
+ *     "dest": 2,
+ *     "needAck": true,
+ *     "params": {
+ *         "cfgBleStandbyTime": 200
+ *     }
+ * }
+ */
+export const deltaPro3BleStandbyTimeCommandSchema = deltaPro3BaseSchema.extend({
+  params: z.object({
+    cfgBleStandbyTime: z.number().int().min(0).max(10000),
+  }),
+});
+
+export type DeltaPro3BleStandbyTimeCommand = z.infer<
+  typeof deltaPro3BleStandbyTimeCommandSchema
+>;
+
+/**
+ * AC energy-saving mode switch.
+ * {
+ *     "sn": "MR51ZAS2PG330026",
+ *     "cmdId": 17,
+ *     "dirDest": 1,
+ *     "dirSrc": 1,
+ *     "cmdFunc": 254,
+ *     "dest": 2,
+ *     "needAck": true,
+ *     "params": {
+ *         "cfgAcEnergySavingOpen": true
+ *     }
+ * }
+ */
+export const deltaPro3AcEnergySavingModeCommandSchema =
+  deltaPro3BaseSchema.extend({
+    params: z.object({
+      cfgAcEnergySavingOpen: z.boolean(),
+    }),
+  });
+
+export type DeltaPro3AcEnergySavingModeCommand = z.infer<
+  typeof deltaPro3AcEnergySavingModeCommandSchema
+>;
