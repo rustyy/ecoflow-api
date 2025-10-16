@@ -2,7 +2,7 @@ import { z } from "zod";
 import { deltaPro3SerialNumberSchema } from "./serialNumber";
 import { integer } from "../shared";
 
-const deltaPro3BaseSchema = z.object({
+export const deltaPro3BaseSchema = z.object({
   sn: deltaPro3SerialNumberSchema,
   cmdId: z.literal(17),
   dirDest: z.literal(1),
@@ -11,6 +11,8 @@ const deltaPro3BaseSchema = z.object({
   dest: z.literal(2),
   needAck: z.literal(true),
 });
+
+export type DeltaPro3BaseCommand = z.infer<typeof deltaPro3BaseSchema>;
 
 /**
  * Sets the beeper switch. (true: on, false: off.)
@@ -55,7 +57,7 @@ export type DeltaPro3BeepEnCommand = z.infer<
  */
 export const deltaPro3AcTimeoutCommandSchema = deltaPro3BaseSchema.extend({
   params: z.object({
-    cfgAcStandbyTime: integer,
+    cfgAcStandbyTime: integer.min(0),
   }),
 });
 
@@ -80,7 +82,7 @@ export type DeltaPro3AcTimeoutCommand = z.infer<
  */
 export const deltaPro3DcTimeoutCommandSchema = deltaPro3BaseSchema.extend({
   params: z.object({
-    cfgDcStandbyTime: integer,
+    cfgDcStandbyTime: integer.min(0),
   }),
 });
 
