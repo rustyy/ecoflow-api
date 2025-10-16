@@ -6,3 +6,4 @@ export * from "./wave2";
 export * from "./smartHomePanel";
 export * from "./deltaPro";
 export * from "./shared";
+export * from "./deltaPro3";
