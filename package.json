@@ -23,6 +23,7 @@
     "docs": "typedoc",
     "build": "turbo build",
     "test": "turbo test",
+    "test:watch": "turbo test -- --watch",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "publish-packages": "turbo run build && changeset publish",
     "clean": "npx -y rimraf -g **/node_modules **/dist **/.turbo"
