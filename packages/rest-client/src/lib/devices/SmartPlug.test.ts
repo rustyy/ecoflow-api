@@ -18,6 +18,11 @@ describe("SmartPlug", () => {
 
     restClient = new RestClient(restClientOptions);
     smartPlug = new SmartPlug(restClient, validSn);
+
+    restClient.setCommandPlain = jest.fn<RestClient["setCommandPlain"]>();
+    restClient.getDevicePropertiesPlain = jest
+      .fn<RestClient["getDevicePropertiesPlain"]>()
+      .mockResolvedValue(devicePropertiesResponse);
   });
 
   it("Should be able to construct an instance of SmartPlug", () => {
@@ -33,8 +38,6 @@ describe("SmartPlug", () => {
 
   it("Should be able to turn the smart plug on", async () => {
     expect.assertions(1);
-    // @ts-ignore
-    restClient.setCommandPlain = jest.fn();
 
     await smartPlug.switchOn();
 
@@ -49,8 +52,6 @@ describe("SmartPlug", () => {
   //
   it("Should be able to turn the smart plug off", async () => {
     expect.assertions(1);
-    // @ts-ignore
-    restClient.setCommandPlain = jest.fn();
     await smartPlug.switchOff();
 
     expect(restClient.setCommandPlain).toHaveBeenCalledWith({
@@ -64,8 +65,6 @@ describe("SmartPlug", () => {
 
   it("Should be able to delete Task", async () => {
     expect.assertions(1);
-    // @ts-ignore
-    restClient.setCommandPlain = jest.fn();
     await smartPlug.deleteTask(42);
 
     expect(restClient.setCommandPlain).toHaveBeenCalledWith({
@@ -82,19 +81,21 @@ describe("SmartPlug", () => {
   });
 
   it("Should return data if api response could be parsed", async () => {
-    // @ts-ignore
-    restClient.getDevicePropertiesPlain = jest
-      .fn()
-      // @ts-ignore
-      .mockResolvedValue(devicePropertiesResponse);
-
     await expect(smartPlug.getProperties()).resolves.toBeDefined();
+  });
+
+  it("returns the requested property", async () => {
+    await expect(smartPlug.getProperty("2_1.temp")).resolves.toBe(
+      devicePropertiesResponse.data["2_1.temp"],
+    );
+  });
+
+  it("returns undefined for non existing property", async () => {
+    await expect(smartPlug.getProperty("foobar")).resolves.toBeUndefined();
   });
 
   it("should set led brightness", async () => {
     expect.assertions(1);
-    // @ts-ignore
-    restClient.setCommandPlain = jest.fn();
     const brightness = 42;
     await smartPlug.setLedBrightness(brightness);
 
@@ -109,8 +110,6 @@ describe("SmartPlug", () => {
 
   it("should throw for an invalid brightness value", async () => {
     expect.assertions(2);
-    // @ts-ignore
-    restClient.setCommandPlain = jest.fn();
     await expect(smartPlug.setLedBrightness(5000)).rejects.toThrowError();
     await expect(smartPlug.setLedBrightness(-1)).rejects.toThrowError();
   });

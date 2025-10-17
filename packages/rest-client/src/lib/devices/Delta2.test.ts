@@ -19,8 +19,10 @@ describe("Delta2", () => {
     restClient = new RestClient(restClientOptions);
     delta2 = new Delta2(restClient, validSn);
 
-    // @ts-ignore
-    restClient.setCommandPlain = jest.fn();
+    restClient.setCommandPlain = jest.fn<RestClient["setCommandPlain"]>();
+    restClient.getDevicePropertiesPlain = jest
+      .fn<RestClient["getDevicePropertiesPlain"]>()
+      .mockResolvedValue(propertiesFixture);
   });
 
   it("Should be able to construct an instance of Delta2", () => {
@@ -35,13 +37,17 @@ describe("Delta2", () => {
   });
 
   it("Should return data if api response could be parsed", async () => {
-    // @ts-ignore
-    restClient.getDevicePropertiesPlain = jest
-      .fn()
-      // @ts-ignore
-      .mockResolvedValue(propertiesFixture);
-
     await expect(delta2.getProperties()).resolves.toBeDefined();
+  });
+
+  it("returns the requested property", async () => {
+    await expect(delta2.getProperty("bms_bmsStatus.f32ShowSoc")).resolves.toBe(
+      propertiesFixture.data["bms_bmsStatus.f32ShowSoc"],
+    );
+  });
+
+  it("returns undefined for non existing property", async () => {
+    await expect(delta2.getProperty("foobar")).resolves.toBeUndefined();
   });
 
   it("Should throw an error for invalid data received from api", async () => {

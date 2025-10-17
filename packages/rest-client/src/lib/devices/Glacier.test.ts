@@ -19,8 +19,10 @@ describe("Glacier", () => {
     restClient = new RestClient(restClientOptions);
     glacier = new Glacier(restClient, validSn);
 
-    // @ts-ignore
-    restClient.setCommandPlain = jest.fn();
+    restClient.setCommandPlain = jest.fn<RestClient["setCommandPlain"]>();
+    restClient.getDevicePropertiesPlain = jest
+      .fn<RestClient["getDevicePropertiesPlain"]>()
+      .mockResolvedValue(glacierProperties);
   });
 
   it("Should be able to construct an instance of Glacier", () => {
@@ -32,6 +34,16 @@ describe("Glacier", () => {
     expect(() => {
       new Glacier(restClient, "invalid_sn" as any);
     }).toThrowError("Invalid serial number for Glacier device.");
+  });
+
+  it("returns the requested property", async () => {
+    await expect(glacier.getProperty("bms_emsStatus.dsgCmd")).resolves.toBe(
+      glacierProperties.data["bms_emsStatus.dsgCmd"],
+    );
+  });
+
+  it("returns undefined for non existing property", async () => {
+    await expect(glacier.getProperty("foobar")).resolves.toBeUndefined();
   });
 
   it("should set temperature for right, left and middle zones", async () => {
@@ -422,12 +434,6 @@ describe("Glacier", () => {
   });
 
   it("Should return data if api response could be parsed", async () => {
-    // @ts-ignore
-    restClient.getDevicePropertiesPlain = jest
-      .fn()
-      // @ts-ignore
-      .mockResolvedValue(glacierProperties);
-
     await expect(glacier.getProperties()).resolves.toBeDefined();
   });
 });

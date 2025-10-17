@@ -341,7 +341,7 @@ export const smartPlugProperties = {
 };
 
 export const devicePropertiesResponse = {
-  code: "0",
-  message: "success",
+  code: "0" as const,
+  message: "Success" as const,
   data: smartPlugProperties,
 };
