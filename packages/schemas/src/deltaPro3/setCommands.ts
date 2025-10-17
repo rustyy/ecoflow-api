@@ -107,7 +107,7 @@ export type DeltaPro3DcTimeoutCommand = z.infer<
  */
 export const deltaPro3ScreenTimeoutCommandSchema = deltaPro3BaseSchema.extend({
   params: z.object({
-    cfgScreenOffTime: integer,
+    cfgScreenOffTime: integer.min(0),
   }),
 });
 
@@ -132,7 +132,7 @@ export type DeltaPro3ScreenTimeoutCommand = z.infer<
  */
 export const deltaPro3DeviceTimeoutCommandSchema = deltaPro3BaseSchema.extend({
   params: z.object({
-    cfgDevStandbyTime: integer,
+    cfgDevStandbyTime: integer.min(0),
   }),
 });
 
@@ -158,7 +158,7 @@ export type DeltaPro3DeviceTimeoutCommand = z.infer<
 export const deltaPro3ScreenBrightnessCommandSchema =
   deltaPro3BaseSchema.extend({
     params: z.object({
-      cfgLcdLight: integer,
+      cfgLcdLight: integer.min(0),
     }),
   });
 
