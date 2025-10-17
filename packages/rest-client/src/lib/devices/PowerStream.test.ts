@@ -19,8 +19,10 @@ describe("PowerStream", () => {
     restClient = new RestClient(restClientOptions);
     powerStream = new PowerStream(restClient, validSn);
 
-    // @ts-ignore
-    restClient.setCommandPlain = jest.fn();
+    restClient.setCommandPlain = jest.fn<RestClient["setCommandPlain"]>();
+    restClient.getDevicePropertiesPlain = jest
+      .fn<RestClient["getDevicePropertiesPlain"]>()
+      .mockResolvedValue(propertiesFixture);
   });
 
   it("Should be able to construct an instance of PowerStream", () => {
@@ -32,6 +34,16 @@ describe("PowerStream", () => {
     expect(() => {
       new PowerStream(restClient, "invalid_sn" as any);
     }).toThrowError("Invalid serial number for powerStream device.");
+  });
+
+  it("returns the requested property", async () => {
+    await expect(powerStream.getProperty("20_1.pv1InputWatts")).resolves.toBe(
+      propertiesFixture.data["20_1.pv1InputWatts"],
+    );
+  });
+
+  it("returns undefined for non existing property", async () => {
+    await expect(powerStream.getProperty("foobar")).resolves.toBeUndefined();
   });
 
   it("should set power supply priority", async () => {
@@ -164,12 +176,6 @@ describe("PowerStream", () => {
   });
 
   it("Should return data if api response could be parsed", async () => {
-    // @ts-ignore
-    restClient.getDevicePropertiesPlain = jest
-      .fn()
-      // @ts-ignore
-      .mockResolvedValue(propertiesFixture);
-
     await expect(powerStream.getProperties()).resolves.toBeDefined();
   });
 });

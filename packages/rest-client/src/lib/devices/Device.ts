@@ -33,4 +33,14 @@ export abstract class Device<SerialNumber extends string, ParsedProperties> {
     const response = await this.restClient.getDevicePropertiesPlain(this.sn);
     return this.parseProperties(response.data);
   }
+
+  /**
+   * Retrieves the specified property of a device, if present.
+   */
+  async getProperty<K extends keyof ParsedProperties>(
+    property: K,
+  ): Promise<ParsedProperties[K] | undefined> {
+    const response = await this.restClient.getDevicePropertiesPlain(this.sn);
+    return this.parseProperties(response.data)[property];
+  }
 }
