@@ -1,5 +1,16 @@
 # @ecoflow-api/rest-client
 
+## 0.3.0
+
+### Minor Changes
+
+- b86b252: add getProperty method on the device to query for a specific property value
+
+### Patch Changes
+
+- Updated dependencies [b86b252]
+  - @ecoflow-api/schemas@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @ecoflow-api/schemas
 
+## 0.3.0
+
+### Minor Changes
+
+- b86b252: add getProperty method on the device to query for a specific property value
+
 ## 0.2.0
 
 ### Minor Changes
