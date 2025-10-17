@@ -23,11 +23,14 @@
     "docs": "typedoc",
     "build": "turbo build",
     "test": "turbo test",
+    "test:watch": "turbo test -- --watch",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "publish-packages": "turbo run build && changeset publish",
-    "clean": "npx -y rimraf -g **/node_modules **/dist **/.turbo"
+    "clean": "npx -y rimraf -g **/node_modules **/dist **/.turbo",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
     "prettier": "^3.2.5",
     "turbo": "^2.0.9",
     "typedoc": "^0.28.1"

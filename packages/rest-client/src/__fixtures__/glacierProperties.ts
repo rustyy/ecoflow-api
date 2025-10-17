@@ -1,8 +1,8 @@
 // Note: This is a dummy data created based on the documents, it's not taken from a real device
 // Maybe someone can provide the real data for this device.
 export const glacierProperties = {
-  code: "0",
-  message: "Success",
+  code: "0" as const,
+  message: "Success" as const,
   data: {
     "bms_bmsStatus.amp": 20,
     "bms_bmsStatus.bmsFault": 20,

@@ -1,6 +1,6 @@
 export const propertiesFixture = {
-  code: "0",
-  message: "Success",
+  code: "0" as const,
+  message: "Success" as const,
   data: {
     "20_1.pv2Temp": 240,
     "20_1.invOutputWatts": 1710,

@@ -19,8 +19,10 @@ describe("SmartHomePanel", () => {
     restClient = new RestClient(restClientOptions);
     device = new SmartHomePanel(restClient, validSn);
 
-    // @ts-ignore
-    restClient.setCommandPlain = jest.fn();
+    restClient.setCommandPlain = jest.fn<RestClient["setCommandPlain"]>();
+    restClient.getDevicePropertiesPlain = jest
+      .fn<RestClient["getDevicePropertiesPlain"]>()
+      .mockResolvedValue(propertiesFixture);
   });
 
   it("Should be able to construct an instance of SmartHomePanel", () => {
@@ -39,13 +41,17 @@ describe("SmartHomePanel", () => {
   });
 
   it("Should return data if api response could be parsed", async () => {
-    // @ts-ignore
-    restClient.getDevicePropertiesPlain = jest
-      .fn()
-      // @ts-ignore
-      .mockResolvedValue(propertiesFixture);
-
     await expect(device.getProperties()).resolves.toBeDefined();
+  });
+
+  it("returns the requested property", async () => {
+    await expect(device.getProperty("areaInfo.cmdSet")).resolves.toBe(
+      propertiesFixture.data["areaInfo.cmdSet"],
+    );
+  });
+
+  it("returns undefined for non existing property", async () => {
+    await expect(device.getProperty("foobar")).resolves.toBeUndefined();
   });
 
   it("should update rtc time", async () => {
