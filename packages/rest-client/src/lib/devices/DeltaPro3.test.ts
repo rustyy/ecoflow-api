@@ -64,7 +64,7 @@ describe("Delta Pro 3", () => {
       },
     ],
   ])(
-    "sends the correct payload to enable and disable beep switch",
+    "sends the expected payload to enable and disable beep switch",
     async (enabled, expectedPayload) => {
       await device.enableBeep(enabled);
 
@@ -72,53 +72,75 @@ describe("Delta Pro 3", () => {
     },
   );
 
-  describe("setAcTimeout", () => {
-    it("sends correct payload for AC timeout", async () => {
-      await device.setAcTimeout(120);
-      await device.setAcTimeout(0);
-      expect(restClient.setCommandPlain).toHaveBeenNthCalledWith(1, {
-        ...defaultSetCommandParams,
-        params: {
-          cfgAcStandbyTime: 120,
-        },
-      });
-
-      expect(restClient.setCommandPlain).toHaveBeenNthCalledWith(2, {
-        ...defaultSetCommandParams,
-        params: {
-          cfgAcStandbyTime: 0,
-        },
-      });
+  describe.each([
+    ["setAcTimeout" as const, "cfgAcStandbyTime", [0, 2, 20], [-1, 1.1, "a"]],
+    ["setDcTimeout" as const, "cfgDcStandbyTime", [0, 2, 20], [-1, 1.1, "a"]],
+    [
+      "setScreenTimeout" as const,
+      "cfgScreenOffTime",
+      [0, 2, 20],
+      [-1, 1.1, "a"],
+    ],
+    [
+      "setDeviceTimeout" as const,
+      "cfgDevStandbyTime",
+      [0, 2, 20],
+      [-1, 1.1, "a"],
+    ],
+    ["setScreenBrightness" as const, "cfgLcdLight", [0, 2, 20], [-1, 1.1, "a"]],
+    [
+      "enableHighVoltageAcOutput" as const,
+      "cfgHvAcOutOpen",
+      [true, false],
+      [-1, 0, "a"],
+    ],
+    [
+      "enableLowVoltageAcOutput" as const,
+      "cfgLvAcOutOpen",
+      [true, false],
+      [-1, 0, "a"],
+    ],
+    [
+      "setAcFrequency" as const,
+      "cfgAcOutFreq",
+      [50, 60],
+      [-1, 0, 90, 1.1, "a"],
+    ],
+    [
+      "enable12VOut" as const,
+      "cfgDc12vOutOpen",
+      [true, false],
+      [-1, 0, 90, 1.1, "a"],
+    ],
+    [
+      "enableXboost" as const,
+      "cfgXboostEn",
+      [true, false],
+      [-1, 0, 90, 1.1, "a"],
+    ],
+  ])("%s", (fn, expectedParam, validValues, inValidValues) => {
+    it("sends expected payload", async () => {
+      await Promise.all(
+        validValues.map(async (val, index) => {
+          // @ts-expect-error
+          await device[fn](val);
+          expect(restClient.setCommandPlain).toHaveBeenNthCalledWith(++index, {
+            ...defaultSetCommandParams,
+            params: {
+              [expectedParam]: val,
+            },
+          });
+        }),
+      );
     });
 
     it("error is thrown for invalid values", async () => {
-      await expect(device.setAcTimeout(1.1)).rejects.toThrowError();
-      await expect(device.setAcTimeout(-1)).rejects.toThrowError();
-    });
-  });
-
-  describe("setDcTimeout", () => {
-    it("sends correct payload for DC timeout", async () => {
-      await device.setDcTimeout(120);
-      await device.setDcTimeout(0);
-      expect(restClient.setCommandPlain).toHaveBeenNthCalledWith(1, {
-        ...defaultSetCommandParams,
-        params: {
-          cfgDcStandbyTime: 120,
-        },
-      });
-
-      expect(restClient.setCommandPlain).toHaveBeenNthCalledWith(2, {
-        ...defaultSetCommandParams,
-        params: {
-          cfgDcStandbyTime: 0,
-        },
-      });
-    });
-
-    it("error is thrown for invalid values", async () => {
-      await expect(device.setAcTimeout(1.1)).rejects.toThrowError();
-      await expect(device.setAcTimeout(-1)).rejects.toThrowError();
+      await Promise.all(
+        inValidValues.map(async (val) => {
+          // @ts-expect-error
+          await expect(device[fn](val)).rejects.toThrowError();
+        }),
+      );
     });
   });
 });
