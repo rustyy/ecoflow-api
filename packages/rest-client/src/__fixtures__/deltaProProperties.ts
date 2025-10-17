@@ -1,6 +1,6 @@
 export const propertiesFixture = {
-  code: "0",
-  message: "Success",
+  code: "0" as const,
+  message: "Success" as const,
   data: {
     "pd.iconWifiMode": 0,
     "mppt.faultCode": 0,
