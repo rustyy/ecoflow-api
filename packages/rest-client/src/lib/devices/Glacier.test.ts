@@ -25,27 +25,6 @@ describe("Glacier", () => {
       .mockResolvedValue(glacierProperties);
   });
 
-  it("Should be able to construct an instance of Glacier", () => {
-    expect(glacier).toBeTruthy();
-    expect(glacier).toBeInstanceOf(Glacier);
-  });
-
-  it("should throw an error if the serial number is invalid", () => {
-    expect(() => {
-      new Glacier(restClient, "invalid_sn" as any);
-    }).toThrowError("Invalid serial number for Glacier device.");
-  });
-
-  it("returns the requested property", async () => {
-    await expect(glacier.getProperty("bms_emsStatus.dsgCmd")).resolves.toBe(
-      glacierProperties.data["bms_emsStatus.dsgCmd"],
-    );
-  });
-
-  it("returns undefined for non existing property", async () => {
-    await expect(glacier.getProperty("foobar")).resolves.toBeUndefined();
-  });
-
   it("should set temperature for right, left and middle zones", async () => {
     expect.assertions(1);
     await glacier.setTemperature({
@@ -145,10 +124,6 @@ describe("Glacier", () => {
       },
       sn: validSn,
     });
-  });
-
-  it("Should throw an error for invalid data received from api", async () => {
-    await getPropertiesFailsOnInvalidResponse(restClient, glacier);
   });
 
   it("should enable/disable buzzer", () => {
@@ -431,9 +406,5 @@ describe("Glacier", () => {
       },
       sn: validSn,
     });
-  });
-
-  it("Should return data if api response could be parsed", async () => {
-    await expect(glacier.getProperties()).resolves.toBeDefined();
   });
 });

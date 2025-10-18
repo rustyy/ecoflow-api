@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { RestClient, RestClientOptions } from "../RestClient";
 import { DeltaPro } from "./DeltaPro";
-import { propertiesFixture } from "../../__fixtures__/deltaProProperties";
+import { deltaProProperties } from "../../__fixtures__/deltaProProperties";
 import { getPropertiesFailsOnInvalidResponse } from "../../__fixtures__/shared";
 
 describe("Delta Pro", () => {
@@ -22,36 +22,7 @@ describe("Delta Pro", () => {
     restClient.setCommandPlain = jest.fn<RestClient["setCommandPlain"]>();
     restClient.getDevicePropertiesPlain = jest
       .fn<RestClient["getDevicePropertiesPlain"]>()
-      .mockResolvedValue(propertiesFixture);
-  });
-
-  it("Should be able to construct an instance of Delta Pro", () => {
-    expect(device).toBeTruthy();
-    expect(device).toBeInstanceOf(DeltaPro);
-  });
-
-  it("should throw an error if the serial number is invalid", () => {
-    expect(() => {
-      new DeltaPro(restClient, "invalid_sn" as any);
-    }).toThrowError("Invalid serial number for Delta Pro device.");
-  });
-
-  it("Should throw an error for invalid data received from api", async () => {
-    await getPropertiesFailsOnInvalidResponse(restClient, device);
-  });
-
-  it("Should return data if api response could be parsed", async () => {
-    await expect(device.getProperties()).resolves.toBeDefined();
-  });
-
-  it("returns the requested property", async () => {
-    await expect(device.getProperty("bmsMaster.soc")).resolves.toBe(
-      propertiesFixture.data["bmsMaster.soc"],
-    );
-  });
-
-  it("returns undefined for non existing property", async () => {
-    await expect(device.getProperty("foobar")).resolves.toBeUndefined();
+      .mockResolvedValue(deltaProProperties);
   });
 
   it("should enable xboost", async () => {

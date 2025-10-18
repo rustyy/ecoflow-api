@@ -25,27 +25,6 @@ describe("PowerStream", () => {
       .mockResolvedValue(propertiesFixture);
   });
 
-  it("Should be able to construct an instance of PowerStream", () => {
-    expect(powerStream).toBeTruthy();
-    expect(powerStream).toBeInstanceOf(PowerStream);
-  });
-
-  it("should throw an error if the serial number is invalid", () => {
-    expect(() => {
-      new PowerStream(restClient, "invalid_sn" as any);
-    }).toThrowError("Invalid serial number for powerStream device.");
-  });
-
-  it("returns the requested property", async () => {
-    await expect(powerStream.getProperty("20_1.pv1InputWatts")).resolves.toBe(
-      propertiesFixture.data["20_1.pv1InputWatts"],
-    );
-  });
-
-  it("returns undefined for non existing property", async () => {
-    await expect(powerStream.getProperty("foobar")).resolves.toBeUndefined();
-  });
-
   it("should set power supply priority", async () => {
     expect.assertions(1);
     const priority = "powerSupply";
@@ -169,13 +148,5 @@ describe("PowerStream", () => {
       },
       sn: validSn,
     });
-  });
-
-  it("Should throw an error for invalid data received from api", async () => {
-    await getPropertiesFailsOnInvalidResponse(restClient, powerStream);
-  });
-
-  it("Should return data if api response could be parsed", async () => {
-    await expect(powerStream.getProperties()).resolves.toBeDefined();
   });
 });
