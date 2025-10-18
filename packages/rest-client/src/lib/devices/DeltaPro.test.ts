@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { RestClient, RestClientOptions } from "../RestClient";
 import { DeltaPro } from "./DeltaPro";
 import { deltaProProperties } from "../../__fixtures__/deltaProProperties";
-import { getPropertiesFailsOnInvalidResponse } from "../../__fixtures__/shared";
 
 describe("Delta Pro", () => {
   let device: DeltaPro;

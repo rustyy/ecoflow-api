@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { RestClient, RestClientOptions } from "../RestClient";
 import { Glacier } from "./Glacier";
 import { glacierProperties } from "../../__fixtures__/glacierProperties";
-import { getPropertiesFailsOnInvalidResponse } from "../../__fixtures__/shared";
 
 describe("Glacier", () => {
   let glacier: Glacier;

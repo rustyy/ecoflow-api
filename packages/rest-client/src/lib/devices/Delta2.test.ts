@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { RestClient, RestClientOptions } from "../RestClient";
 import { delta2properties } from "../../__fixtures__/delta2Properties";
 import { Delta2 } from "./Delta2";
-import { getPropertiesFailsOnInvalidResponse } from "../../__fixtures__/shared";
 
 describe("Delta2", () => {
   let delta2: Delta2;

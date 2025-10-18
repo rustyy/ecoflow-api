@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { RestClient, RestClientOptions } from "../RestClient";
 import { SmartHomePanel } from "./SmartHomePanel";
 import { shpProperties } from "../../__fixtures__/shpProperties";
-import { getPropertiesFailsOnInvalidResponse } from "../../__fixtures__/shared";
 
 describe("SmartHomePanel", () => {
   let device: SmartHomePanel;

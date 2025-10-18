@@ -2,7 +2,6 @@ import { SmartPlug } from "./SmartPlug";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { RestClient, RestClientOptions } from "../RestClient";
 import { devicePropertiesResponse } from "../../__fixtures__/smartPlugProperties";
-import { getPropertiesFailsOnInvalidResponse } from "../../__fixtures__/shared";
 
 describe("SmartPlug", () => {
   let smartPlug: SmartPlug;
