@@ -8,6 +8,7 @@ import { Delta2 } from "./Delta2";
 import { Glacier } from "./Glacier";
 import { SmartHomePanel } from "./SmartHomePanel";
 import { DeltaPro } from "./DeltaPro";
+import { DeltaPro3 } from "./DeltaPro3";
 
 describe("deviceFactory", () => {
   let restClient: RestClient;
@@ -20,50 +21,57 @@ describe("deviceFactory", () => {
     });
   });
 
-  it("returns a SmartPlug instance when the serial number is for a SmartPlug", () => {
+  it("returns a SmartPlug instance", () => {
     const device = deviceFactory("HW52*****", restClient);
     expect(device).toBeInstanceOf(SmartPlug);
     expect(device.sn).toBe("HW52*****");
   });
 
-  it("returns a UnknownDevice instance when the serial number can not be mapped to a device", () => {
+  it("returns a UnknownDevice instance", () => {
     const device = deviceFactory("fake_sn", restClient);
     expect(device).toBeInstanceOf(UnknownDevice);
     expect(device.sn).toBe("fake_sn");
   });
 
-  it("returns a PowerStream instance when the serial number is for a PowerStream", () => {
+  it("returns a PowerStream instance", () => {
     const sn = "HW51*****";
     const device = deviceFactory(sn, restClient);
     expect(device).toBeInstanceOf(PowerStream);
     expect(device.sn).toBe(sn);
   });
 
-  it("returns a Delta 2 instance when the serial number is for a Delta 2", () => {
+  it("returns a Delta 2 instance", () => {
     const sn = "R331*****";
     const device = deviceFactory(sn, restClient);
     expect(device).toBeInstanceOf(Delta2);
     expect(device.sn).toBe(sn);
   });
 
-  it("returns a Glacier instance when the serial number is for a Glacier", () => {
+  it("returns a Glacier instance", () => {
     const sn = "BX11*****";
     const device = deviceFactory(sn, restClient);
     expect(device).toBeInstanceOf(Glacier);
     expect(device.sn).toBe(sn);
   });
 
-  it("returns a SHP instance when the serial number is for a SHP", () => {
+  it("returns a SHP instance", () => {
     const sn = "SP10*****";
     const device = deviceFactory(sn, restClient);
     expect(device).toBeInstanceOf(SmartHomePanel);
     expect(device.sn).toBe(sn);
   });
 
-  it("returns a Delta Pro instance when the serial number is for a DP", () => {
+  it("returns a Delta Pro instance", () => {
     const sn = "DCABZ*****";
     const device = deviceFactory(sn, restClient);
     expect(device).toBeInstanceOf(DeltaPro);
+    expect(device.sn).toBe(sn);
+  });
+
+  it("returns a Delta Pro 3 instance", () => {
+    const sn = "MR51*****";
+    const device = deviceFactory(sn, restClient);
+    expect(device).toBeInstanceOf(DeltaPro3);
     expect(device.sn).toBe(sn);
   });
 });

@@ -1,8 +1,9 @@
 import {
   Delta2SerialNumber,
-  DeltaProSerialNumber,
+  DeltaPro3SerialNumber,
   GlacierSerialNumber,
   isDelta2SerialNumber,
+  isDeltaPro3SerialNumber,
   isDeltaProSerialNumber,
   isGlacierSerialNumber,
   isPowerStreamSerialNumber,
@@ -20,6 +21,7 @@ import { Delta2 } from "./Delta2";
 import { Glacier } from "./Glacier";
 import { SmartHomePanel } from "./SmartHomePanel";
 import { DeltaPro } from "./DeltaPro";
+import { DeltaPro3 } from "./DeltaPro3";
 
 // prettier-ignore
 export type DeviceFactoryReturnType<T extends string> =
@@ -28,7 +30,7 @@ export type DeviceFactoryReturnType<T extends string> =
   T extends Delta2SerialNumber ? Delta2 :
   T extends GlacierSerialNumber ? Glacier :
   T extends SmartHomePanelSerialNumber ? SmartHomePanel :
-  T extends DeltaProSerialNumber ? DeltaPro :
+  T extends DeltaPro3SerialNumber ? DeltaPro3 :
   UnknownDevice;
 
 /**
@@ -62,6 +64,10 @@ export function deviceFactory<T extends string, R = DeviceFactoryReturnType<T>>(
 
   if (isDeltaProSerialNumber(sn)) {
     return new DeltaPro(restClient, sn) as R;
+  }
+
+  if (isDeltaPro3SerialNumber(sn)) {
+    return new DeltaPro3(restClient, sn) as R;
   }
 
   return new UnknownDevice(restClient, sn) as R;
