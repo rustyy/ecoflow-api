@@ -236,9 +236,10 @@ export const deltaPro3QuotaAllSchema = z
     // bool - AC energy-saving mode switch. 0: off, 1: on.
     acEnergySavingOpen: zeroOrOne,
     // int - Battery charging/discharging order.
-    // 0: default1: The device will automatically decide the charge and discharge order based on each battery's voltage.
+    // 0: default
+    // 1: The device will automatically decide the charge and discharge order based on each battery's voltage.
     // 2: The main battery is prioritized during charging, and extra batteries are prioritized during discharging.
-    multiBpChgDsgMode: z.literal(0).or(z.literal(2)),
+    multiBpChgDsgMode: zeroOrOneOrTwo,
     // int - Fast charging slider switch.
     // 0: fast charging;
     // 1: custom charging power.

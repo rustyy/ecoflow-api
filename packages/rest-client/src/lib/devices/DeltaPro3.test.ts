@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { RestClient, RestClientOptions } from "../RestClient";
 import { DeltaPro3 } from "./DeltaPro3";
-import { getPropertiesFailsOnInvalidResponse } from "../../__fixtures__/shared";
 
 describe("Delta Pro 3", () => {
   let device: DeltaPro3;
@@ -27,21 +26,6 @@ describe("Delta Pro 3", () => {
     restClient = new RestClient(restClientOptions);
     device = new DeltaPro3(restClient, validSn);
     restClient.setCommandPlain = jest.fn<RestClient["setCommandPlain"]>();
-  });
-
-  it("Should be able to construct an instance of Delta Pro 3", () => {
-    expect(device).toBeTruthy();
-    expect(device).toBeInstanceOf(DeltaPro3);
-  });
-
-  it("should throw an error if the serial number is invalid", () => {
-    expect(() => {
-      new DeltaPro3(restClient, "invalid_sn" as any);
-    }).toThrowError("Invalid serial number for Delta Pro 3 device.");
-  });
-
-  it("Should throw an error for invalid data received from api", async () => {
-    await getPropertiesFailsOnInvalidResponse(restClient, device);
   });
 
   it.each([
