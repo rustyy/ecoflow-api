@@ -105,6 +105,12 @@ describe("Delta Pro 3", () => {
     ["shutdown" as const, "cfgPowerOff", [true], []],
     ["setChargeLimit" as const, "cfgMaxChgSoc", [0, 1, 100], [-1, 300]],
     ["setDischargeLimit" as const, "cfgMinDsgSoc", [0, 1, 100], [-1, 300]],
+    [
+      "setLowVoltageMaxInput" as const,
+      "cfgPlugInInfoPvLDcAmpMax",
+      [0, 1, 2],
+      [],
+    ],
   ])("%s", (fn, expectedParam, validValues, inValidValues) => {
     it("sends expected payload", async () => {
       await Promise.all(
