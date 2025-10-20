@@ -21,6 +21,8 @@ import {
   deltaPro3MaxChgSocCommandSchema,
   DeltaPro3MinDsgSocCommand,
   deltaPro3MinDsgSocCommandSchema,
+  DeltaPro3PlugInInfoPvLDcAmpMaxCommand,
+  deltaPro3PlugInInfoPvLDcAmpMaxCommandSchema,
   DeltaPro3PowerOffCommand,
   deltaPro3PowerOffCommandSchema,
   DeltaPro3QuotaAll,
@@ -32,7 +34,7 @@ import {
   DeltaPro3SerialNumber,
   DeltaPro3XboostEnCommand,
   deltaPro3XboostEnCommandSchema,
-  isDeltaPro3SerialNumber,
+  isDeltaPro3SerialNumber
 } from "@ecoflow-api/schemas";
 import { Device } from "./Device";
 import { RestClient } from "../RestClient";
@@ -331,5 +333,24 @@ export class DeltaPro3 extends Device<
       },
     });
     return this.sendCommand(payload, deltaPro3EnergyBackupCommandSchema);
+  }
+
+  /**
+   * Sets the maximum input current of the low-voltage PV port.
+   *
+   * @example
+   * ```typescript
+   *   await device.setLowVoltageMaxInput(7);
+   * ```
+   */
+  async setLowVoltageMaxInput(input: number) {
+    const payload: DeltaPro3PlugInInfoPvLDcAmpMaxCommand =
+      this.#payloadDefaults({
+        cfgPlugInInfoPvLDcAmpMax: input,
+      });
+    return this.sendCommand(
+      payload,
+      deltaPro3PlugInInfoPvLDcAmpMaxCommandSchema,
+    );
   }
 }
