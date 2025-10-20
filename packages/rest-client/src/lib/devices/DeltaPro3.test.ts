@@ -102,6 +102,9 @@ describe("Delta Pro 3", () => {
       [true, false],
       [-1, 0, 90, 1.1, "a"],
     ],
+    ["shutdown" as const, "cfgPowerOff", [true], []],
+    ["setChargeLimit" as const, "cfgMaxChgSoc", [0, 1, 100], [-1, 300]],
+    ["setDischargeLimit" as const, "cfgMinDsgSoc", [0, 1, 100], [-1, 300]],
   ])("%s", (fn, expectedParam, validValues, inValidValues) => {
     it("sends expected payload", async () => {
       await Promise.all(
@@ -125,6 +128,42 @@ describe("Delta Pro 3", () => {
           await expect(device[fn](val)).rejects.toThrowError();
         }),
       );
+    });
+  });
+
+  describe("setBackupReserveLevel", () => {
+    it("sends expected payload", async () => {
+      await device.setBackupReserveLevel(10, true);
+      expect(restClient.setCommandPlain).toHaveBeenNthCalledWith(1, {
+        ...defaultSetCommandParams,
+        params: {
+          cfgEnergyBackup: {
+            energyBackupStartSoc: 10,
+            energyBackupEn: true,
+          },
+        },
+      });
+
+      await device.setBackupReserveLevel(10, false);
+      expect(restClient.setCommandPlain).toHaveBeenNthCalledWith(2, {
+        ...defaultSetCommandParams,
+        params: {
+          cfgEnergyBackup: {
+            energyBackupStartSoc: 10,
+            energyBackupEn: false,
+          },
+        },
+      });
+    });
+
+    it("error is thrown for invalid values", async () => {
+      await expect(
+        device.setBackupReserveLevel(-1, false),
+      ).rejects.toThrowError();
+
+      await expect(
+        device.setBackupReserveLevel(101, true),
+      ).rejects.toThrowError();
     });
   });
 });
