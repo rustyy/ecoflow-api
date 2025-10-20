@@ -11,10 +11,18 @@ import {
   deltaPro3DcTimeoutCommandSchema,
   DeltaPro3DeviceTimeoutCommand,
   deltaPro3DeviceTimeoutCommandSchema,
+  DeltaPro3EnergyBackupCommand,
+  deltaPro3EnergyBackupCommandSchema,
   DeltaPro3HvAcOutOpenCommand,
   deltaPro3HvAcOutOpenCommandSchema,
   DeltaPro3LvAcOutOpenCommand,
   deltaPro3LvAcOutOpenCommandSchema,
+  DeltaPro3MaxChgSocCommand,
+  deltaPro3MaxChgSocCommandSchema,
+  DeltaPro3MinDsgSocCommand,
+  deltaPro3MinDsgSocCommandSchema,
+  DeltaPro3PowerOffCommand,
+  deltaPro3PowerOffCommandSchema,
   DeltaPro3QuotaAll,
   deltaPro3QuotaAllSchema,
   DeltaPro3ScreenBrightnessCommand,
@@ -24,7 +32,7 @@ import {
   DeltaPro3SerialNumber,
   DeltaPro3XboostEnCommand,
   deltaPro3XboostEnCommandSchema,
-  isDeltaPro3SerialNumber,
+  isDeltaPro3SerialNumber
 } from "@ecoflow-api/schemas";
 import { Device } from "./Device";
 import { RestClient } from "../RestClient";
@@ -260,5 +268,68 @@ export class DeltaPro3 extends Device<
     });
 
     return this.sendCommand(payload, deltaPro3XboostEnCommandSchema);
+  }
+
+  /**
+   * Shuts down the device.
+   *
+   * @example
+   * ```typescript
+   *   await device.shutdown();
+   * ```
+   */
+  async shutdown() {
+    const payload: DeltaPro3PowerOffCommand = this.#payloadDefaults({
+      cfgPowerOff: true,
+    });
+    return this.sendCommand(payload, deltaPro3PowerOffCommandSchema);
+  }
+
+  /**
+   * Sets the charge limit.
+   *
+   * @example
+   * ```typescript
+   *   await device.setChargeLimit(70);
+   * ```
+   */
+  async setChargeLimit(limit: number) {
+    const payload: DeltaPro3MaxChgSocCommand = this.#payloadDefaults({
+      cfgMaxChgSoc: limit,
+    });
+    return this.sendCommand(payload, deltaPro3MaxChgSocCommandSchema);
+  }
+
+  /**
+   * Sets the discharge limit.
+   *
+   * @example
+   * ```typescript
+   *   await device.setDischargeLimit(70);
+   * ```
+   */
+  async setDischargeLimit(limit: number) {
+    const payload: DeltaPro3MinDsgSocCommand = this.#payloadDefaults({
+      cfgMinDsgSoc: limit,
+    });
+    return this.sendCommand(payload, deltaPro3MinDsgSocCommandSchema);
+  }
+
+  /**
+   * Sets the backup reserve level.
+   *
+   * @example
+   * ```typescript
+   *   await device.setBackupReserveLevel(70,true);
+   * ```
+   */
+  async setBackupReserveLevel(start: number, enabled: boolean) {
+    const payload: DeltaPro3EnergyBackupCommand = this.#payloadDefaults({
+      cfgEnergyBackup: {
+        energyBackupStartSoc: start,
+        energyBackupEn: enabled,
+      },
+    });
+    return this.sendCommand(payload, deltaPro3EnergyBackupCommandSchema);
   }
 }
