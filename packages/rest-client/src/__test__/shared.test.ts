@@ -15,6 +15,8 @@ import { SmartHomePanel } from "../lib/devices/SmartHomePanel";
 import { shpProperties } from "../__fixtures__/shpProperties";
 import { DeltaPro } from "../lib/devices/DeltaPro";
 import { deltaProProperties } from "../__fixtures__/deltaProProperties";
+import { DeltaPro3 } from "../lib/devices/DeltaPro3";
+import { deltaPro3Properties } from "../__fixtures__/deltaPro3Properties";
 
 type DeviceTestData<T> = [
   // device name
@@ -79,6 +81,14 @@ const devices: DeviceTestData<any> = [
     deltaProProperties,
     "Invalid serial number for Delta Pro device.",
     "bmsMaster.soc",
+  ],
+  [
+    "Delta Pro 3",
+    DeltaPro3,
+    "MR51*****",
+    deltaPro3Properties,
+    "Invalid serial number for Delta Pro 3 device.",
+    "cmsMinDsgSoc",
   ],
 ];
 
