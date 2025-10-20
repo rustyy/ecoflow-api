@@ -34,7 +34,7 @@ import {
   DeltaPro3SerialNumber,
   DeltaPro3XboostEnCommand,
   deltaPro3XboostEnCommandSchema,
-  isDeltaPro3SerialNumber
+  isDeltaPro3SerialNumber,
 } from "@ecoflow-api/schemas";
 import { Device } from "./Device";
 import { RestClient } from "../RestClient";
