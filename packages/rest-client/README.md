@@ -9,7 +9,7 @@ Run `npm install @ecoflow-api/rest-client`
 
 ## Reference
 
-See: https://rustyy.github.io/ecoflow-api/modules/_ecoflow_api_rest_client.html
+See: https://rustyy.github.io/ecoflow-api
 
 ## Current device support
 
