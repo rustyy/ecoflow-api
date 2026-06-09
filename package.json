@@ -25,6 +25,7 @@
     "test": "turbo test",
     "test:watch": "turbo test -- --watch",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "bump-version": "changeset version && npm i && npm run docs",
     "publish-packages": "turbo run build && changeset publish",
     "clean": "npx -y rimraf -g **/node_modules **/dist **/.turbo",
     "prepare": "husky"
