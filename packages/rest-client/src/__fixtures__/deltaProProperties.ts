@@ -1,4 +1,4 @@
-export const propertiesFixture = {
+export const deltaProProperties = {
   code: "0" as const,
   message: "Success" as const,
   data: {
