@@ -1,5 +1,13 @@
 # examples
 
+## 0.3.1
+
+### Patch Changes
+
+- d344d0a: update dependencies, fix Readme
+- Updated dependencies [d344d0a]
+  - @ecoflow-api/rest-client@0.3.1
+
 ## 0.3.0
 
 ### Minor Changes
