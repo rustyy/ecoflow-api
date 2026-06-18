@@ -10,3 +10,15 @@ updates:
    directory: "/"
    schedule:
      interval: weekly
+
+ # Keep the pinned GitHub Actions SHAs up to date so security fixes are picked up.
+ - package-ecosystem: "github-actions"
+   directory: "/"
+   schedule:
+     interval: weekly
+
+ # Monitor the npm dependencies (root + workspaces) for vulnerable versions.
+ - package-ecosystem: "npm"
+   directory: "/"
+   schedule:
+     interval: weekly

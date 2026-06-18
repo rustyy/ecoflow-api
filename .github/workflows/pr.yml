@@ -3,6 +3,14 @@ name: PR Checks
 on:
   pull_request:
 
+# Least-privilege default for the whole workflow; jobs opt-in to what they need.
+permissions: {}
+
+# Cancel superseded runs for the same PR to save resources.
+concurrency:
+  group: pr-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build_and_test:
     name: Build and Test
@@ -12,6 +20,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js 24
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4

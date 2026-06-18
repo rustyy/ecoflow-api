@@ -5,6 +5,14 @@ on:
     branches:
       - main
 
+# Least-privilege default; the release job opts-in to the scopes it needs.
+permissions: {}
+
+# Prevent overlapping releases from racing on tags/publishes.
+concurrency:
+  group: release-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
     name: Release
@@ -19,6 +27,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Node.js 24
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
@@ -40,4 +49,5 @@ jobs:
           title: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Emit npm provenance attestations using the OIDC token (id-token: write).
+          NPM_CONFIG_PROVENANCE: true
