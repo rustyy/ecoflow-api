@@ -24,7 +24,7 @@ type DeviceTestData<T> = [
   // valid serial number
   string,
   // quota all response
-  Record<string, unknown>,
+  Record<string, any>,
   // error message
   string,
   // test property
@@ -112,7 +112,8 @@ describe.each(devices)(
 
     it("Throws an error for invalid serial number", () => {
       expect(() => {
-        new Class(restClient, "invalid_sn" as any);
+        const instance = new Class(restClient, "invalid_sn" as any);
+        instance.getProperties();
       }).toThrowError(errorMsg);
     });
 
@@ -126,7 +127,7 @@ describe.each(devices)(
 
     it("Returns the requested property", async () => {
       await expect(device.getProperty(testProp)).resolves.toBe(
-        (quotaAllResponse.data as any)[testProp],
+        quotaAllResponse.data[testProp],
       );
     });
 
