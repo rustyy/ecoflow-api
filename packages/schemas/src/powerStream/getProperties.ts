@@ -25,9 +25,8 @@ export const powerStreamQuotaAllSchema = z
     "20_1.pv1InputWatts": integer.nonnegative(),
     // PV1 output voltage: 0.1 V
     "20_1.pv1OpVolt": integer.nonnegative(),
-
-    // @todo: Not documented in the official docs.
-    "20_1.pv1CtrlMpptOffFlag": integer,
+    // PV1 on/off status: 0: off; 1: on
+    "20_1.pv1CtrlMpptOffFlag": zeroOrOne,
 
     /**********
      * PV 2
@@ -51,9 +50,8 @@ export const powerStreamQuotaAllSchema = z
     "20_1.pv2InputWatts": integer.nonnegative(),
     // PV2 input voltage: 0.1 V
     "20_1.pv2InputVolt": integer.nonnegative(),
-
-    // @todo: Not documented in the official docs.
-    "20_1.pv2CtrlMpptOffFlag": integer,
+    // PV2 on/off status: 0: off; 1: on
+    "20_1.pv2CtrlMpptOffFlag": zeroOrOne,
 
     /**********
      * LLC
@@ -71,9 +69,8 @@ export const powerStreamQuotaAllSchema = z
     "20_1.llcInputVolt": integer.nonnegative(),
     // LLC warning code
     "20_1.llcWarningCode": integer,
-
-    // @todo: Not documented in the official docs.
-    "20_1.llcOffFlag": integer,
+    // LLC on/off status: 0: off; 1: on
+    "20_1.llcOffFlag": zeroOrOne,
 
     /**********
      * BAT
@@ -99,17 +96,16 @@ export const powerStreamQuotaAllSchema = z
     "20_1.batTemp": integer,
     // BAT input current: 0.1 A; positive for discharging and negative for charging
     "20_1.batInputCur": integer,
-
-    // @todo: Not documented in the official docs.
+    // Limited DC output power when DC power is low. Unit: 0.1W
     "20_1.batErrorInvLoadLimit": integer.nonnegative(),
-    // @todo: Not documented in the official docs.
-    "20_1.batLoadLimitFlag": integer,
-    // @todo: Not documented in the official docs.
+    // Whether the BAT module is derated.0: no; 1: yes
+    "20_1.batLoadLimitFlag": zeroOrOne,
+    // BAT power after derating. Unit: 0.1W
     "20_1.batOutputLoadLimit": integer,
-    // @todo: Not documented in the official docs.
-    "20_1.batOffFlag": integer,
-    // @todo: Not documented in the official docs.
-    "20_1.batSystem": integer,
+    // Battery on/off status: 0: off; 1: on
+    "20_1.batOffFlag": zeroOrOne,
+    // Whether PowerStream is connected to a power station or an EV 0: power station; 1: EV
+    "20_1.batSystem": zeroOrOne,
 
     /**********
      * INV
@@ -143,15 +139,14 @@ export const powerStreamQuotaAllSchema = z
     "20_1.invRelayStatus": integer,
     // Micro-inverter AC warning code
     "20_1.invWarnCode": integer,
-
-    // @todo: Not documented in the official docs.
+    // PV power after derating. Unit: 0.1W
     "20_1.invOutputLoadLimit": integer,
     // @todo: Not documented in the official docs.
     "20_1.invToPlugWatts": integer,
     // @todo: Not documented in the official docs.
     "20_1.invDemandWatts": integer,
-    // @todo: Not documented in the official docs.
-    "20_1.invLoadLimitFlag": integer,
+    // Whether the PV module is derated.0: no; 1: yes
+    "20_1.invLoadLimitFlag": zeroOrOne,
     // @todo: Not documented in the official docs.
     "20_1.invToOtherWatts": integer,
 
@@ -200,79 +195,79 @@ export const powerStreamQuotaAllSchema = z
     // Charge Level
     "20_1.upperLimit": integer.nonnegative(),
 
-    // @todo: Not documented in the official docs.
-    "20_1.mqttTlsLastErr": integer,
-    // @todo: Not documented in the official docs.
+    // MQTT network error code
+    "20_1.mqttTlsLastErr": integer.nonnegative(),
+    // Number of devices consuming power
     "20_1.consNum": integer,
-    // @todo: Not documented in the official docs.
-    "20_1.feedProtect": integer,
-    // @todo: Not documented in the official docs.
+    // Feed-in control: 0: off; 1: on
+    "20_1.feedProtect": zeroOrOne,
+    // MQTT network error code
     "20_1.mqttSockErrno": integer.nonnegative(),
     // @todo: Not documented in the official docs.
     "20_1.pvToInvWatts": integer,
-    // @todo: Not documented in the official docs.
+    // Number of devices generating power
     "20_1.geneNum": integer,
-    // @todo: Not documented in the official docs.
+    // Mesh ID
     "20_1.meshId": integer,
-    // @todo: Not documented in the official docs.
+    // MQTT network error code
     "20_1.mqttTlsStackErr": integer,
-    // @todo: Not documented in the official docs.
-    "20_1.acOffFlag": integer,
-    // @todo: Not documented in the official docs.
+    // INV on/off status: 0: off; 1: on
+    "20_1.acOffFlag": zeroOrOne,
+    // Timestamp of the MQQT error code
     "20_1.mqttErrTime": integer,
-    // @todo: Not documented in the official docs - looks like, can be negative
+    // Static IP address, for determining whether devices are in the same LAN
     "20_1.staIpAddr": integer,
-    // @todo: Not documented in the official docs.
-    "20_1.uwlowLightFlag": integer,
-    // @todo: Not documented in the official docs - looks like, can be negative
+    // Whether anti-backflow is triggered due to low light.0: no; 1: yes
+    "20_1.uwlowLightFlag": zeroOrOne,
+    // Power consumed by Smart Plugs
     "20_1.consWatt": integer,
-    // @todo: Not documented in the official docs.
+    // Mesh layer
     "20_1.meshLayel": integer,
-    // @todo: Not documented in the official docs.
-    "20_1.uwloadLimitFlag": integer,
-    // @todo: Not documented in the official docs.
+    // Whether the INV module is derated.0: no; 1: yes
+    "20_1.uwloadLimitFlag": zeroOrOne,
+    // INV power after derating. Unit: 0.1W
     "20_1.floadLimitOut": integer,
     // @todo: Not documented in the official docs.
     "20_134.updateTime": z.string(),
-    // @todo: Not documented in the official docs.
+    // Timestamp of the Wi-Fi error code
     "20_1.wifiErrTime": integer.nonnegative(),
-    // @todo: Not documented in the official docs.
+    // Minimal stack space remaining
     "20_1.stackMinFree": integer,
-    // @todo: Not documented in the official docs.
+    // Number of restarts
     "20_1.resetCount": integer,
-    // @todo: Not documented in the official docs.
-    "20_1.uwsocFlag": integer,
+    // Whether anti-backflow is triggered by the battery.0: no; 1: yes
+    "20_1.uwsocFlag": zeroOrOne,
     // @todo: Not documented in the official docs.
     "20_1.plugTotalWatts": integer.nonnegative(),
-    // @todo: Not documented in the official docs.
+    // Cause of restart
     "20_1.resetReason": integer,
-    // @todo: Not documented in the official docs.
+    // Stack space remaining
     "20_1.stackFree": integer,
-    // @todo: Not documented in the official docs.
+    // MAC address
     "20_1.selfMac": integer,
     // @todo: Not documented in the official docs.
     "20_1.gridConsWatts": integer,
-    // @todo: Not documented in the official docs.
+    // Power generated
     "20_1.geneWatt": integer,
-    // @todo: Not documented in the official docs.
+    // BMS requesting voltage
     "20_1.bmsReqChgVol": integer,
-    // @todo: Not documented in the official docs.
+    // Port connection flag: bit0: AC connected; bit1: BAT connected; bit2: PV1connected; bit3: PV2 connected
     "20_1.interfaceConnFlag": integer,
     // @todo: Not documented in the official docs.
     "20_1.spaceDemandWatts": integer.nonnegative(),
-    // @todo: Not documented in the official docs.
+    // BMS requesting current
     "20_1.bmsReqChgAmp": integer,
-    // @todo: Not documented in the official docs.
-    "20_1.antiBackFlowFlag": integer,
-    // @todo: Not documented in the official docs.
+    // Whether anti-backflow is triggered.0: no; 1: yes
+    "20_1.antiBackFlowFlag": zeroOrOne,
+    // MQQT error code
     "20_1.mqttErr": integer,
-    // @todo: Not documented in the official docs.
+    // Wi-Fi error code
     "20_1.wifiErr": integer,
-    // @todo: Not documented in the official docs.
+    // Wi-Fi signal strength of the parent node
     "20_1.wifiRssi": integer,
-    // @todo: Not documented in the official docs.
+    // Limited AC output power when PV power is low. Unit: 0.1W
     "20_1.pvPowerLimitAcPower": integer,
-    // @todo: Not documented in the official docs.
+    // MAC address of the parent node
     "20_1.parentMac": integer,
   })
   .passthrough();
