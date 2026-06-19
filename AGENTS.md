@@ -24,11 +24,33 @@ The `@ecoflow-api` project is a TypeScript-based monorepo. Its primary objective
 .
 ├── apps/
 │   └── examples/                  # Example scripts demonstrating SDK usage
+│       └── src/
+│           ├── delta2/            # Delta 2 specific examples
+│           ├── powerstream/       # PowerStream specific examples
+│           └── smartplug/         # SmartPlug specific examples
 ├── docs/                          # Auto-generated TypeDoc documentation (DO NOT EDIT)
 ├── packages/
 │   ├── rest-client/               # Core Node.js REST client (@ecoflow-api/rest-client)
+│   │   └── src/
+│   │       ├── __fixtures__/      # Test fixtures
+│   │       ├── __test__/          # Shared tests
+│   │       ├── lib/
+│   │       │   ├── devices/       # Device implementations (Delta2, Glacier, PowerStream, etc.)
+│   │       │   └── signatureBuilder/ # Request signature building logic
+│   │       └── index.ts           # Main export entrypoint
 │   ├── schemas/                   # Zod schemas and TypeScript types (@ecoflow-api/schemas)
+│   │   └── src/
+│   │       ├── delta2/            # Delta 2 schemas
+│   │       ├── deltaPro/          # Delta Pro schemas
+│   │       ├── glacier/           # Glacier schemas
+│   │       ├── powerStream/       # PowerStream schemas
+│   │       ├── shared/            # Shared/Common Zod schemas
+│   │       ├── smartHomePanel/    # Smart Home Panel schemas
+│   │       ├── smartPlug/         # Smart Plug schemas
+│   │       ├── wave2/             # Wave 2 schemas
+│   │       └── index.ts           # Main export entrypoint
 │   └── typescript-config/         # Shared tsconfig bases (@ecoflow-api/typescript-config)
+│       └── base.json              # Base TypeScript configuration
 ├── AGENTS.md                      # This grounding document
 ├── package.json                   # Root workspace configuration
 └── turbo.json                     # Turborepo build pipeline configuration
