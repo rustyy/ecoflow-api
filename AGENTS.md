@@ -19,6 +19,14 @@ The `@ecoflow-api` project is a TypeScript-based monorepo. Its primary objective
 - **Independence:** This is an open-source tool, not officially affiliated with the company Ecoflow.
 - **Safety:** Use strict TypeScript types (via `@ecoflow-api/schemas`) to ensure data integrity when interacting with the API.
 
+**Monorepo Packages (`packages/`):**
+- `@ecoflow-api/rest-client`: The core REST client to communicate with the official Ecoflow API via Node.js.
+- `@ecoflow-api/schemas`: Types and Zod schemas for the Ecoflow API based on the official documentation.
+- `@ecoflow-api/typescript-config`: Shared `tsconfig.json` bases used throughout the monorepo.
+
+**Apps (`apps/`):**
+- `examples`: Contains example code and scripts demonstrating how to use the REST client and schemas.
+
 ## 3. Tech Stack & Tooling
 
 **Core Ecosystem:**
