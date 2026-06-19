@@ -54,7 +54,7 @@ export class RequestHandler {
       headers: this.#createRequestHeaders(signature),
     };
 
-    if (typeof payload !== "undefined") {
+    if (payload !== undefined) {
       options.body = JSON.stringify(payload);
     }
 

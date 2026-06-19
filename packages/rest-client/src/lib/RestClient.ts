@@ -154,7 +154,7 @@ export class RestClient {
     const { port } = parsedResult.data;
     return {
       ...parsedResult.data,
-      port: parseInt(port),
+      port: Number.parseInt(port),
     };
   }
 
