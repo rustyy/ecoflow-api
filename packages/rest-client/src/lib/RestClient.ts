@@ -100,6 +100,15 @@ export class RestClient {
    * @constructor
    */
   constructor(opts: RestClientOptions) {
+    const parsed = URL.parse(opts.host);
+    if (!parsed) {
+      throw new Error(`Invalid host URL`);
+    }
+
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      throw new Error(`Invalid host protocol: http or https expected`);
+    }
+
     const generateUrl = (path: string) => `${opts.host}${path}`;
 
     this.requestHandler = new RequestHandler(
