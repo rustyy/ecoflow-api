@@ -156,8 +156,7 @@ export const delta2QuotaAllSchema = z
     "inv.inputWatts": integer,
     // Inverter output current (mA)
     "inv.invOutAmp": integer,
-    // Inverter output frequency (Hz): 50 or 60;
-    // @todo: actual can be 0 , but docs are not mentioning it.
+    // Inverter output frequency (Hz): 0 or 50 or 60;
     "inv.invOutFreq": z.literal(50).or(z.literal(60)).or(z.literal(0)),
     // Inverter actual output voltage (mV)
     "inv.invOutVol": integer,

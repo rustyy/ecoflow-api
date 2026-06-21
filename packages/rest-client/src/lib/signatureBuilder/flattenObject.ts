@@ -36,7 +36,8 @@ export function flattenObject(
 ) {
   let flattened: Record<string, unknown> = {};
 
-  for (const [key, value] of Object.entries(obj)) {
+  for (const key of Object.keys(obj)) {
+    const value = obj[key];
     const k = Array.isArray(obj) ? `[${key}]` : key;
     const propName = parentKey ? `${parentKey}.${k}` : k;
 
