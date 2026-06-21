@@ -1,5 +1,11 @@
 # @ecoflow-api/schemas
 
+## 0.4.0
+
+### Minor Changes
+
+- cb1d211: update powerstream properties according to the ecoflow docs
+
 ## 0.3.0
 
 ### Minor Changes

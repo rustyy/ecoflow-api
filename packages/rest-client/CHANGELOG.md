@@ -1,5 +1,15 @@
 # @ecoflow-api/rest-client
 
+## 0.3.2
+
+### Patch Changes
+
+- 3a10593: optimize flattenObject loop
+- e2a2061: remove codesmells in request-handler and rest-client
+- aa20f53: add host URL validation
+- Updated dependencies [cb1d211]
+  - @ecoflow-api/schemas@0.4.0
+
 ## 0.3.1
 
 ### Patch Changes
