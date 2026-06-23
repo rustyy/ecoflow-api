@@ -35,10 +35,11 @@ export function flattenObject(
   parentKey: string = "",
 ) {
   let flattened: Record<string, unknown> = {};
+  const isArray = Array.isArray(obj);
 
   for (const key of Object.keys(obj)) {
     const value = obj[key];
-    const k = Array.isArray(obj) ? `[${key}]` : key;
+    const k = isArray ? `[${key}]` : key;
     const propName = parentKey ? `${parentKey}.${k}` : k;
 
     if (typeof value === "object" && value !== null) {
