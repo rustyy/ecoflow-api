@@ -32,6 +32,7 @@ At the moment the following devices are supported with specific instances:
 - Glacier
 - Smart Home Panel
 - Delta Pro
+- Delta Pro 3
 
 More devices to come.
 

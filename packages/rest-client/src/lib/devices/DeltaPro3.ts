@@ -1,10 +1,22 @@
 import {
+  DeltaPro3AcEnergySavingModeCommand,
+  deltaPro3AcEnergySavingModeCommandSchema,
   DeltaPro3AcOutFreqCommand,
   deltaPro3AcOutFreqCommandSchema,
   DeltaPro3AcTimeoutCommand,
   deltaPro3AcTimeoutCommandSchema,
+  DeltaPro3BatterChargingOrderCommand,
+  deltaPro3BatterChargingOrderCommandSchema,
   DeltaPro3BeepEnCommand,
   deltaPro3BeepEnCommandSchema,
+  DeltaPro3BleStandbyTimeCommand,
+  deltaPro3BleStandbyTimeCommandSchema,
+  DeltaPro3CmsOilOffSocCommand,
+  deltaPro3CmsOilOffSocCommandSchema,
+  DeltaPro3CmsOilOnSocCommand,
+  deltaPro3CmsOilOnSocCommandSchema,
+  DeltaPro3CmsOilSelfStartCommand,
+  deltaPro3CmsOilSelfStartCommandSchema,
   DeltaPro3Dc12vOutOpenCommand,
   deltaPro3Dc12vOutOpenCommandSchema,
   DeltaPro3DcTimeoutCommand,
@@ -15,12 +27,18 @@ import {
   deltaPro3EnergyBackupCommandSchema,
   DeltaPro3HvAcOutOpenCommand,
   deltaPro3HvAcOutOpenCommandSchema,
+  DeltaPro3LlcGFCIFlagCommand,
+  deltaPro3LlcGFCIFlagCommandSchema,
   DeltaPro3LvAcOutOpenCommand,
   deltaPro3LvAcOutOpenCommandSchema,
+  DeltaPro3MaxChargingPowIOCommand,
+  deltaPro3MaxChargingPowIOCommandSchema,
   DeltaPro3MaxChgSocCommand,
   deltaPro3MaxChgSocCommandSchema,
   DeltaPro3MinDsgSocCommand,
   deltaPro3MinDsgSocCommandSchema,
+  DeltaPro3PlugInInfoPvHDcAmpMaxCommand,
+  deltaPro3PlugInInfoPvHDcAmpMaxCommandSchema,
   DeltaPro3PlugInInfoPvLDcAmpMaxCommand,
   deltaPro3PlugInInfoPvLDcAmpMaxCommandSchema,
   DeltaPro3PowerOffCommand,
@@ -32,6 +50,8 @@ import {
   DeltaPro3ScreenTimeoutCommand,
   deltaPro3ScreenTimeoutCommandSchema,
   DeltaPro3SerialNumber,
+  DeltaPro3SetMaxAcChargingPowCommand,
+  deltaPro3SetMaxAcChargingPowCommandSchema,
   DeltaPro3XboostEnCommand,
   deltaPro3XboostEnCommandSchema,
   isDeltaPro3SerialNumber,
@@ -352,5 +372,162 @@ export class DeltaPro3 extends Device<
       payload,
       deltaPro3PlugInInfoPvLDcAmpMaxCommandSchema,
     );
+  }
+
+  /**
+   * Sets the maximum input current of the high-voltage PV port.
+   *
+   * @example
+   * ```typescript
+   *   await device.setHighVoltageMaxInput(12);
+   * ```
+   */
+  async setHighVoltageMaxInput(input: number) {
+    const payload: DeltaPro3PlugInInfoPvHDcAmpMaxCommand =
+      this.#payloadDefaults({
+        cfgPlugInInfoPvHDcAmpMax: input,
+      });
+    return this.sendCommand(
+      payload,
+      deltaPro3PlugInInfoPvHDcAmpMaxCommandSchema,
+    );
+  }
+
+  /**
+   * Sets the maximum AC charging power.
+   *
+   * @example
+   * ```typescript
+   *   await device.setMaxAcChargingPower(3000);
+   * ```
+   */
+  async setMaxAcChargingPower(input: number) {
+    const payload: DeltaPro3SetMaxAcChargingPowCommand = this.#payloadDefaults({
+      cfgPlugInInfoAcInChgPowMax: input,
+    });
+    return this.sendCommand(payload, deltaPro3SetMaxAcChargingPowCommandSchema);
+  }
+
+  /**
+   * Maximum charging power of the Power In/Out port.
+   *
+   * @example
+   * ```typescript
+   *   await device.setMaxChargingPowerIOPort(1800);
+   * ```
+   */
+  async setMaxChargingPowerIOPort(input: number) {
+    const payload: DeltaPro3MaxChargingPowIOCommand = this.#payloadDefaults({
+      cfgPlugInInfo5p8ChgPowMax: input,
+    });
+    return this.sendCommand(payload, deltaPro3MaxChargingPowIOCommandSchema);
+  }
+
+  /**
+   * Smart Generator auto start/stop switch.
+   *
+   * @example
+   * ```typescript
+   *   await device.enableSmartGeneratorAutoStart(true);
+   * ```
+   */
+  async enableSmartGeneratorAutoStart(input: boolean) {
+    const payload: DeltaPro3CmsOilSelfStartCommand = this.#payloadDefaults({
+      cfgCmsOilSelfStart: input,
+    });
+    return this.sendCommand(payload, deltaPro3CmsOilSelfStartCommandSchema);
+  }
+
+  /**
+   * Sets the SOC that automatically starts the Smart Generator.
+   *
+   * @example
+   * ```typescript
+   *   await device.setSmartGeneratorAutoStartSOC(30);
+   * ```
+   */
+  async setSmartGeneratorAutoStartSOC(input: number) {
+    const payload: DeltaPro3CmsOilOnSocCommand = this.#payloadDefaults({
+      cfgCmsOilOnSoc: input,
+    });
+    return this.sendCommand(payload, deltaPro3CmsOilOnSocCommandSchema);
+  }
+
+  /**
+   * Sets the SOC that automatically stops the Smart Generator.
+   *
+   * @example
+   * ```typescript
+   *   await device.setSmartGeneratorAutoOffSOC(30);
+   * ```
+   */
+  async setSmartGeneratorAutoOffSOC(input: number) {
+    const payload: DeltaPro3CmsOilOffSocCommand = this.#payloadDefaults({
+      cfgCmsOilOffSoc: input,
+    });
+    return this.sendCommand(payload, deltaPro3CmsOilOffSocCommandSchema);
+  }
+
+  /**
+   * GFCI switch.
+   *
+   * @example
+   * ```typescript
+   *   await device.enableGFCI(true);
+   * ```
+   */
+  async enableGFCI(input: boolean) {
+    const payload: DeltaPro3LlcGFCIFlagCommand = this.#payloadDefaults({
+      cfgLlcGFCIFlag: input,
+    });
+    return this.sendCommand(payload, deltaPro3LlcGFCIFlagCommandSchema);
+  }
+
+  /**
+   * Sets Bluetooth timeout.
+   *
+   * @example
+   * ```typescript
+   *   await device.setBluetoothTimeout(200);
+   * ```
+   */
+  async setBluetoothTimeout(input: number) {
+    const payload: DeltaPro3BleStandbyTimeCommand = this.#payloadDefaults({
+      cfgBleStandbyTime: input,
+    });
+    return this.sendCommand(payload, deltaPro3BleStandbyTimeCommandSchema);
+  }
+
+  /**
+   * AC energy-saving mode switch.
+   *
+   * @example
+   * ```typescript
+   *   await device.enableAcEnergySavingMode(true);
+   * ```
+   */
+  async enableAcEnergySavingMode(input: boolean) {
+    const payload: DeltaPro3AcEnergySavingModeCommand = this.#payloadDefaults({
+      cfgAcEnergySavingOpen: input,
+    });
+    return this.sendCommand(payload, deltaPro3AcEnergySavingModeCommandSchema);
+  }
+
+  /**
+   * Battery charging/discharging order.
+   * 0: default
+   * 1: The device will automatically decide the charge and discharge order based on each battery's voltage.
+   * 2: The main battery is prioritized during charging, and extra batteries are prioritized during discharging.
+   *
+   * @example
+   * ```typescript
+   *   await device.setBatteryChargingDischargingOrder(1);
+   * ```
+   */
+  async setBatteryChargingDischargingOrder(input: number) {
+    const payload: DeltaPro3BatterChargingOrderCommand = this.#payloadDefaults({
+      cfgMultiBpChgDsgMode: input,
+    });
+    return this.sendCommand(payload, deltaPro3BatterChargingOrderCommandSchema);
   }
 }

@@ -109,7 +109,67 @@ describe("Delta Pro 3", () => {
       "setLowVoltageMaxInput" as const,
       "cfgPlugInInfoPvLDcAmpMax",
       [0, 1, 2],
-      [],
+      ["a-string"],
+    ],
+    [
+      "setHighVoltageMaxInput" as const,
+      "cfgPlugInInfoPvHDcAmpMax",
+      [0, 1, 2],
+      ["a-string"],
+    ],
+    [
+      "setMaxAcChargingPower" as const,
+      "cfgPlugInInfoAcInChgPowMax",
+      [0, 1, 2],
+      ["a-string"],
+    ],
+    [
+      "setMaxChargingPowerIOPort" as const,
+      "cfgPlugInInfo5p8ChgPowMax",
+      [0, 1, 2],
+      ["a-string"],
+    ],
+    [
+      "enableSmartGeneratorAutoStart" as const,
+      "cfgCmsOilSelfStart",
+      [true, false],
+      ["a-string", 1],
+    ],
+    [
+      "setSmartGeneratorAutoStartSOC" as const,
+      "cfgCmsOilOnSoc",
+      [0, 1, 50, 100],
+      ["a-string", -1, 101],
+    ],
+    [
+      "setSmartGeneratorAutoOffSOC" as const,
+      "cfgCmsOilOffSoc",
+      [0, 1, 50, 100],
+      ["a-string", -1, 101],
+    ],
+    [
+      "enableGFCI" as const,
+      "cfgLlcGFCIFlag",
+      [true, false],
+      ["a-string", 1, 2],
+    ],
+    [
+      "setBluetoothTimeout" as const,
+      "cfgBleStandbyTime",
+      [1, 2, 200, 10000],
+      ["a-string", -1, 10001],
+    ],
+    [
+      "enableAcEnergySavingMode" as const,
+      "cfgAcEnergySavingOpen",
+      [true, false],
+      ["a-string", -1, 10001],
+    ],
+    [
+      "setBatteryChargingDischargingOrder" as const,
+      "cfgMultiBpChgDsgMode",
+      [0, 1, 2],
+      ["a-string", -1, 10001],
     ],
   ])("%s", (fn, expectedParam, validValues, inValidValues) => {
     it("sends expected payload", async () => {
