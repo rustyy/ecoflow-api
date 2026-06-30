@@ -10,7 +10,7 @@ function handleArray(
   flattened: Record<string, any>,
   collection: any[],
   propName: string,
-) {
+): void {
   for (let i = 0; i < collection.length; i++) {
     if (typeof collection[i] === "object") {
       Object.assign(
@@ -33,12 +33,13 @@ function handleArray(
 export function flattenObject(
   obj: Record<string, any>,
   parentKey: string = "",
-) {
+): Record<string, unknown> {
   let flattened: Record<string, unknown> = {};
+  const isArray = Array.isArray(obj);
 
   for (const key of Object.keys(obj)) {
     const value = obj[key];
-    const k = Array.isArray(obj) ? `[${key}]` : key;
+    const k = isArray ? `[${key}]` : key;
     const propName = parentKey ? `${parentKey}.${k}` : k;
 
     if (typeof value === "object" && value !== null) {
