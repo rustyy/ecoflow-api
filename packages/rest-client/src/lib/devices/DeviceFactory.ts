@@ -1,6 +1,7 @@
 import {
   Delta2SerialNumber,
   DeltaPro3SerialNumber,
+  DeltaProSerialNumber,
   GlacierSerialNumber,
   isDelta2SerialNumber,
   isDeltaPro3SerialNumber,
@@ -30,6 +31,7 @@ export type DeviceFactoryReturnType<T extends string> =
   T extends Delta2SerialNumber ? Delta2 :
   T extends GlacierSerialNumber ? Glacier :
   T extends SmartHomePanelSerialNumber ? SmartHomePanel :
+  T extends DeltaProSerialNumber ? DeltaPro :
   T extends DeltaPro3SerialNumber ? DeltaPro3 :
   UnknownDevice;
 
