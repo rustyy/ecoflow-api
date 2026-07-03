@@ -29,7 +29,7 @@ const bmsCommandSchema = defaultSchema.extend({
 export const upsUpperLimitSchema = bmsCommandSchema.extend({
   operateType: z.literal("upsConfig"),
   params: z.object({
-    maxChgSoc: z.number().positive(),
+    maxChgSoc: z.number().min(0).max(100),
   }),
 });
 
@@ -48,14 +48,33 @@ export type UpsUpperLimit = z.infer<typeof upsUpperLimitSchema>;
  * }
  * ```
  */
-export const upsLowerLimitSchema = bmsCommandSchema.extend({
+export const minDischargeSocSchema = bmsCommandSchema.extend({
   operateType: z.literal("dsgCfg"),
   params: z.object({
-    minDsgSoc: z.number().positive(),
+    minDsgSoc: z.number().min(0).max(100),
   }),
 });
 
-export type UpsLowerLimit = z.infer<typeof upsLowerLimitSchema>;
+export type MinDischargeSoc = z.infer<typeof minDischargeSocSchema>;
+
+/**
+ * State of charge (SOC) lower limit when discharging
+ * ```json
+ * {
+ *      "id":123456789,
+ *      "version":"1.0",
+ *      "sn":"R331XXXXXXX",
+ *      "moduleType":2,
+ *      "operateType":"dsgCfg",
+ *      "params":{ "minDsgSoc":19 }
+ * }
+ * ```
+ * @deprecated use `minDischargeSocSchema` instead
+ */
+export const upsLowerLimitSchema = minDischargeSocSchema;
+
+/** @deprecated use `minDischargeSocSchema` instead **/
+export type UpsLowerLimit = MinDischargeSoc;
 
 /**
  * SoC that triggers EMS to turn on Smart Generator
@@ -74,7 +93,7 @@ export type UpsLowerLimit = z.infer<typeof upsLowerLimitSchema>;
 export const socTurnOnGeneratorSchema = bmsCommandSchema.extend({
   operateType: z.literal("openOilSoc"),
   params: z.object({
-    openOilSoc: z.number().positive(),
+    openOilSoc: z.number().min(0).max(100),
   }),
 });
 
@@ -97,7 +116,7 @@ export type SocTurnOnGenerator = z.infer<typeof socTurnOnGeneratorSchema>;
 export const socTurnOffGeneratorSchema = bmsCommandSchema.extend({
   operateType: z.literal("closeOilSoc"),
   params: z.object({
-    closeOilSoc: z.number().positive(),
+    closeOilSoc: z.number().min(0).max(100),
   }),
 });
 
@@ -105,7 +124,7 @@ export type SocTurnOffGenerator = z.infer<typeof socTurnOffGeneratorSchema>;
 
 export const delta2BMSCommandSchema = z.discriminatedUnion("operateType", [
   upsUpperLimitSchema,
-  upsLowerLimitSchema,
+  minDischargeSocSchema,
   socTurnOnGeneratorSchema,
   socTurnOffGeneratorSchema,
 ]);

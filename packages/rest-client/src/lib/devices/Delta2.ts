@@ -1,6 +1,10 @@
 import {
   AcAlwaysOn,
   acAlwaysOnSchema,
+  AcChargingSettings,
+  acChargingSettingsSchema,
+  AcDischarge,
+  acDischargeSchema,
   AcStandbyTime,
   acStandbyTimeSchema,
   BuzzerSilentMode,
@@ -22,10 +26,18 @@ import {
   isDelta2SerialNumber,
   LcdConfig,
   lcdConfigSchema,
+  MinDischargeSoc,
+  minDischargeSocSchema,
   pdStandByTime,
   PdStandByTime,
   PvPriority,
   pvPrioritySchema,
+  SocTurnOffGenerator,
+  socTurnOffGeneratorSchema,
+  SocTurnOnGenerator,
+  socTurnOnGeneratorSchema,
+  UpsUpperLimit,
+  upsUpperLimitSchema,
 } from "@ecoflow-api/schemas";
 import { Device } from "./Device";
 import { RestClient } from "../RestClient";
@@ -61,10 +73,76 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
 
   /**************+********************************************************
    * MPPT Commands
-   * @todo Implement MPPT commands:
-   *    - "operateType":"acOutCfg"
-   *    - "operateType":"acChgCfg"
    **************+********************************************************/
+
+  /**
+   * Set AC discharge ("enabled" and X-Boost switch settings)
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *   await delta2.setCarStandByDuration({
+   *         enabled: 1,
+   *         out_freq: 1,
+   *         out_voltage: 30,
+   *         xboost: 1,
+   *       });
+   * ```
+   */
+  async setAcDischarge(params: {
+    enabled: 0 | 1;
+    xboost: 0 | 1;
+    out_voltage: number;
+    out_freq: number;
+  }) {
+    const payload: AcDischarge = {
+      ...this.#payloadDefaults(5),
+      operateType: "acOutCfg",
+      params,
+    };
+
+    return this.sendCommand(payload, acDischargeSchema);
+  }
+
+  /**
+   * AC charging settings
+   * chgPauseFlag:
+   *  - 0: AC charging in normal operation
+   *  - 1: AC charging paused
+   *  (not saved, restored by plugging)
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *   await delta2.setAcCharge({
+   *       "chgWatts":100,
+   *       "chgPauseFlag":0
+   *    });
+   * ```
+   */
+  async setAcCharge(params: { chgWatts: number; chgPauseFlag: 0 | 1 }) {
+    const payload: AcChargingSettings = {
+      ...this.#payloadDefaults(5),
+      operateType: "acChgCfg",
+      params,
+    };
+
+    return this.sendCommand(payload, acChargingSettingsSchema);
+  }
 
   /**
    * Set the car standby duration.
@@ -216,12 +294,131 @@ export class Delta2 extends Device<Delta2SerialNumber, Delta2QuotaAll> {
 
   /**************+********************************************************
    * BMS Commands
-   * @todo Implement BMS commands:
-   *    - "operateType":"upsConfig"
-   *    - "operateType":"dsgCfg"
-   *    - "operateType":"openOilSoc"
-   *    - "operateType":"closeOilSoc"
    **************+********************************************************/
+
+  /**
+   * UPS settings(UPS, upper SoC limit when charging)
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *
+   *   await delta2.setUpsMaxSoc(50);
+   * ```
+   *
+   * @param soc
+   */
+  async setUpsMaxSoc(soc: number) {
+    const payload: UpsUpperLimit = {
+      ...this.#payloadDefaults(2),
+      operateType: "upsConfig",
+      params: {
+        maxChgSoc: soc,
+      },
+    };
+
+    return this.sendCommand(payload, upsUpperLimitSchema);
+  }
+
+  /**
+   * SOC lower limit when discharging
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *
+   *   await delta2.setMinDischargeSoc(50);
+   * ```
+   *
+   * @param soc
+   */
+  async setMinDischargeSoc(soc: number) {
+    const payload: MinDischargeSoc = {
+      ...this.#payloadDefaults(2),
+      operateType: "dsgCfg",
+      params: {
+        minDsgSoc: soc,
+      },
+    };
+
+    return this.sendCommand(payload, minDischargeSocSchema);
+  }
+
+  /**
+   * SoC that triggers EMS to turn on Smart Generator
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *
+   *   await delta2.setSocTurnOnGenerator(50);
+   * ```
+   *
+   * @param soc
+   */
+  async setSocTurnOnGenerator(soc: number) {
+    const payload: SocTurnOnGenerator = {
+      ...this.#payloadDefaults(2),
+      operateType: "openOilSoc",
+      params: {
+        openOilSoc: soc,
+      },
+    };
+
+    return this.sendCommand(payload, socTurnOnGeneratorSchema);
+  }
+
+  /**
+   * SOC that triggers EMS to turn off Smart Generator
+   *
+   * @example
+   * ```typescript
+   *   const sn = "R331xxxx";
+   *   const client = new RestClient({
+   *     accessKey: "my-access-key",
+   *     secretKey: "my-secret-key",
+   *     host: "https://api-e.ecoflow.com",
+   *   });
+   *
+   *   const delta2 = client.getDevice(sn);
+   *
+   *   await delta2.setSocTurnOffGenerator(50);
+   * ```
+   *
+   * @param soc
+   */
+  async setSocTurnOffGenerator(soc: number) {
+    const payload: SocTurnOffGenerator = {
+      ...this.#payloadDefaults(2),
+      operateType: "closeOilSoc",
+      params: {
+        closeOilSoc: soc,
+      },
+    };
+
+    return this.sendCommand(payload, socTurnOffGeneratorSchema);
+  }
 
   /**************+********************************************************
    * PD Commands

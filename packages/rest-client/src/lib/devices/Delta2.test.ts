@@ -263,6 +263,54 @@ describe("Delta2", () => {
     });
   });
 
+  describe(".setAcDischarge()", () => {
+    it("sets ac discharge", async () => {
+      expect.assertions(1);
+      await delta2.setAcDischarge({
+        enabled: 1,
+        out_freq: 1,
+        out_voltage: 30,
+        xboost: 1,
+      });
+
+      expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+        id: 123456789,
+        version: "1.0",
+        moduleType: 5,
+        operateType: "acOutCfg",
+        params: {
+          enabled: 1,
+          out_freq: 1,
+          out_voltage: 30,
+          xboost: 1,
+        },
+        sn: validSn,
+      });
+    });
+  });
+
+  describe(".setAcCharge()", () => {
+    it("sets ac charge", async () => {
+      expect.assertions(1);
+      await delta2.setAcCharge({
+        chgWatts: 100,
+        chgPauseFlag: 0,
+      });
+
+      expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+        id: 123456789,
+        version: "1.0",
+        moduleType: 5,
+        operateType: "acChgCfg",
+        params: {
+          chgWatts: 100,
+          chgPauseFlag: 0,
+        },
+        sn: validSn,
+      });
+    });
+  });
+
   describe(".setCarStandByDuration()", () => {
     it("sets car standby duration", async () => {
       expect.assertions(1);
@@ -309,6 +357,120 @@ describe("Delta2", () => {
         },
         sn: validSn,
       });
+    });
+  });
+
+  describe(".setUpsMaxSoc()", () => {
+    it("sets upper SoC for UPS", async () => {
+      expect.assertions(2);
+      await delta2.setUpsMaxSoc(0);
+
+      expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+        id: 123456789,
+        version: "1.0",
+        moduleType: 2,
+        operateType: "upsConfig",
+        params: {
+          maxChgSoc: 0,
+        },
+        sn: validSn,
+      });
+
+      await delta2.setUpsMaxSoc(100);
+
+      expect(restClient.setCommandPlain).nthCalledWith(2, {
+        id: 123456789,
+        version: "1.0",
+        moduleType: 2,
+        operateType: "upsConfig",
+        params: {
+          maxChgSoc: 100,
+        },
+        sn: validSn,
+      });
+    });
+
+    it("throws error for invalid values", async () => {
+      expect.assertions(2);
+
+      await expect(delta2.setUpsMaxSoc(-1)).rejects.toThrowError();
+      await expect(delta2.setUpsMaxSoc(101)).rejects.toThrowError();
+    });
+  });
+
+  describe(".setSocTurnOnGenerator()", () => {
+    it("sets SoC to start generator", async () => {
+      expect.assertions(2);
+      await delta2.setSocTurnOnGenerator(0);
+
+      expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+        id: 123456789,
+        version: "1.0",
+        moduleType: 2,
+        operateType: "openOilSoc",
+        params: {
+          openOilSoc: 0,
+        },
+        sn: validSn,
+      });
+
+      await delta2.setSocTurnOnGenerator(100);
+
+      expect(restClient.setCommandPlain).nthCalledWith(2, {
+        id: 123456789,
+        version: "1.0",
+        moduleType: 2,
+        operateType: "openOilSoc",
+        params: {
+          openOilSoc: 100,
+        },
+        sn: validSn,
+      });
+    });
+
+    it("throws error for invalid values", async () => {
+      expect.assertions(2);
+
+      await expect(delta2.setMinDischargeSoc(-1)).rejects.toThrowError();
+      await expect(delta2.setMinDischargeSoc(101)).rejects.toThrowError();
+    });
+  });
+
+  describe(".setSocTurnOffGenerator()", () => {
+    it("sets SoC to turn off generator", async () => {
+      expect.assertions(2);
+      await delta2.setSocTurnOffGenerator(0);
+
+      expect(restClient.setCommandPlain).toHaveBeenCalledWith({
+        id: 123456789,
+        version: "1.0",
+        moduleType: 2,
+        operateType: "closeOilSoc",
+        params: {
+          closeOilSoc: 0,
+        },
+        sn: validSn,
+      });
+
+      await delta2.setSocTurnOffGenerator(100);
+
+      expect(restClient.setCommandPlain).nthCalledWith(2, {
+        id: 123456789,
+        version: "1.0",
+        moduleType: 2,
+        operateType: "closeOilSoc",
+        params: {
+          closeOilSoc: 100,
+        },
+        sn: validSn,
+      });
+    });
+
+    it("throws error for invalid values", async () => {
+      expect.assertions(2);
+
+      await expect(delta2.setSocTurnOffGenerator(-1)).rejects.toThrowError();
+      await expect(delta2.setSocTurnOffGenerator(101)).rejects.toThrowError();
     });
   });
 });
