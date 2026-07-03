@@ -48,14 +48,33 @@ export type UpsUpperLimit = z.infer<typeof upsUpperLimitSchema>;
  * }
  * ```
  */
-export const upsLowerLimitSchema = bmsCommandSchema.extend({
+export const minDischargeSocSchema = bmsCommandSchema.extend({
   operateType: z.literal("dsgCfg"),
   params: z.object({
-    minDsgSoc: z.number().positive(),
+    minDsgSoc: z.number().min(0).max(100),
   }),
 });
 
-export type UpsLowerLimit = z.infer<typeof upsLowerLimitSchema>;
+export type MinDischargeSoc = z.infer<typeof minDischargeSocSchema>;
+
+/**
+ * State of charge (SOC) lower limit when discharging
+ * ```json
+ * {
+ *      "id":123456789,
+ *      "version":"1.0",
+ *      "sn":"R331XXXXXXX",
+ *      "moduleType":2,
+ *      "operateType":"dsgCfg",
+ *      "params":{ "minDsgSoc":19 }
+ * }
+ * ```
+ * @deprecated use `minDischargeSocSchema` instead
+ */
+export const upsLowerLimitSchema = minDischargeSocSchema;
+
+/** @deprecated use `minDischargeSocSchema` instead **/
+export type UpsLowerLimit = MinDischargeSoc;
 
 /**
  * SoC that triggers EMS to turn on Smart Generator
@@ -105,7 +124,7 @@ export type SocTurnOffGenerator = z.infer<typeof socTurnOffGeneratorSchema>;
 
 export const delta2BMSCommandSchema = z.discriminatedUnion("operateType", [
   upsUpperLimitSchema,
-  upsLowerLimitSchema,
+  minDischargeSocSchema,
   socTurnOnGeneratorSchema,
   socTurnOffGeneratorSchema,
 ]);
