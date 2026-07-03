@@ -173,16 +173,6 @@ await powerStream.deleteTask(1)
 
 Serial number must start with _R331_
 
-Note: not all commands have been implemented yet.
-
-Todo:
-- "operateType":"acOutCfg"
-- "operateType":"acChgCfg"
-- "operateType":"upsConfig"
-- "operateType":"dsgCfg"
-- "operateType":"openOilSoc"
-- "operateType":"closeOilSoc"
-
 ```ts
 import {RestClient} from '@ecoflow-api/rest-client';
 
