@@ -1,5 +1,17 @@
 # @ecoflow-api/rest-client
 
+## 0.4.0
+
+### Minor Changes
+
+- 5cd66f9: add Delta3 Pro support
+
+### Patch Changes
+
+- 606f64f: fix: missing `DeltaPro` device support to `DeviceFactory` type mapping
+- Updated dependencies [5cd66f9]
+  - @ecoflow-api/schemas@0.5.0
+
 ## 0.3.2
 
 ### Patch Changes

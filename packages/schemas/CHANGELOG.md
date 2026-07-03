@@ -1,5 +1,11 @@
 # @ecoflow-api/schemas
 
+## 0.5.0
+
+### Minor Changes
+
+- 5cd66f9: add Delta3 Pro support
+
 ## 0.4.0
 
 ### Minor Changes
