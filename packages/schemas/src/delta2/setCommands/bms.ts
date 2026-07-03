@@ -29,7 +29,7 @@ const bmsCommandSchema = defaultSchema.extend({
 export const upsUpperLimitSchema = bmsCommandSchema.extend({
   operateType: z.literal("upsConfig"),
   params: z.object({
-    maxChgSoc: z.number().positive(),
+    maxChgSoc: z.number().min(0).max(100),
   }),
 });
 
@@ -93,7 +93,7 @@ export type UpsLowerLimit = MinDischargeSoc;
 export const socTurnOnGeneratorSchema = bmsCommandSchema.extend({
   operateType: z.literal("openOilSoc"),
   params: z.object({
-    openOilSoc: z.number().positive(),
+    openOilSoc: z.number().min(0).max(100),
   }),
 });
 
@@ -116,7 +116,7 @@ export type SocTurnOnGenerator = z.infer<typeof socTurnOnGeneratorSchema>;
 export const socTurnOffGeneratorSchema = bmsCommandSchema.extend({
   operateType: z.literal("closeOilSoc"),
   params: z.object({
-    closeOilSoc: z.number().positive(),
+    closeOilSoc: z.number().min(0).max(100),
   }),
 });
 
