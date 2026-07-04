@@ -35,7 +35,7 @@ The `@ecoflow-api` project is a TypeScript-based monorepo. Its primary objective
 │   │       ├── __fixtures__/      # Test fixtures
 │   │       ├── __test__/          # Shared tests
 │   │       ├── lib/
-│   │       │   ├── devices/       # Device implementations (Delta2, Glacier, PowerStream, etc.)
+│   │       │   ├── devices/       # Device implementations (Delta2, Glacier, PowerStream, River2Pro, etc.)
 │   │       │   └── signatureBuilder/ # Request signature building logic
 │   │       └── index.ts           # Main export entrypoint
 │   ├── schemas/                   # Zod schemas and TypeScript types (@ecoflow-api/schemas)
@@ -44,6 +44,7 @@ The `@ecoflow-api` project is a TypeScript-based monorepo. Its primary objective
 │   │       ├── deltaPro/          # Delta Pro schemas
 │   │       ├── glacier/           # Glacier schemas
 │   │       ├── powerStream/       # PowerStream schemas
+│   │       ├── river2Pro/         # River 2 Pro schemas
 │   │       ├── shared/            # Shared/Common Zod schemas
 │   │       ├── smartHomePanel/    # Smart Home Panel schemas
 │   │       ├── smartPlug/         # Smart Plug schemas
