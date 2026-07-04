@@ -9,7 +9,7 @@ const bmsSchema = defaultSchema.extend({
 /**
  * Charge limit
  */
-const chargeLimitSchema = bmsSchema.extend({
+export const chargeLimitSchema = bmsSchema.extend({
   operateType: z.literal("upsConfig"),
   params: z.object({
     maxChgSoc: integer.min(0).max(100),
