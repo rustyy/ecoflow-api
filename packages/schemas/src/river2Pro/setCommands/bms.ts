@@ -21,7 +21,7 @@ export type ChargeLimit = z.infer<typeof chargeLimitSchema>;
 /**
  * Discharge limit
  */
-const dischargeLimitSchema = bmsSchema.extend({
+export const dischargeLimitSchema = bmsSchema.extend({
   operateType: z.literal("dsgCfg"),
   params: z.object({
     minDsgSoc: integer.min(0).max(100),
