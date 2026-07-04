@@ -9,6 +9,7 @@ import { Glacier } from "./Glacier";
 import { SmartHomePanel } from "./SmartHomePanel";
 import { DeltaPro } from "./DeltaPro";
 import { DeltaPro3 } from "./DeltaPro3";
+import { River2Pro } from "./River2Pro";
 
 describe("deviceFactory", () => {
   let restClient: RestClient;
@@ -72,6 +73,13 @@ describe("deviceFactory", () => {
     const sn = "MR51*****";
     const device = deviceFactory(sn, restClient);
     expect(device).toBeInstanceOf(DeltaPro3);
+    expect(device.sn).toBe(sn);
+  });
+
+  it("returns a River 2 Pro instance", () => {
+    const sn = "R621*****";
+    const device = deviceFactory(sn, restClient);
+    expect(device).toBeInstanceOf(River2Pro);
     expect(device.sn).toBe(sn);
   });
 });

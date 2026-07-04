@@ -8,9 +8,11 @@ import {
   isDeltaProSerialNumber,
   isGlacierSerialNumber,
   isPowerStreamSerialNumber,
+  isRiver2ProSerialNumber,
   isSmartHomePanelSerialNumber,
   isSmartPlugSn,
   PowerStreamSerialNumber,
+  River2ProSerialNumber,
   SmartHomePanelSerialNumber,
   SmartPlugSn,
 } from "@ecoflow-api/schemas";
@@ -23,6 +25,7 @@ import { Glacier } from "./Glacier";
 import { SmartHomePanel } from "./SmartHomePanel";
 import { DeltaPro } from "./DeltaPro";
 import { DeltaPro3 } from "./DeltaPro3";
+import { River2Pro } from "./River2Pro";
 
 // prettier-ignore
 export type DeviceFactoryReturnType<T extends string> =
@@ -33,6 +36,7 @@ export type DeviceFactoryReturnType<T extends string> =
   T extends SmartHomePanelSerialNumber ? SmartHomePanel :
   T extends DeltaProSerialNumber ? DeltaPro :
   T extends DeltaPro3SerialNumber ? DeltaPro3 :
+  T extends River2ProSerialNumber ? River2Pro :
   UnknownDevice;
 
 /**
@@ -70,6 +74,10 @@ export function deviceFactory<T extends string, R = DeviceFactoryReturnType<T>>(
 
   if (isDeltaPro3SerialNumber(sn)) {
     return new DeltaPro3(restClient, sn) as R;
+  }
+
+  if (isRiver2ProSerialNumber(sn)) {
+    return new River2Pro(restClient, sn) as R;
   }
 
   return new UnknownDevice(restClient, sn) as R;

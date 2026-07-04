@@ -26,13 +26,15 @@ Depending on the serial number of the device, the client will return a specific 
 
 At the moment the following devices are supported with specific instances:
 
-- Smart Plug
-- PowerStream
 - Delta 2
-- Glacier
-- Smart Home Panel
 - Delta Pro
 - Delta Pro 3
+- Glacier
+- PowerStream
+- River 2 Pro
+- Smart Home Panel
+- SmartPlug
+- Wave Air Conditioner
 
 More devices to come.
 
