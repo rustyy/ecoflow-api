@@ -4,18 +4,26 @@ Types and schemas for Ecoflow API as documented in https://developer-eu.ecoflow.
 
 ## Provided devices
 
-- PowerStream
-- SmartPlug
 - Delta 2
+- Delta Pro
+- Delta Pro 3
 - Glacier
-- Wave Air Conditioner
+- PowerStream
+- River 2 Pro
 - Smart Home Panel
-- Delta pro
+- SmartPlug
+- Wave Air Conditioner
 
 ## Todo
 
 - Delta 2 Max
 - Power Kits
+- Smart Home Panel II
+- STREAM
+- Delta Pro Ultra
+- Delta 3 Max Plus
+- Delta 3 Max
+- PowerOcean
 
 ## Disclaimer
 
