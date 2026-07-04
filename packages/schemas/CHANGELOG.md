@@ -1,5 +1,11 @@
 # @ecoflow-api/schemas
 
+## 0.7.0
+
+### Minor Changes
+
+- aeb680e: add support for River 2 Pro
+
 ## 0.6.0
 
 ### Minor Changes

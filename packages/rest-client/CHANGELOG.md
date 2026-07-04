@@ -1,5 +1,16 @@
 # @ecoflow-api/rest-client
 
+## 0.6.0
+
+### Minor Changes
+
+- aeb680e: add support for River 2 Pro
+
+### Patch Changes
+
+- Updated dependencies [aeb680e]
+  - @ecoflow-api/schemas@0.7.0
+
 ## 0.5.0
 
 ### Minor Changes
