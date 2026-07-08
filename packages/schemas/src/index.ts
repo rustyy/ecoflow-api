@@ -8,3 +8,4 @@ export * from "./deltaPro";
 export * from "./shared";
 export * from "./deltaPro3";
 export * from "./river2Pro";
+export * from "./stream";
