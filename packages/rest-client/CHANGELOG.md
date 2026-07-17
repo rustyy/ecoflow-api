@@ -1,5 +1,28 @@
 # @ecoflow-api/rest-client
 
+## 0.6.0
+
+### Minor Changes
+
+- aeb680e: add support for River 2 Pro
+
+### Patch Changes
+
+- Updated dependencies [aeb680e]
+  - @ecoflow-api/schemas@0.7.0
+
+## 0.5.0
+
+### Minor Changes
+
+- 4b04c09: feat: implement additional command methods for Delta2 device, including generator controls, AC charge/discharge settings, and UPS configuration
+
+### Patch Changes
+
+- Updated dependencies [1363f91]
+- Updated dependencies [a139e35]
+  - @ecoflow-api/schemas@0.6.0
+
 ## 0.4.0
 
 ### Minor Changes

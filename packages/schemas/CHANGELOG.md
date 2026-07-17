@@ -1,5 +1,18 @@
 # @ecoflow-api/schemas
 
+## 0.7.0
+
+### Minor Changes
+
+- aeb680e: add support for River 2 Pro
+
+## 0.6.0
+
+### Minor Changes
+
+- 1363f91: refactor: rename `upsLowerLimitSchema` to `minDischargeSocSchema` and deprecate old schema
+- a139e35: fix: update BMS schema constraints to enforce 0-100 range for SOC values
+
 ## 0.5.0
 
 ### Minor Changes
