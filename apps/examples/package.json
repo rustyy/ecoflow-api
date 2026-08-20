@@ -22,6 +22,6 @@
     "@ecoflow-api/typescript-config": "*",
     "@types/node": "^24.12.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+    "typescript": "^6.0.3"
   }
 }
